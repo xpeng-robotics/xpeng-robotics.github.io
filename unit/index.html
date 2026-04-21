@@ -383,11 +383,6 @@
     .callout { padding: 20px 24px; border-radius: var(--radius); margin: 24px 0; font-size: 16px; line-height: 1.625; }
     .callout-blue { border-left: 3px solid var(--text); }
 
-    /* Citation */
-    .citation-block { background: var(--accent-light); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.8; overflow-x: auto; white-space: pre-wrap; color: var(--text-muted); position: relative; }
-    .citation-block .copy-btn { position: absolute; top: 12px; right: 12px; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; background: var(--bg); border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif; }
-    .citation-block .copy-btn:hover { border-color: var(--text); color: var(--text); }
-
     footer { text-align: center; padding: 40px 24px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-light); }
 
     @media (max-width: 768px) {
@@ -1917,20 +1912,6 @@
   </div>
 </section>
 
-<!-- Citation -->
-<section class="section" id="citation">
-  <div class="container">
-    <div class="section-label">Citation</div>
-    <h2 class="section-title">BibTeX</h2>
-    <div class="citation-block"><button class="copy-btn" onclick="copyBib()">Copy</button>@article{unit2026,
-  title={UniT: Toward a Unified Physical Language for Human-to-Humanoid Policy Learning and World Modeling},
-  author={},
-  journal={arXiv preprint},
-  year={2026}
-}</div>
-  </div>
-</section>
-
 <footer>UniT Project Page &middot; 2026</footer>
 
 <!-- ═══════════ Scripts ═══════════ -->
@@ -2862,15 +2843,6 @@ fetch('data/tsne_coords.json').then(r => r.json()).then(data => {
     }, 100);
   });
 });
-
-/* ── Copy BibTeX ── */
-function copyBib() {
-  const bib = document.querySelector('.citation-block').innerText.replace('Copy', '').trim();
-  navigator.clipboard.writeText(bib);
-  const btn = document.querySelector('.copy-btn');
-  btn.textContent = 'Copied!';
-  setTimeout(() => btn.textContent = 'Copy', 2000);
-}
 
 /* ── Nav highlight ── */
 const sections = document.querySelectorAll('.section, .tsne-section, .hero');
