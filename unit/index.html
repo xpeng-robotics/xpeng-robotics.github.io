@@ -422,7 +422,8 @@
   <div class="container-wide">
     <h1 class="hero-title">
       UniT: Toward a Unified Physical Language for<br>
-      Human-to-Humanoid Policy Learning and World Modeling
+      Human-to-Humanoid Policy Learning<br>
+      and World Modeling
     </h1>
     <p class="hero-authors">
       <span class="author"><a class="author-link" href="https://boyuchen2004.github.io/" target="_blank" rel="noopener">Boyu Chen</a><sup>1,2,*</sup></span><span class="author-sep">&middot;</span><span class="author"><a class="author-link" href="https://scholar.google.com/citations?user=3ep5ODoAAAAJ" target="_blank" rel="noopener">Yi Chen</a><sup>1,3,*</sup></span><span class="author-sep">&middot;</span><span class="author"><a class="author-link" href="https://scholar.google.com/citations?user=66jKtREAAAAJ&amp;hl=en" target="_blank" rel="noopener">Lu Qiu</a><sup>1,3</sup></span><span class="author-sep">&middot;</span><span class="author">Jerry Bai<sup>1</sup></span><span class="author-sep">&middot;</span><span class="author"><a class="author-link" href="https://geyuying.github.io/" target="_blank" rel="noopener">Yuying Ge</a><sup>1,&dagger;</sup></span><span class="author-sep">&middot;</span><span class="author"><a class="author-link" href="https://geyixiao.com/" target="_blank" rel="noopener">Yixiao Ge</a><sup>1</sup></span>
@@ -1628,36 +1629,13 @@
             <div class="crosscond-layout">
               <div class="crosscond-zone crosscond-zone--human">
                 <div class="crosscond-zone-label">Human Demonstration</div>
-                <div class="crosscond-clip" data-part="ref"><video data-src="movies/wm/exp3/human2robot/pair_054_Gr1_x_EgodexWrist_human2robot.mp4" muted loop playsinline></video></div>
-                <div class="crosscond-method-label crosscond-method-label--baseline">Reference</div>
-              </div>
-              <div class="crosscond-arrow"><div class="crosscond-arrow-line"></div><div class="crosscond-arrow-label">Human&rarr;Humanoid<br>Action Cond.</div></div>
-              <div class="crosscond-zone crosscond-zone--start">
-                <div class="crosscond-zone-label">Start Frame</div>
-                <div class="crosscond-startframe" data-startframe-id="h2r-case1"><img src="movies/wm/start_frame/robot/pair_054_robot_start.png" alt="start frame h2r case 1"></div>
-                <div class="crosscond-method-label crosscond-method-label--baseline">Initial Frame</div>
-              </div>
-              <div class="crosscond-arrow crosscond-arrow--short"><div class="crosscond-arrow-line"></div></div>
-              <div class="crosscond-zone crosscond-zone--robot">
-                <div class="crosscond-zone-label">Generated Humanoid &middot; 5-Step Rollout</div>
-                <div class="crosscond-transfer-grid">
-                  <div class="crosscond-transfer-item"><div class="crosscond-clip" data-part="gen1"><video data-src="movies/wm/exp3/human2robot/pair_054_Gr1_x_EgodexWrist_human2robot.mp4" muted loop playsinline></video></div><div class="crosscond-method-label crosscond-method-label--unit">WM-UniT</div></div>
-                  <div class="crosscond-transfer-item"><div class="crosscond-clip" data-part="gen2"><video data-src="movies/wm/exp3/human2robot/pair_054_Gr1_x_EgodexWrist_human2robot.mp4" muted loop playsinline></video></div><div class="crosscond-method-label crosscond-method-label--baseline">Raw Action</div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="tab-panel" data-tabgroup="wm-h2r-cases" data-tab="wm-h2r-case2">
-            <div class="crosscond-layout">
-              <div class="crosscond-zone crosscond-zone--human">
-                <div class="crosscond-zone-label">Human Demonstration</div>
                 <div class="crosscond-clip" data-part="ref"><video data-src="movies/wm/exp3/human2robot/pair_073_Gr1_x_EgodexWrist_human2robot.mp4" muted loop playsinline></video></div>
                 <div class="crosscond-method-label crosscond-method-label--baseline">Reference</div>
               </div>
               <div class="crosscond-arrow"><div class="crosscond-arrow-line"></div><div class="crosscond-arrow-label">Human&rarr;Humanoid<br>Action Cond.</div></div>
               <div class="crosscond-zone crosscond-zone--start">
                 <div class="crosscond-zone-label">Start Frame</div>
-                <div class="crosscond-startframe" data-startframe-id="h2r-case2"><img src="movies/wm/start_frame/robot/pair_073_robot_start.png" alt="start frame h2r case 2"></div>
+                <div class="crosscond-startframe" data-startframe-id="h2r-case1"><img src="movies/wm/start_frame/robot/pair_073_robot_start.png" alt="start frame h2r case 1"></div>
                 <div class="crosscond-method-label crosscond-method-label--baseline">Initial Frame</div>
               </div>
               <div class="crosscond-arrow crosscond-arrow--short"><div class="crosscond-arrow-line"></div></div>
@@ -1666,6 +1644,29 @@
                 <div class="crosscond-transfer-grid">
                   <div class="crosscond-transfer-item"><div class="crosscond-clip" data-part="gen1"><video data-src="movies/wm/exp3/human2robot/pair_073_Gr1_x_EgodexWrist_human2robot.mp4" muted loop playsinline></video></div><div class="crosscond-method-label crosscond-method-label--unit">WM-UniT</div></div>
                   <div class="crosscond-transfer-item"><div class="crosscond-clip" data-part="gen2"><video data-src="movies/wm/exp3/human2robot/pair_073_Gr1_x_EgodexWrist_human2robot.mp4" muted loop playsinline></video></div><div class="crosscond-method-label crosscond-method-label--baseline">Raw Action</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-panel" data-tabgroup="wm-h2r-cases" data-tab="wm-h2r-case2">
+            <div class="crosscond-layout">
+              <div class="crosscond-zone crosscond-zone--human">
+                <div class="crosscond-zone-label">Human Demonstration</div>
+                <div class="crosscond-clip" data-part="ref"><video data-src="movies/wm/exp3/human2robot/pair_054_Gr1_x_EgodexWrist_human2robot.mp4" muted loop playsinline></video></div>
+                <div class="crosscond-method-label crosscond-method-label--baseline">Reference</div>
+              </div>
+              <div class="crosscond-arrow"><div class="crosscond-arrow-line"></div><div class="crosscond-arrow-label">Human&rarr;Humanoid<br>Action Cond.</div></div>
+              <div class="crosscond-zone crosscond-zone--start">
+                <div class="crosscond-zone-label">Start Frame</div>
+                <div class="crosscond-startframe" data-startframe-id="h2r-case2"><img src="movies/wm/start_frame/robot/pair_054_robot_start.png" alt="start frame h2r case 2"></div>
+                <div class="crosscond-method-label crosscond-method-label--baseline">Initial Frame</div>
+              </div>
+              <div class="crosscond-arrow crosscond-arrow--short"><div class="crosscond-arrow-line"></div></div>
+              <div class="crosscond-zone crosscond-zone--robot">
+                <div class="crosscond-zone-label">Generated Humanoid &middot; 5-Step Rollout</div>
+                <div class="crosscond-transfer-grid">
+                  <div class="crosscond-transfer-item"><div class="crosscond-clip" data-part="gen1"><video data-src="movies/wm/exp3/human2robot/pair_054_Gr1_x_EgodexWrist_human2robot.mp4" muted loop playsinline></video></div><div class="crosscond-method-label crosscond-method-label--unit">WM-UniT</div></div>
+                  <div class="crosscond-transfer-item"><div class="crosscond-clip" data-part="gen2"><video data-src="movies/wm/exp3/human2robot/pair_054_Gr1_x_EgodexWrist_human2robot.mp4" muted loop playsinline></video></div><div class="crosscond-method-label crosscond-method-label--baseline">Raw Action</div></div>
                 </div>
               </div>
             </div>
