@@ -76,6 +76,23 @@ nav.topnav.scrolled{background:rgba(13,17,23,.95);box-shadow:0 1px 3px rgba(0,0,
 .hero-teaser{max-width:1280px;width:100%;margin-top:2.5rem}
 .hero-teaser video{width:100%;border-radius:14px;box-shadow:0 4px 12px rgba(0,0,0,.3),0 20px 60px rgba(0,0,0,.4);display:block}
 
+
+/* ───────── Hero Demo Videos ───────── */
+.hero-demos{max-width:1280px;width:100%;margin-top:3.5rem}
+.demo-heading{font-size:1.05rem;font-weight:700;color:rgba(230,237,243,.75);letter-spacing:.04em;text-transform:uppercase;margin-bottom:1.4rem;font-family:'Carlito',Calibri,sans-serif;position:relative;padding-bottom:.55rem;display:inline-block}
+.demo-heading::after{content:'';position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:36px;height:2px;background:linear-gradient(90deg,#58a6ff,#bc8cff);border-radius:2px;box-shadow:0 0 8px rgba(88,166,255,.3)}
+.demo-filters{display:flex;flex-direction:column;gap:.55rem;align-items:center;margin-bottom:1.4rem}
+.demo-filters .demo-tabs{margin-bottom:0}
+.demo-tabs{display:flex;gap:.5rem;margin-bottom:1rem;justify-content:center;flex-wrap:wrap}
+.demo-tabs button{padding:.4rem 1.4rem;border:1px solid rgba(255,255,255,.18);border-radius:20px;background:rgba(255,255,255,.05);color:rgba(230,237,243,.55);font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Carlito',Calibri,sans-serif;backdrop-filter:blur(6px)}
+.demo-tabs button.active{background:#4361ee;color:#fff;border-color:#4361ee;box-shadow:0 2px 10px rgba(67,97,238,.35),0 0 0 3px rgba(67,97,238,.12)}
+.demo-tabs button:hover:not(.active){background:rgba(88,166,255,.1);color:#58a6ff;border-color:rgba(88,166,255,.3)}
+.demo-tabs.secondary button{padding:.32rem 1rem;font-size:.74rem;border-radius:16px}
+.demo-tabs.secondary button.active{background:rgba(88,166,255,.18);color:#fff;border-color:rgba(88,166,255,.55);box-shadow:0 1px 6px rgba(88,166,255,.2),0 0 0 2px rgba(88,166,255,.08)}
+.demo-carousel{position:relative}
+.demo-carousel .carousel-track{display:grid;grid-template-columns:repeat(3,1fr);gap:1.0rem}
+
+
 /* ───────── Sections ───────── */
 .section{padding:4.5rem 2rem;position:relative}
 .section.alt{background:#161b22}
@@ -144,6 +161,10 @@ figure.fig figcaption{font-size:.85rem;color:#8b949e;margin-top:.8rem;line-heigh
 /* ───────── Video Cards (Real-world) ───────── */
 .rw-video-wrap{position:relative;overflow:hidden;border-radius:10px;background:#000;aspect-ratio:10/9}
 .rw-video-wrap video{width:100%;height:100%;object-fit:fill;display:block}
+#demo-carousel-multistage-id .rw-video-wrap,
+#demo-carousel-multistage-ood .rw-video-wrap,
+#carousel-rw-multistage-id .rw-video-wrap,
+#carousel-rw-multistage-ood .rw-video-wrap{aspect-ratio:9/10}
 .category-tag{position:absolute;top:6px;left:6px;color:#fff;font-size:.62rem;font-weight:700;padding:2px 8px;border-radius:8px;z-index:2;pointer-events:none;backdrop-filter:blur(4px)}
 .rw-video-wrap .speed-badge{z-index:2}
 
@@ -224,7 +245,42 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
   </p>
   <p class="corresponding hero-anim d2">Contact: <a href="mailto:yyge13@gmail.com">yyge13@gmail.com</a> &nbsp;&amp;&nbsp; <a href="mailto:xihuiliu@eee.hku.hk">xihuiliu@eee.hku.hk</a></p>
   <div class="hero-teaser hero-anim d3">
-    <video id="teaser-video" src="videos/teaser_last3s.mp4" poster="figures/teaser_poster.jpg" autoplay loop muted playsinline controls></video>
+    <video id="teaser-video" src="videos/teaser_live_dark_with_long_horizo_last10s.mp4" poster="figures/teaser_with_long_horizon_poster.jpg" autoplay muted playsinline controls></video>
+  </div>
+
+  <!-- ── Demo Videos ── -->
+  <div class="hero-demos hero-anim d4">
+    <p class="demo-heading">Real-World Deployment of DIAL</p>
+    <div class="demo-filters">
+      <div class="demo-tabs" id="demo-tabs-task">
+        <button data-task="basic">Basic Manipulation</button>
+        <button class="active" data-task="multistage">Multi-Stage Manipulation</button>
+      </div>
+      <div class="demo-tabs secondary" id="demo-tabs-dist">
+        <button class="active" data-dist="id">In-Distribution</button>
+        <button data-dist="ood">Out-of-Distribution</button>
+      </div>
+    </div>
+    <div class="demo-carousel" id="demo-carousel-basic-id" style="display:none">
+      <button class="carousel-btn prev" data-dir="-1"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="carousel-track" id="demo-basic-id-row"></div>
+      <button class="carousel-btn next" data-dir="1"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button>
+    </div>
+    <div class="demo-carousel" id="demo-carousel-basic-ood" style="display:none">
+      <button class="carousel-btn prev" data-dir="-1"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="carousel-track" id="demo-basic-ood-row"></div>
+      <button class="carousel-btn next" data-dir="1"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button>
+    </div>
+    <div class="demo-carousel" id="demo-carousel-multistage-id">
+      <button class="carousel-btn prev" data-dir="-1"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="carousel-track" id="demo-multistage-id-row"></div>
+      <button class="carousel-btn next" data-dir="1"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button>
+    </div>
+    <div class="demo-carousel" id="demo-carousel-multistage-ood" style="display:none">
+      <button class="carousel-btn prev" data-dir="-1"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="carousel-track" id="demo-multistage-ood-row"></div>
+      <button class="carousel-btn next" data-dir="1"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button>
+    </div>
   </div>
 </section>
 
@@ -236,7 +292,7 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
 
       <p>We introduce <strong>DIAL</strong> (<strong>D</strong>ecoupling <strong>I</strong>ntent and <strong>A</strong>ction via <strong>L</strong>atent World Modeling), a framework that bridges high-level reasoning and low-level execution through a <strong>differentiable latent intent bottleneck</strong>. Rather than mapping VLM features directly to actions, we ask the VLM to predict the future visual state <em>in its own native ViT feature space</em>. These features carry rich semantic structure rather than raw pixel-level appearance, so the prediction naturally encodes the VLM&rsquo;s <strong>intent</strong>: what should change in the scene as a result of the robot&rsquo;s action. This latent intent is the sole channel connecting the VLM to a lightweight motor policy, structurally encouraging the policy to ground every action in the VLM&rsquo;s foresight rather than learning shortcuts around it. Because both systems share the same frozen ViT, each can be pre-trained independently and then unified end-to-end with no representation gap to bridge.</p>
 
-      <p>DIAL establishes a new state of the art on the RoboCasa GR1 Tabletop benchmark, achieving superior performance with <strong>10&times; fewer demonstrations</strong> than prior methods. By leveraging heterogeneous human demonstrations, it learns physically grounded manipulation priors and exhibits robust <strong>zero-shot generalization</strong> to unseen objects and novel configurations during real-world deployment on our humanoid robot.</p>
+      <p>DIAL establishes a new state of the art on the RoboCasa GR1 Tabletop benchmark, achieving superior performance with <strong>10&times; fewer demonstrations</strong> than prior methods. By leveraging heterogeneous human demonstrations, it learns physically grounded manipulation priors and exhibits robust <strong>zero-shot generalization</strong> to unseen objects and novel configurations during real-world deployment on our humanoid robot, while remaining stable across <strong>long-horizon, multi-stage coordination</strong> tasks such as bimanual handover and tool-mediated cleanup.</p>
     </div>
   </div>
 </section>
@@ -370,22 +426,28 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
   <div class="section-inner">
     <h2 class="section-title reveal">Real-world generalization</h2>
     <div class="blog-text reveal">
-      <p>We validate DIAL on the <strong>IRON-R01-1.11 humanoid robot</strong> with two tasks designed to match representative EgoDex subsets for cross-embodiment learning: <strong>Pick &amp; Place</strong> (analogous to EgoDex <em>basic_pick_place</em>) and <strong>Pouring</strong> (analogous to EgoDex <em>pour</em>). All models are first pre-trained a mixture of human and robot demonstrations, then fine-tuned on the task-specific robot trajectories. Under this protocol, DIAL achieves <strong>77.5%</strong> in-distribution success and <strong>58.3%</strong> out-of-distribution success.</p>
+      <p>We validate DIAL on the <strong>IRON-R01-1.11 humanoid robot</strong> across <strong>four real-world tasks</strong>, grouped into two complementary regimes by <strong>data source</strong> and <strong>task complexity</strong>:</p>
+      <ul style="margin:.6rem 0 .9rem 1.4rem;line-height:1.8">
+        <li><strong>Cross-embodiment learning.</strong> <strong>Pick &amp; Place</strong> (analogous to EgoDex <em>basic_pick_place</em>) and <strong>Pouring</strong> (analogous to EgoDex <em>pour</em>) are jointly trained on heterogeneous human and robot demonstrations, testing how well DIAL absorbs cross-embodiment priors.</li>
+        <li><strong>Multi-stage coordination.</strong> <strong>Bimanual Handover &amp; Shelving</strong> and <strong>Trash Collection &amp; Emptying</strong> require sequencing several sub-stages with tool use and inter-hand coordination. Since EgoDex contains no corresponding human demonstrations for these behaviors, both tasks are trained purely on robot-native sequences.</li>
+      </ul>
+      <p>For the two cross-embodiment tasks, all models are first pre-trained on a mixture of human and robot demonstrations, then fine-tuned on the task-specific robot trajectories. Under this protocol, DIAL achieves <strong>77.5%</strong> in-distribution success and <strong>58.3%</strong> out-of-distribution success on Pick &amp; Place and Pouring; the two multi-stage tasks are trained from robot-native demonstrations and analyzed separately below.</p>
     </div>
 
     <figure class="fig no-invert reveal">
-      <img src="figures/demo_tasks_dark.png" alt="Real-world task design and data sources">
-      <figcaption>Real-world task design. Human EgoDex demonstrations (left) provide cross-embodiment priors for Pick &amp; Place and Pouring tasks executed by the IRON-R01-1.11 humanoid (right).</figcaption>
+      <img src="figures/demo_task_with_long_horizon_dark.png" alt="Real-world task design across cross-embodiment learning and multi-stage coordination">
+      <figcaption>Real-world tasks and data sources. <strong>(Top)</strong> Cross-embodiment learning, where Pick &amp; Place and Pouring are jointly trained on EgoDex human demonstrations and robot trajectories. <strong>(Bottom)</strong> Multi-stage coordination, where Bimanual Handover &amp; Shelving and Trash Collection &amp; Emptying are trained purely on robot-native sequences to capture intricate synchronization and tool use.</figcaption>
     </figure>
 
     <div class="blog-text reveal">
-      <p>Two factors prove critical for real-world performance. First, <strong>decoupled warmup</strong> is essential for ensuring training stability, playing a pivotal role in maintaining robust in-distribution and OOD performance on physical hardware. Second, <strong>human data pre-training</strong> is equally vital; without it, the OOD success rate drops significantly from 58.3% to just 26.7%. Together, these results confirm that DIAL&rsquo;s training recipe is not merely a simulation convenience but a genuine requirement for robust real-world deployment.</p>
+      <p>Two factors prove critical for real-world performance. First, <strong>decoupled warmup</strong> is essential for ensuring training stability, playing a pivotal role in maintaining robust in-distribution and OOD performance on physical hardware. Second, <strong>human data pre-training</strong> is equally vital for cross-embodiment tasks; without it, the OOD success rate drops significantly from <strong>58.3%</strong> to just <strong>26.7%</strong>. Together, these results confirm that DIAL&rsquo;s training recipe is not merely a simulation convenience but a genuine requirement for robust real-world deployment.</p>
     </div>
 
     <!-- In-Distribution -->
     <h3 class="section-subtitle reveal">In-Distribution Performance</h3>
     <figure class="fig reveal">
-      <img src="figures/results_real_robot_id.png" alt="In-distribution results">
+      <img src="figures/results_real_robot_id.png" alt="In-distribution results on Pick &amp; Place and Pouring">
+      <figcaption>In-distribution success rates on the cross-embodiment tasks, highlighting the impact of joint training with EgoDex human demonstrations.</figcaption>
     </figure>
     <div class="reveal">
       <div class="carousel" id="carousel-rw-id">
@@ -401,15 +463,52 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
     <!-- Out-of-Distribution -->
     <h3 class="section-subtitle reveal">Out-of-Distribution Performance</h3>
     <div class="blog-text reveal">
-      <p>We test three types of generalization: <strong>combinatorial</strong> (multiple familiar objects present simultaneously, requiring language-grounded disambiguation), <strong>distractor robustness</strong> (unseen objects introduced as visual clutter), and <strong>instance-level transfer</strong> (novel object instances with unseen geometries or appearances in the pouring task). DIAL handles all three with no task-specific adaptation.</p>
+      <p>We test three types of generalization on Pick &amp; Place and Pouring: <strong>combinatorial</strong> (multiple familiar objects present simultaneously, requiring language-grounded disambiguation), <strong>distractor robustness</strong> (unseen objects introduced as visual clutter), and <strong>instance-level transfer</strong> (novel object instances with unseen geometries or appearances in the pouring task). DIAL handles all three with no task-specific adaptation.</p>
     </div>
     <figure class="fig reveal">
-      <img src="figures/results_real_robot_ood.png" alt="OOD results">
+      <img src="figures/results_real_robot_ood.png" alt="OOD results on Pick &amp; Place and Pouring">
+      <figcaption>Out-of-distribution real-world results for the cross-embodiment tasks across three generalization challenges: combinatorial generalization, distractor robustness, and instance-level transfer.</figcaption>
     </figure>
     <div class="reveal">
       <div class="carousel" id="carousel-rw-ood">
         <button class="carousel-btn prev" data-dir="-1"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
         <div class="carousel-track" id="rw-ood-row"></div>
+        <button class="carousel-btn next" data-dir="1"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+        <div class="carousel-counter"></div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Multi-Stage Coordination -->
+    <h3 class="section-subtitle reveal">Multi-Stage Coordination</h3>
+    <div class="blog-text reveal">
+      <p>Beyond basic manipulation, we further evaluate DIAL on two real-world tasks that demand <strong>execution robustness</strong> across several sub-stages: <strong>Bimanual Handover &amp; Shelving</strong> (pick &rarr; transfer &rarr; place, 3 sub-stages) and <strong>Trash Collection &amp; Emptying</strong> (grasp dustpan &rarr; grasp broom &rarr; sweep &rarr; empty, 4 sub-stages). A single failure at one sub-stage cascades into the next, making coherent phase transitions the central challenge.</p>
+
+      <p>Without a structured foresight bottleneck, baselines lack a cognitive roadmap and struggle with these transitions&mdash;for instance, getting trapped in repetitive sweeping loops instead of transitioning to empty the dustpan&mdash;which collapses both <em>success rate</em> (solid bars) and <em>task progress</em> (translucent bars). In contrast, DIAL&rsquo;s latent intent explicitly envisions the upcoming subgoals, acting as a reliable <strong>temporal anchor</strong> that guides System-1 smoothly across intricate sub-stages. This robust grounding further enables strong zero-shot generalization, allowing DIAL to adapt to previously unseen multi-tier shelves (<strong>fixture-level transfer</strong>) and novel tablecloths (<strong>surface-level transfer</strong>).</p>
+    </div>
+
+    <figure class="fig reveal">
+      <img src="figures/results_multistage.png" alt="Real-world results on multi-stage coordination tasks">
+      <figcaption>Real-world results on the two multi-stage coordination tasks, reporting both in-distribution performance and zero-shot generalization to novel fixtures and surfaces. Solid bars: success
+        rate (all sub-stages completed); translucent bars: task progress
+        (average sub-stage completion).</figcaption>
+    </figure>
+
+    <div class="reveal">
+      <div class="tabs" id="rw-multistage-tabs">
+        <button class="active" data-tab="id">In-Distribution</button>
+        <button data-tab="ood">Out-of-Distribution</button>
+      </div>
+      <div class="carousel" id="carousel-rw-multistage-id">
+        <button class="carousel-btn prev" data-dir="-1"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <div class="carousel-track" id="rw-multistage-id-row"></div>
+        <button class="carousel-btn next" data-dir="1"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+        <div class="carousel-counter"></div>
+      </div>
+      <div class="carousel" id="carousel-rw-multistage-ood" style="display:none">
+        <button class="carousel-btn prev" data-dir="-1"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <div class="carousel-track" id="rw-multistage-ood-row"></div>
         <button class="carousel-btn next" data-dir="1"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
         <div class="carousel-counter"></div>
       </div>
@@ -439,7 +538,7 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
   <div class="section-inner reveal">
     <h2 class="section-title">Where do we go from here?</h2>
     <div class="blog-text">
-      <p>We demonstrated that decoupling a VLM&rsquo;s <em>cognitive intent</em> from a policy&rsquo;s <em>physical actions</em> via latent world modeling yields a highly data-efficient and generalizable VLA. DIAL achieves state-of-the-art results in simulation and seamlessly transfers to real-world humanoid manipulation. Its two-stage training paradigm allows action-aware gradients to refine the VLM in a controlled manner, avoiding the representation collapse that commonly plagues naive end-to-end VLA training.</p>
+      <p>We demonstrated that decoupling a VLM&rsquo;s <em>cognitive intent</em> from a policy&rsquo;s <em>physical actions</em> via latent world modeling yields a highly data-efficient and generalizable VLA. DIAL achieves state-of-the-art results in simulation and seamlessly transfers to real-world humanoid manipulation. Crucially, the same predictive bottleneck that grounds fine-grained control also <strong>maintains stable execution in long-horizon, multi-stage coordination</strong>, where latent foresight serves as a temporal anchor across sub-stage transitions. Its two-stage training paradigm allows action-aware gradients to refine the VLM in a controlled manner, avoiding the representation collapse that commonly plagues naive end-to-end VLA training.</p>
 
       <p>Several directions can extend this framework. On the architecture side, scaling up System-1&rsquo;s capacity, compressing latent tokens for efficiency, and fine-tuning the ViT encoder end-to-end are natural next steps. On the data side, DIAL&rsquo;s predictive objective is well-suited to leverage massive, <em>action-free</em> human videos, since latent world modeling requires only visual observations and no action labels.</p>
 
@@ -532,9 +631,13 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
   var tagColors = {
     'Pick & Place': 'rgba(67,97,238,.55)',
     'Pouring': 'rgba(219,39,119,.55)',
-    'Combinatorial': 'rgba(114,9,183,.55)',
-    'Distractor': 'rgba(249,115,22,.55)',
-    'Instance Transfer': 'rgba(20,184,166,.55)'
+    'Combinatorial Generalization': 'rgba(239,68,68,.55)',
+    'Distractor Robustness': 'rgba(249,115,22,.55)',
+    'Instance-Level Transfer': 'rgba(20,184,166,.55)',
+    'Surface-Level Transfer': 'rgba(234,179,8,.55)',
+    'Fixture-Level Transfer': 'rgba(114,9,183,.55)',
+    'Sweeping': 'rgba(71,85,105,.55)',
+    'Handover': 'rgba(34,197,94,.55)',
   };
 
   function makeRealCard(key, instruction, tag){
@@ -587,10 +690,20 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
 
   /* ── Real-world videos ── */
   var rwI = {
+    id_sweep: 'Sweep the trash on the table into the dustpan using the broom, then pour it into the trash bin.',
+    id_handover_bread: 'Grab the long bread with the left hand, transfer to the right, and put on the empty shelf.',
+    id_handover_grape: 'Grab grapes with the left hand, transfer to the right, and put on the empty shelf.',
+
     id_put_bowl: 'Put the bowl in the box.',
     id_put_banana: 'Put the banana in the box.',
     id_pour_pepsi: 'Pour contents from the bottle into the cup.',
     id_pour_water: 'Pour contents from the bottle into the cup.',
+
+
+    ood_sweep: 'Sweep the trash on the table into the dustpan using the broom, then pour it into the trash bin.',
+    ood_handover_bread_bottom_shelf: 'Grab the long bread with the left hand, transfer to the right, and put on the empty shelf.',
+    ood_handover_grape_top_shelf: 'Grab grapes with the left hand, transfer to the right, and put on the empty shelf.',
+
     ood_combination_put_bowl: 'Put the bowl in the box.',
     ood_combination_put_banana: 'Put the banana in the box.',
     ood_combination_put_bowl_single_side: 'Put the bowl in the box.',
@@ -609,15 +722,36 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
   ]);
 
   fill('rw-ood-row', [
-    makeRealCard('ood_combination_put_bowl', rwI.ood_combination_put_bowl, 'Combinatorial'),
-    makeRealCard('ood_combination_put_banana', rwI.ood_combination_put_banana, 'Combinatorial'),
-    makeRealCard('ood_combination_put_bowl_single_side', rwI.ood_combination_put_bowl_single_side, 'Combinatorial'),
-    makeRealCard('ood_distractor_bowl', rwI.ood_distractor_bowl, 'Distractor'),
-    makeRealCard('ood_distractor_banana', rwI.ood_distractor_banana, 'Distractor'),
-    makeRealCard('ood_pour_tea', rwI.ood_pour_tea, 'Instance Transfer'),
-    makeRealCard('ood_pour_mirinda', rwI.ood_pour_mirinda, 'Instance Transfer'),
-    makeRealCard('ood_pour_water', rwI.ood_pour_water, 'Instance Transfer')
+    makeRealCard('ood_combination_put_bowl', rwI.ood_combination_put_bowl, 'Combinatorial Generalization'),
+    makeRealCard('ood_combination_put_banana', rwI.ood_combination_put_banana, 'Combinatorial Generalization'),
+    makeRealCard('ood_combination_put_bowl_single_side', rwI.ood_combination_put_bowl_single_side, 'Combinatorial Generalization'),
+    makeRealCard('ood_distractor_bowl', rwI.ood_distractor_bowl, 'Distractor Robustness'),
+    makeRealCard('ood_distractor_banana', rwI.ood_distractor_banana, 'Distractor Robustness'),
+    makeRealCard('ood_pour_tea', rwI.ood_pour_tea, 'Instance-Level Transfer'),
+    makeRealCard('ood_pour_mirinda', rwI.ood_pour_mirinda, 'Instance-Level Transfer'),
+    makeRealCard('ood_pour_water', rwI.ood_pour_water, 'Instance-Level Transfer')
   ]);
+
+  fill('rw-multistage-id-row', [
+    makeRealCard('id_handover_bread', rwI.id_handover_bread, 'Handover'),
+    makeRealCard('id_handover_grape', rwI.id_handover_grape, 'Handover'),
+    makeRealCard('id_sweep', rwI.id_sweep, 'Sweeping')
+  ]);
+
+  fill('rw-multistage-ood-row', [
+    makeRealCard('ood_handover_bread_bottom_shelf', rwI.ood_handover_bread_bottom_shelf, 'Fixture-Level Transfer'),
+    makeRealCard('ood_handover_grape_top_shelf', rwI.ood_handover_grape_top_shelf, 'Fixture-Level Transfer'),
+    makeRealCard('ood_sweep', rwI.ood_sweep, 'Surface-Level Transfer')
+  ]);
+
+  document.getElementById('rw-multistage-tabs').addEventListener('click', function(e){
+    if(e.target.tagName !== 'BUTTON') return;
+    this.querySelectorAll('button').forEach(function(b){ b.classList.remove('active'); });
+    e.target.classList.add('active');
+    var tab = e.target.getAttribute('data-tab');
+    document.getElementById('carousel-rw-multistage-id').style.display  = tab === 'id'  ? '' : 'none';
+    document.getElementById('carousel-rw-multistage-ood').style.display = tab === 'ood' ? '' : 'none';
+  });
 
   /* ── Carousel logic: sliding window of 3, shift by 1, cyclic ── */
   function initCarousel(carouselEl){
@@ -654,6 +788,66 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
 
   document.querySelectorAll('.carousel').forEach(initCarousel);
 
+  /* ── Hero demo videos: 2D filter (task type × distribution) ── */
+  fill('demo-basic-id-row', [
+    makeRealCard('id_pour_pepsi', rwI.id_pour_pepsi, 'Pouring'),
+    makeRealCard('id_pour_water', rwI.id_pour_water, 'Pouring'),
+    makeRealCard('id_put_bowl', rwI.id_put_bowl, 'Pick & Place'),
+    makeRealCard('id_put_banana', rwI.id_put_banana, 'Pick & Place')
+  ]);
+
+  fill('demo-basic-ood-row', [
+    makeRealCard('ood_combination_put_bowl',        rwI.ood_combination_put_bowl,        'Combinatorial Generalization'),
+    makeRealCard('ood_combination_put_banana',      rwI.ood_combination_put_banana,      'Combinatorial Generalization'),
+    makeRealCard('ood_combination_put_bowl_single_side', rwI.ood_combination_put_bowl_single_side, 'Combinatorial Generalization'),
+    makeRealCard('ood_distractor_bowl',             rwI.ood_distractor_bowl,             'Distractor Robustness'),
+    makeRealCard('ood_distractor_banana',           rwI.ood_distractor_banana,           'Distractor Robustness'),
+    makeRealCard('ood_pour_tea',                    rwI.ood_pour_tea,                    'Instance-Level Transfer'),
+    makeRealCard('ood_pour_mirinda',                rwI.ood_pour_mirinda,                'Instance-Level Transfer'),
+    makeRealCard('ood_pour_water',                  rwI.ood_pour_water,                  'Instance-Level Transfer')
+  ]);
+
+  fill('demo-multistage-id-row', [
+    makeRealCard('id_handover_bread', rwI.id_handover_bread, 'Handover'),
+    makeRealCard('id_handover_grape', rwI.id_handover_grape, 'Handover'),
+    makeRealCard('id_sweep',          rwI.id_sweep,          'Sweeping')
+  ]);
+
+  fill('demo-multistage-ood-row', [
+    makeRealCard('ood_handover_bread_bottom_shelf', rwI.ood_handover_bread_bottom_shelf, 'Fixture-Level Transfer'),
+    makeRealCard('ood_handover_grape_top_shelf',    rwI.ood_handover_grape_top_shelf,    'Fixture-Level Transfer'),
+    makeRealCard('ood_sweep',                       rwI.ood_sweep,                       'Surface-Level Transfer')
+  ]);
+
+  var heroDemoState = {task:'multistage', dist:'id'};
+  function updateHeroDemoVisibility(){
+    ['basic-id','basic-ood','multistage-id','multistage-ood'].forEach(function(key){
+      var el = document.getElementById('demo-carousel-' + key);
+      if(el) el.style.display = (key === heroDemoState.task + '-' + heroDemoState.dist) ? '' : 'none';
+    });
+  }
+
+  document.getElementById('demo-tabs-task').addEventListener('click', function(e){
+    if(e.target.tagName !== 'BUTTON') return;
+    this.querySelectorAll('button').forEach(function(b){ b.classList.remove('active'); });
+    e.target.classList.add('active');
+    heroDemoState.task = e.target.getAttribute('data-task');
+    updateHeroDemoVisibility();
+  });
+
+  document.getElementById('demo-tabs-dist').addEventListener('click', function(e){
+    if(e.target.tagName !== 'BUTTON') return;
+    this.querySelectorAll('button').forEach(function(b){ b.classList.remove('active'); });
+    e.target.classList.add('active');
+    heroDemoState.dist = e.target.getAttribute('data-dist');
+    updateHeroDemoVisibility();
+  });
+
+  ['basic-id','basic-ood','multistage-id','multistage-ood'].forEach(function(key){
+    var el = document.getElementById('demo-carousel-' + key);
+    if(el) initCarousel(el);
+  });
+
   /* ── Lazy load + play/pause via IntersectionObserver ── */
   var videoObs = new IntersectionObserver(function(entries){
     entries.forEach(function(e){
@@ -675,7 +869,7 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
     videoObs.observe(v);
   });
 
-  /* ── Teaser video: progressive loading ── */
+  /* ── Teaser video: play last10s once, then loop full version ── */
   var teaserV = document.getElementById('teaser-video');
   if(teaserV){
     teaserV.playbackRate = 2.0;
@@ -687,25 +881,27 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
     fullVideo.setAttribute('playsinline','');
     fullVideo.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;visibility:hidden';
     document.body.appendChild(fullVideo);
-    fullVideo.src = 'videos/teaser_live_dark.mp4';
+    fullVideo.src = 'videos/teaser_live_dark_with_long_horizon.mp4';
     fullVideo.load();
 
-    var checker = setInterval(function(){
-      if(fullVideo.readyState >= 3){
-        clearInterval(checker);
-        teaserV.pause();
-        teaserV.src = 'videos/teaser_live_dark.mp4';
-        teaserV.load();
-        teaserV.addEventListener('loadedmetadata', function onFull(){
-          teaserV.removeEventListener('loadedmetadata', onFull);
-          teaserV.playbackRate = 2.0;
-          teaserV.loop = true;
-          teaserV.currentTime = 0;
-          teaserV.play().catch(function(){});
-        });
-        fullVideo.parentNode.removeChild(fullVideo);
-      }
-    }, 500);
+    var switched = false;
+    function switchToFull(){
+      if(switched) return;
+      switched = true;
+      teaserV.pause();
+      teaserV.src = 'videos/teaser_live_dark_with_long_horizon.mp4';
+      teaserV.loop = true;
+      teaserV.load();
+      teaserV.addEventListener('loadedmetadata', function onFull(){
+        teaserV.removeEventListener('loadedmetadata', onFull);
+        teaserV.playbackRate = 2.0;
+        teaserV.currentTime = 0;
+        teaserV.play().catch(function(){});
+      });
+      if(fullVideo.parentNode) fullVideo.parentNode.removeChild(fullVideo);
+    }
+
+    teaserV.addEventListener('ended', switchToFull);
   }
 
   /* ── Model overview video: pause 10s then replay ── */

@@ -1,0 +1,5 @@
+# macOS
+.DS_Store
+
+# DIAL: raw / intermediate video assets (not used by the live site)
+dial/videos_raw*/
