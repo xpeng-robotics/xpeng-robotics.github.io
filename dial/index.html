@@ -913,43 +913,90 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
 
   //   teaserV.addEventListener('ended', switchToFull);
   // }
+  // var teaserV = document.getElementById('teaser-video');
+  // if(teaserV){
+  //   teaserV.playbackRate = 2.0;
+  //   teaserV.addEventListener('loadedmetadata', function(){ this.playbackRate = 2.0; });
+
+  //   var switched = false;
+    
+  //   // 将预加载逻辑包裹在延迟函数中
+  //   window.addEventListener('load', function() {
+  //     setTimeout(function() {
+  //       var fullVideo = document.createElement('video');
+  //       fullVideo.preload = 'auto';
+  //       fullVideo.muted = true;
+  //       fullVideo.setAttribute('playsinline','');
+  //       fullVideo.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;visibility:hidden';
+  //       document.body.appendChild(fullVideo);
+  //       fullVideo.src = 'videos/teaser_live_dark_with_long_horizon_faststart.mp4';
+  //       fullVideo.load();
+
+  //       function switchToFull(){
+  //         if(switched) return;
+  //         switched = true;
+  //         teaserV.pause();
+  //         teaserV.src = 'videos/teaser_live_dark_with_long_horizon_faststart.mp4';
+  //         teaserV.loop = true;
+  //         teaserV.load();
+  //         teaserV.addEventListener('loadedmetadata', function onFull(){
+  //           teaserV.removeEventListener('loadedmetadata', onFull);
+  //           teaserV.playbackRate = 2.0;
+  //           teaserV.currentTime = 0;
+  //           teaserV.play().catch(function(){});
+  //         });
+  //         if(fullVideo.parentNode) fullVideo.parentNode.removeChild(fullVideo);
+  //       }
+  //       teaserV.addEventListener('ended', switchToFull);
+  //     }, 2000); // 延迟2秒预加载
+  //   });
+  // }
+
   var teaserV = document.getElementById('teaser-video');
-  if(teaserV){
+  var switched = false;
+
+  function switchToFull() {
+    if (switched) return;
+    switched = true;
+    teaserV.pause();
+    teaserV.src = 'videos/teaser_live_dark_with_long_horizon_faststart.mp4';
+    teaserV.loop = true;
+    teaserV.load();
+    teaserV.addEventListener('loadedmetadata', function onFull() {
+      teaserV.removeEventListener('loadedmetadata', onFull);
+      teaserV.playbackRate = 2.0;
+      teaserV.currentTime = 0;
+      teaserV.play().catch(function(){});
+    });
+  }
+
+  function startLazyVideos() { /* ... 不变 ... */ }
+
+  if (teaserV) {
     teaserV.playbackRate = 2.0;
     teaserV.addEventListener('loadedmetadata', function(){ this.playbackRate = 2.0; });
 
-    var switched = false;
-    
-    // 将预加载逻辑包裹在延迟函数中
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        var fullVideo = document.createElement('video');
-        fullVideo.preload = 'auto';
-        fullVideo.muted = true;
-        fullVideo.setAttribute('playsinline','');
-        fullVideo.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;visibility:hidden';
-        document.body.appendChild(fullVideo);
-        fullVideo.src = 'videos/teaser_live_dark_with_long_horizon_faststart.mp4';
-        fullVideo.load();
+    // ✅ ended 监听必须最早绑定，不能放在任何延迟回调里
+    teaserV.addEventListener('ended', switchToFull);
 
-        function switchToFull(){
-          if(switched) return;
-          switched = true;
-          teaserV.pause();
-          teaserV.src = 'videos/teaser_live_dark_with_long_horizon_faststart.mp4';
-          teaserV.loop = true;
-          teaserV.load();
-          teaserV.addEventListener('loadedmetadata', function onFull(){
-            teaserV.removeEventListener('loadedmetadata', onFull);
-            teaserV.playbackRate = 2.0;
-            teaserV.currentTime = 0;
-            teaserV.play().catch(function(){});
-          });
-          if(fullVideo.parentNode) fullVideo.parentNode.removeChild(fullVideo);
-        }
-        teaserV.addEventListener('ended', switchToFull);
-      }, 2000); // 延迟2秒预加载
+    teaserV.addEventListener('canplay', function onCanPlay() {
+      teaserV.removeEventListener('canplay', onCanPlay);
+      // canplay 后预加载完整版
+      var fullVideo = document.createElement('video');
+      fullVideo.preload = 'auto';
+      fullVideo.muted = true;
+      fullVideo.setAttribute('playsinline', '');
+      fullVideo.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;visibility:hidden';
+      fullVideo.src = 'videos/teaser_live_dark_with_long_horizon_faststart.mp4';
+      document.body.appendChild(fullVideo);
+      fullVideo.load();
+
+      // canplay 后再启动其他视频懒加载
+      startLazyVideos();
     });
+
+    // 保底 3 秒
+    setTimeout(startLazyVideos, 3000);
   }
 
   /* ── Model overview video: pause 10s then replay ── */
