@@ -970,7 +970,50 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
     });
   }
 
-  function startLazyVideos() { /* ... 不变 ... */ }
+  function startLazyVideos() {
+    // 记录每个视频的播放进度
+    var progressMap = new WeakMap();
+
+    var videoObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        var v = e.target;
+        var dataSrc = v.dataset.src;
+        if (!dataSrc) return;
+
+        if (e.isIntersecting) {
+          // 进入视口：恢复加载
+          if (!v.src || v.src === window.location.href) {
+            // src 为空，重新赋值并恢复进度
+            var savedTime = progressMap.get(v) || 0;
+            v.src = dataSrc;
+            v.load();
+            v.addEventListener('loadedmetadata', function onMeta() {
+              v.removeEventListener('loadedmetadata', onMeta);
+              v.playbackRate = 2.0;
+              v.currentTime = savedTime;
+              v.play().catch(function(){});
+            });
+          } else {
+            // src 已有，直接播放
+            v.playbackRate = 2.0;
+            v.play().catch(function(){});
+          }
+        } else {
+          // 离开视口：保存进度，清空 src 终止加载
+          if (v.src && v.src !== window.location.href) {
+            progressMap.set(v, v.currentTime);
+            v.pause();
+            v.removeAttribute('src');
+            v.load(); // 通知浏览器放弃当前请求
+          }
+        }
+      });
+    }, { rootMargin: '100px 0px' }); // 提前 100px 开始加载，不要太大
+
+    document.querySelectorAll('video[data-src]').forEach(function(v) {
+      videoObs.observe(v);
+    });
+  }
 
   if (teaserV) {
     teaserV.playbackRate = 2.0;
