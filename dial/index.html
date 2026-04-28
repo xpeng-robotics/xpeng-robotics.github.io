@@ -849,35 +849,35 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
   });
 
   /* ── Lazy load + play/pause via IntersectionObserver ── */
-  var videoObs = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      var v = e.target;
-      if(e.isIntersecting){
-        if(!v.src && v.dataset.src){
-          v.src = v.dataset.src;
-          v.load();
-        }
-        v.play().catch(function(){});
-      } else {
-        v.pause();
-      }
-    });
-  }, {rootMargin:'200px 0px'});
+  // var videoObs = new IntersectionObserver(function(entries){
+  //   entries.forEach(function(e){
+  //     var v = e.target;
+  //     if(e.isIntersecting){
+  //       if(!v.src && v.dataset.src){
+  //         v.src = v.dataset.src;
+  //         v.load();
+  //       }
+  //       v.play().catch(function(){});
+  //     } else {
+  //       v.pause();
+  //     }
+  //   });
+  // }, {rootMargin:'200px 0px'});
 
-  // document.querySelectorAll('video[data-src]').forEach(function(v){
-  //   v.addEventListener('loadedmetadata', function(){ this.playbackRate = 2.0; });
-  //   videoObs.observe(v);
+  // // document.querySelectorAll('video[data-src]').forEach(function(v){
+  // //   v.addEventListener('loadedmetadata', function(){ this.playbackRate = 2.0; });
+  // //   videoObs.observe(v);
+  // // });
+  // // ✅ 新的延迟绑定代码放在这里
+  // window.addEventListener('load', function() {
+  //   // 额外给 500 毫秒延迟，让最顶部的 teaser 视频有绝对的优先加载权
+  //   setTimeout(function() {
+  //     document.querySelectorAll('video[data-src]').forEach(function(v){
+  //       v.addEventListener('loadedmetadata', function(){ this.playbackRate = 2.0; });
+  //       videoObs.observe(v);
+  //     });
+  //   }, 500); 
   // });
-  // ✅ 新的延迟绑定代码放在这里
-  window.addEventListener('load', function() {
-    // 额外给 500 毫秒延迟，让最顶部的 teaser 视频有绝对的优先加载权
-    setTimeout(function() {
-      document.querySelectorAll('video[data-src]').forEach(function(v){
-        v.addEventListener('loadedmetadata', function(){ this.playbackRate = 2.0; });
-        videoObs.observe(v);
-      });
-    }, 500); 
-  });
 
   /* ── Teaser video: play last10s once, then loop full version ── */
   // var teaserV = document.getElementById('teaser-video');
@@ -913,6 +913,7 @@ footer::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
 
   //   teaserV.addEventListener('ended', switchToFull);
   // }
+
   // var teaserV = document.getElementById('teaser-video');
   // if(teaserV){
   //   teaserV.playbackRate = 2.0;
