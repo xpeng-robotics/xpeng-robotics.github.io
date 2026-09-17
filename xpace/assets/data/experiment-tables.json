@@ -1,0 +1,640 @@
+{
+  "source": {
+    "title": "XPACE technical report",
+    "file": "../papers/xpace.pdf",
+    "verification": "Tables 1–4 transcribed from the report and visually checked against rendered PDF pages 14, 15, and 19.",
+    "precision": "All measurements are strings to preserve the printed decimal places. No measurements are reconstructed from rounded values."
+  },
+  "metricDefinitions": {
+    "psnr": "Peak signal-to-noise ratio; higher indicates greater image fidelity.",
+    "ssim": "Structural similarity; higher indicates greater image fidelity.",
+    "ofs": "Optical Flow Similarity: average cosine similarity between predicted and ground-truth flow fields computed with OpenCV Farneback.",
+    "dino": "Visual feature similarity computed with a DINOv3-Large encoder.",
+    "actionLoss": "Teacher-forced mean squared error in normalized action space, using recorded context for each chunk. Lower is better.",
+    "checkpointSd": "Across-checkpoint standard deviation in percentage points, within one training run; not uncertainty across independent seeds."
+  },
+  "evaluationSetup": {
+    "reportSection": "4.1",
+    "title": "Experimental Setup",
+    "summary": "Simulation and offline action prediction share 19 separately collected evaluation subsets, none used for training. Simulation reports ID and OOD separately; offline policy results aggregate all 19 under Benchmark. Closed-loop policy evaluation uses the IRON-R01-1.11 humanoid, with 20 trials per task per method under matched resets.",
+    "simulationResolution": "480 × 832 (height × width)",
+    "notes": [
+      "ID covers pick-and-place interactions representative of robot training. OOD varies visual conditions, objects, instructions, spatial layouts, task composition, and action primitives.",
+      "The 19 subsets retain collection-based groupings; they are not uniformly task-disjoint or scene-disjoint splits.",
+      "The primary policy benchmark comprises banana pick-and-place and pouring water (ID), plus bowl stacking (task-level OOD relative to L4). Distractor robustness is a separate experiment."
+    ]
+  },
+  "sectionOrder": [
+    {
+      "section": "4.1",
+      "title": "Experimental Setup"
+    },
+    {
+      "section": "4.2",
+      "title": "Simulation",
+      "children": [
+        {
+          "section": "4.2.1",
+          "title": "Short-horizon prediction: skeleton conditioning",
+          "tables": [
+            "skeletonConditioning"
+          ]
+        },
+        {
+          "section": "4.2.2",
+          "title": "Long-horizon rollout: self-gradient forcing",
+          "tables": [
+            "selfGradientForcing",
+            "finalSimulator"
+          ]
+        }
+      ]
+    },
+    {
+      "section": "4.3",
+      "title": "Policy",
+      "children": [
+        {
+          "section": "4.3.1",
+          "title": "Real-robot performance and robustness",
+          "figures": [
+            "7",
+            "8"
+          ]
+        },
+        {
+          "section": "4.3.2",
+          "title": "Human-to-robot skill transfer",
+          "figures": [
+            "9"
+          ]
+        },
+        {
+          "section": "4.3.3",
+          "title": "Contribution of video pretraining",
+          "figures": [
+            "10"
+          ]
+        },
+        {
+          "section": "4.3.4",
+          "title": "Human supervision during robot adaptation",
+          "tables": [
+            "humanSupervision"
+          ]
+        },
+        {
+          "section": "4.3.5",
+          "title": "Cross-embodiment generalization",
+          "figures": [
+            "11"
+          ]
+        },
+        {
+          "section": "4.3.6",
+          "title": "Policy self-improvement",
+          "figures": [
+            "12",
+            "13"
+          ]
+        }
+      ]
+    }
+  ],
+  "tables": {
+    "skeletonConditioning": {
+      "number": "1",
+      "page": "14",
+      "section": "4.2.1",
+      "title": "Skeleton-conditioning ablation",
+      "caption": "Evaluation on 97-frame videos with 50 denoising steps. Best quality metrics are highlighted within each split. Latency is in seconds and memory in GB; measurements use four significant figures.",
+      "rowHeader": "Injection",
+      "columns": [
+        {
+          "key": "psnr",
+          "label": "PSNR",
+          "unit": "dB",
+          "direction": "higher"
+        },
+        {
+          "key": "ssim",
+          "label": "SSIM",
+          "unit": null,
+          "direction": "higher"
+        },
+        {
+          "key": "ofs",
+          "label": "OFS",
+          "unit": null,
+          "direction": "higher"
+        },
+        {
+          "key": "dino",
+          "label": "DINO",
+          "unit": null,
+          "direction": "higher"
+        },
+        {
+          "key": "latency",
+          "label": "Latency",
+          "unit": "s",
+          "direction": "lower"
+        },
+        {
+          "key": "memory",
+          "label": "Memory",
+          "unit": "GB",
+          "direction": "lower"
+        }
+      ],
+      "setup": "All four variants start from Wan2.2-TI2V-5B and are trained on L4 + F with teacher forcing. Skeleton control latents align with RGB video latents.",
+      "summary": "Token addition leads on PSNR, SSIM, and DINO on both splits and on OOD motion consistency. Compared with AdaLN, it raises PSNR by 0.95 dB on ID and 1.11 dB on OOD without increasing inference cost. AdaLN retains the best ID OFS.",
+      "groups": [
+        {
+          "label": "In-distribution",
+          "split": "ID",
+          "frames": "97",
+          "rows": [
+            {
+              "label": "AdaLN",
+              "values": {
+                "psnr": "17.12",
+                "ssim": "0.5818",
+                "ofs": "0.3864",
+                "dino": "0.9770",
+                "latency": "61.25",
+                "memory": "41.41"
+              },
+              "best": [
+                "ofs"
+              ]
+            },
+            {
+              "label": "Cross-attention",
+              "values": {
+                "psnr": "16.29",
+                "ssim": "0.5631",
+                "ofs": "0.3308",
+                "dino": "0.9764",
+                "latency": "59.60",
+                "memory": "41.27"
+              },
+              "best": []
+            },
+            {
+              "label": "Channel concat.",
+              "values": {
+                "psnr": "17.62",
+                "ssim": "0.5902",
+                "ofs": "0.3760",
+                "dino": "0.9732",
+                "latency": "57.76",
+                "memory": "41.27"
+              },
+              "best": []
+            },
+            {
+              "label": "Token addition",
+              "values": {
+                "psnr": "18.07",
+                "ssim": "0.6030",
+                "ofs": "0.3854",
+                "dino": "0.9809",
+                "latency": "57.68",
+                "memory": "41.27"
+              },
+              "best": [
+                "psnr",
+                "ssim",
+                "dino"
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Out-of-distribution",
+          "split": "OOD",
+          "frames": "97",
+          "rows": [
+            {
+              "label": "AdaLN",
+              "values": {
+                "psnr": "16.88",
+                "ssim": "0.5818",
+                "ofs": "0.4500",
+                "dino": "0.9678",
+                "latency": "59.68",
+                "memory": "41.41"
+              },
+              "best": []
+            },
+            {
+              "label": "Cross-attention",
+              "values": {
+                "psnr": "16.31",
+                "ssim": "0.5703",
+                "ofs": "0.3723",
+                "dino": "0.9688",
+                "latency": "59.50",
+                "memory": "41.27"
+              },
+              "best": []
+            },
+            {
+              "label": "Channel concat.",
+              "values": {
+                "psnr": "17.47",
+                "ssim": "0.5865",
+                "ofs": "0.4565",
+                "dino": "0.9646",
+                "latency": "57.13",
+                "memory": "41.27"
+              },
+              "best": []
+            },
+            {
+              "label": "Token addition",
+              "values": {
+                "psnr": "17.99",
+                "ssim": "0.6109",
+                "ofs": "0.4632",
+                "dino": "0.9765",
+                "latency": "56.96",
+                "memory": "41.27"
+              },
+              "best": [
+                "psnr",
+                "ssim",
+                "ofs",
+                "dino"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "selfGradientForcing": {
+      "number": "2",
+      "page": "15",
+      "section": "4.2.2",
+      "title": "Effect of self-gradient forcing on video prediction",
+      "caption": "Baseline + SGF is the token-addition baseline further trained with SGF. The baseline uses 50 ODE steps per chunk; Baseline + SGF uses 8. Best quality metrics are highlighted within each horizon and split. Latency is in seconds and memory in GB.",
+      "rowHeader": "Method",
+      "columns": [
+        {
+          "key": "psnr",
+          "label": "PSNR",
+          "unit": "dB",
+          "direction": "higher"
+        },
+        {
+          "key": "ssim",
+          "label": "SSIM",
+          "unit": null,
+          "direction": "higher"
+        },
+        {
+          "key": "ofs",
+          "label": "OFS",
+          "unit": null,
+          "direction": "higher"
+        },
+        {
+          "key": "dino",
+          "label": "DINO",
+          "unit": null,
+          "direction": "higher"
+        },
+        {
+          "key": "latency",
+          "label": "Latency",
+          "unit": "s",
+          "direction": "lower"
+        },
+        {
+          "key": "memory",
+          "label": "Memory",
+          "unit": "GB",
+          "direction": "lower"
+        }
+      ],
+      "setup": "The token-addition baseline and its SGF continuation are trained on L4 + F. Both roll out autoregressively from an initial observed frame under prescribed controls. Evaluation includes 100 ID and 52 OOD videos at 97 frames (six chunks), and 22 ID and 11 OOD videos at 193 frames (twelve chunks).",
+      "summary": "SGF improves all four quality metrics at both horizons on both splits. At 193 frames, it raises PSNR by 0.89 dB on ID and 1.01 dB on OOD, with 3.00× and 3.30× speedups and essentially unchanged memory.",
+      "notes": [
+        "Latency improvements reflect the evaluated SGF model with 8 ODE steps versus the baseline with 50; this is not a same-step speed comparison.",
+        "This L4 + F ablation is distinct from the full Phase II-c + SGF simulator in Table 3.",
+        "Measurements use four significant figures."
+      ],
+      "groups": [
+        {
+          "label": "Short-horizon · In-distribution",
+          "split": "ID",
+          "frames": "97",
+          "rows": [
+            {
+              "label": "Baseline",
+              "values": {
+                "psnr": "18.07",
+                "ssim": "0.6030",
+                "ofs": "0.3854",
+                "dino": "0.9809",
+                "latency": "57.68",
+                "memory": "41.27"
+              },
+              "best": []
+            },
+            {
+              "label": "Baseline + SGF",
+              "values": {
+                "psnr": "19.17",
+                "ssim": "0.6394",
+                "ofs": "0.5696",
+                "dino": "0.9848",
+                "latency": "20.95",
+                "memory": "41.27"
+              },
+              "best": [
+                "psnr",
+                "ssim",
+                "ofs",
+                "dino"
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Short-horizon · Out-of-distribution",
+          "split": "OOD",
+          "frames": "97",
+          "rows": [
+            {
+              "label": "Baseline",
+              "values": {
+                "psnr": "17.99",
+                "ssim": "0.6109",
+                "ofs": "0.4632",
+                "dino": "0.9765",
+                "latency": "56.96",
+                "memory": "41.27"
+              },
+              "best": []
+            },
+            {
+              "label": "Baseline + SGF",
+              "values": {
+                "psnr": "18.72",
+                "ssim": "0.6347",
+                "ofs": "0.5467",
+                "dino": "0.9799",
+                "latency": "20.00",
+                "memory": "41.27"
+              },
+              "best": [
+                "psnr",
+                "ssim",
+                "ofs",
+                "dino"
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Long-horizon · In-distribution",
+          "split": "ID",
+          "frames": "193",
+          "rows": [
+            {
+              "label": "Baseline",
+              "values": {
+                "psnr": "16.94",
+                "ssim": "0.5651",
+                "ofs": "0.4035",
+                "dino": "0.9782",
+                "latency": "119.7",
+                "memory": "44.96"
+              },
+              "best": []
+            },
+            {
+              "label": "Baseline + SGF",
+              "values": {
+                "psnr": "17.83",
+                "ssim": "0.5976",
+                "ofs": "0.4797",
+                "dino": "0.9825",
+                "latency": "39.86",
+                "memory": "44.94"
+              },
+              "best": [
+                "psnr",
+                "ssim",
+                "ofs",
+                "dino"
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Long-horizon · Out-of-distribution",
+          "split": "OOD",
+          "frames": "193",
+          "rows": [
+            {
+              "label": "Baseline",
+              "values": {
+                "psnr": "17.74",
+                "ssim": "0.6009",
+                "ofs": "0.4878",
+                "dino": "0.9755",
+                "latency": "120.2",
+                "memory": "44.96"
+              },
+              "best": []
+            },
+            {
+              "label": "Baseline + SGF",
+              "values": {
+                "psnr": "18.75",
+                "ssim": "0.6350",
+                "ofs": "0.5563",
+                "dino": "0.9797",
+                "latency": "36.44",
+                "memory": "44.96"
+              },
+              "best": [
+                "psnr",
+                "ssim",
+                "ofs",
+                "dino"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "finalSimulator": {
+      "number": "3",
+      "page": "15",
+      "section": "4.2.2",
+      "title": "Final simulator (Phase II-c + SGF)",
+      "caption": "Quality of the full Phase II-c checkpoint after SGF adaptation, evaluated on the same ID and OOD videos at both horizons. This fixed simulator generates the recovery data used for policy self-improvement.",
+      "rowHeader": "Frames",
+      "columns": [
+        {
+          "key": "psnr",
+          "label": "PSNR",
+          "unit": "dB",
+          "direction": "higher"
+        },
+        {
+          "key": "ssim",
+          "label": "SSIM",
+          "unit": null,
+          "direction": "higher"
+        },
+        {
+          "key": "ofs",
+          "label": "OFS",
+          "unit": null,
+          "direction": "higher"
+        },
+        {
+          "key": "dino",
+          "label": "DINO",
+          "unit": null,
+          "direction": "higher"
+        }
+      ],
+      "setup": "Stage III-sim adapts the full Phase II-c checkpoint with SGF. This is the simulator used for recovery-data synthesis, rather than the L4 + F baseline in Table 2.",
+      "summary": "The final simulator supports recovery-data synthesis at both 97- and 193-frame horizons. Its 97-frame ID prediction reaches 19.73 dB PSNR and 0.6612 SSIM.",
+      "groups": [
+        {
+          "label": "In-distribution",
+          "split": "ID",
+          "rows": [
+            {
+              "label": "97",
+              "values": {
+                "psnr": "19.73",
+                "ssim": "0.6612",
+                "ofs": "0.6007",
+                "dino": "0.9853"
+              },
+              "best": []
+            },
+            {
+              "label": "193",
+              "values": {
+                "psnr": "18.11",
+                "ssim": "0.6086",
+                "ofs": "0.5170",
+                "dino": "0.9834"
+              },
+              "best": []
+            }
+          ]
+        },
+        {
+          "label": "Out-of-distribution",
+          "split": "OOD",
+          "rows": [
+            {
+              "label": "97",
+              "values": {
+                "psnr": "18.44",
+                "ssim": "0.6274",
+                "ofs": "0.5642",
+                "dino": "0.9758"
+              },
+              "best": []
+            },
+            {
+              "label": "193",
+              "values": {
+                "psnr": "18.05",
+                "ssim": "0.6142",
+                "ofs": "0.5552",
+                "dino": "0.9705"
+              },
+              "best": []
+            }
+          ]
+        }
+      ]
+    },
+    "humanSupervision": {
+      "number": "4",
+      "page": "19",
+      "section": "4.3.4",
+      "title": "Human supervision during robot adaptation",
+      "caption": "Held-out action-loss change relative to robot-only, averaged over nine late-training checkpoints. Standard deviation is in percentage points and describes checkpoint variation within a run, not uncertainty across independent seeds.",
+      "rowHeader": "Recipe",
+      "columns": [
+        {
+          "key": "actionLossChange",
+          "label": "Benchmark Δ action loss",
+          "unit": "%",
+          "direction": "lower"
+        },
+        {
+          "key": "checkpointSd",
+          "label": "Checkpoint s.d.",
+          "unit": "pp",
+          "direction": null
+        }
+      ],
+      "setup": "The two human-data recipes share a mid-trained initialization, learning rate, and final-stage budget. The comparison isolates whether human supervision, including bridge-mined data, remains in the final robot-adaptation mixture.",
+      "summary": "Retaining human supervision reduces benchmark action loss by 14.0%, versus 8.5% when human mid-training is followed by robot-only fine-tuning. Continued human experience therefore helps the final action predictor beyond its contribution to initialization.",
+      "notes": [
+        "The robot-only baseline has no reported checkpoint standard deviation.",
+        "These are offline teacher-forced action-loss changes, not real-robot success rates.",
+        "The report interprets continued human supervision as rehearsal or regularization; it does not directly establish a feature-alignment mechanism."
+      ],
+      "groups": [
+        {
+          "label": "Benchmark",
+          "rows": [
+            {
+              "label": "Robot-only",
+              "values": {
+                "actionLossChange": "0",
+                "checkpointSd": null
+              },
+              "displayNote": "Reference",
+              "best": []
+            },
+            {
+              "label": "Human mid-training then robot-only FT",
+              "values": {
+                "actionLossChange": "-8.5",
+                "checkpointSd": "2.7"
+              },
+              "best": []
+            },
+            {
+              "label": "Human–robot co-training",
+              "values": {
+                "actionLossChange": "-14.0",
+                "checkpointSd": "2.8"
+              },
+              "best": [
+                "actionLossChange"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "attributionNotes": [
+    "GR00T, DreamZero, and XPACE share the robot teleoperation and action-supervised human corpora. Only XPACE receives Stage I video adaptation. The external comparison measures complete systems, not architecture alone.",
+    "Bowl stacking is absent from L4 robot demonstrations but present in human and bridge data. It is task-level OOD relative to robot demonstrations, not unseen across all training sources.",
+    "The closed-loop robot-only versus full-data comparison jointly changes human action supervision and unsupervised video exposure; it does not isolate either contribution.",
+    "Stage I corpus exposure and optimization compute increase together. Its exposure sweep evaluates their combined effect after identical supervised action fine-tuning.",
+    "The mid-train→FT versus co-train comparison holds initialization, learning rate, and budget fixed. Checkpoint standard deviations are not multi-seed uncertainty.",
+    "Coverage-stratified action-loss reductions are a secondary grouping of 19 subsets into eight semantic families; these are not the original benchmark partitions and do not isolate bridge-data effects.",
+    "DAgger fine-tuning starts a separate policy copy directly from Phase II-c, while the SGF simulator remains fixed. Its 8% recovery-data mixture is evaluated before versus after fine-tuning, without separating recovery-data effects from additional optimization.",
+    "The banana and pouring Before DAgger measurements reuse main-experiment trials. Its three-task average includes cola handover rather than bowl stacking and must not be compared directly with the primary benchmark average.",
+    "Policy-conditioned simulation examples are qualitative diagnoses, including wrong target selections, not quantitative proof that simulator evaluation replaces real-robot testing."
+  ]
+}

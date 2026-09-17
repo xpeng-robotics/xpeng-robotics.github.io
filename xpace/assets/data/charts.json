@@ -1,0 +1,263 @@
+{
+  "palette": {
+    "blue": "#6086b0",
+    "yellow": "#dfc985",
+    "green": "#9eb19e",
+    "pretrainingBlue": "#0068b8"
+  },
+  "results": {
+    "source": "XPACE technical report, Figure 7 and Section 4.3.1, page 16",
+    "categories": [
+      "T1 banana",
+      "T2 pour",
+      "T3 stack",
+      "Avg"
+    ],
+    "series": [
+      {
+        "label": "GR00T",
+        "color": "#dfc985",
+        "taskProgress": [
+          0.4,
+          0.33,
+          0.35,
+          0.36
+        ],
+        "successRate": [
+          20,
+          0,
+          0,
+          6.7
+        ],
+        "key": "gr00t"
+      },
+      {
+        "label": "DreamZero",
+        "color": "#9eb19e",
+        "taskProgress": [
+          0.83,
+          0.43,
+          0.78,
+          0.68
+        ],
+        "successRate": [
+          65,
+          5,
+          50,
+          40
+        ],
+        "key": "dreamzero"
+      },
+      {
+        "label": "XPACE",
+        "color": "#6086b0",
+        "taskProgress": [
+          0.93,
+          0.78,
+          0.83,
+          0.84
+        ],
+        "successRate": [
+          80,
+          50,
+          75,
+          68.3
+        ],
+        "key": "xpace"
+      }
+    ],
+    "notes": [
+      "Original figure rounds average success-rate bar labels to 7 and 68; the page 16 results prose explicitly reports 6.7% and 68.3%.",
+      "Progress values are transcribed from displayed labels rather than reconstructed averages.",
+      "20 trials per task per method."
+    ],
+    "title": "Real-robot benchmark",
+    "caption": "Figure 7 · Banana pick-and-place, water pouring, and bowl stacking; 20 trials per task per method. Average success rates follow the report text (6.7% and 68.3%); the original figure rounds them to 7% and 68%. Progress averages are retained as reported. Only XPACE receives Stage I video adaptation; this compares complete systems."
+  },
+  "robustness": {
+    "source": "XPACE technical report, Figure 8, page 16; explanatory text page 17",
+    "categories": [
+      "T1 positions",
+      "T4 distractor"
+    ],
+    "series": [
+      {
+        "label": "Robot-only",
+        "color": "#dfc985",
+        "taskProgress": [
+          0.7,
+          0.48
+        ],
+        "successRate": [
+          50,
+          30
+        ],
+        "key": "robot-only"
+      },
+      {
+        "label": "Full data",
+        "color": "#6086b0",
+        "taskProgress": [
+          0.93,
+          0.74
+        ],
+        "successRate": [
+          80,
+          50
+        ],
+        "key": "full-data"
+      }
+    ],
+    "notes": [
+      "20 trials per task. Robot-only removes human data and unsupervised video, so this is a combined data ablation."
+    ],
+    "title": "Position and distractor robustness",
+    "caption": "Figure 8 · Position and distractor robustness, with 20 real-robot trials per task. The robot-only variant excludes human data and unsupervised video."
+  },
+  "improvement": {
+    "source": "XPACE technical report, Figure 12, page 20; Section 4.3.6 text page 21",
+    "categories": [
+      "Banana",
+      "Pour",
+      "Cola",
+      "Avg"
+    ],
+    "series": [
+      {
+        "label": "Before DAgger",
+        "color": "#dfc985",
+        "taskProgress": [
+          0.93,
+          0.78,
+          0.73,
+          0.81
+        ],
+        "successRate": [
+          80,
+          50,
+          55,
+          61.7
+        ],
+        "key": "before-dagger"
+      },
+      {
+        "label": "After DAgger",
+        "color": "#6086b0",
+        "taskProgress": [
+          0.98,
+          0.98,
+          0.83,
+          0.93
+        ],
+        "successRate": [
+          90,
+          95,
+          75,
+          86.7
+        ],
+        "key": "after-dagger"
+      }
+    ],
+    "notes": [
+      "20 trials per task per method.",
+      "This suite uses cola handover rather than bowl stacking; do not conflate with main results average.",
+      "Before DAgger banana and pour values reuse the main experiment trials.",
+      "Progress values are transcribed from displayed labels rather than reconstructed averages."
+    ],
+    "title": "Policy improvement",
+    "caption": "Figure 12 · Banana pick-and-place, water pouring, and cola handover; 20 trials per task per method. Shaded columns show unweighted task averages. Before DAgger results for banana pick-and-place and water pouring reuse the Figure 7 trials. This suite replaces bowl stacking with cola handover; the comparison includes the additional fine-tuning budget."
+  },
+  "pretraining": {
+    "source": "XPACE technical report, Figure 10 and Section 4.3.3, page 18",
+    "kind": "line",
+    "categories": [
+      "0",
+      "1/8",
+      "1/4",
+      "1/2",
+      "1"
+    ],
+    "series": [
+      {
+        "label": "Action-loss change",
+        "key": "stage-i-exposure",
+        "color": "#0068b8",
+        "actionLossChange": [
+          0,
+          -8.1,
+          -9.0,
+          -9.0,
+          -12.5
+        ]
+      }
+    ],
+    "notes": [
+      "Zero exposure retains the pretrained video-DiT initialization but receives no Stage I adaptation.",
+      "All arms use matched supervised action fine-tuning and the same action-head initialization seed. Values are tail-window averages.",
+      "Exposure checkpoints use equally spaced categories, matching Figure 10; exposure and Stage I optimization compute increase together.",
+      "Line color #0068b8 sampled from the PDF-rendered Figure 10; Figure 11 uses the report’s #dfc985 and #6086b0 bars."
+    ],
+    "title": "Video pretraining prepares the policy for control",
+    "caption": "Figure 10 · Teacher-forced action-loss change relative to no Stage I adaptation, after matched action fine-tuning (tail-window average; MSE in normalized action space). Lower is better. Stage I exposure and pretraining compute increase together."
+  },
+  "coverage": {
+    "source": "XPACE technical report, Figure 11, page 20; Section 4.3.5, page 19",
+    "kind": "coverage",
+    "categories": [
+      "Dense / Dense",
+      "Absent / Dense",
+      "Absent / Sparse",
+      "Absent / Absent"
+    ],
+    "strata": [
+      {
+        "robot": "Dense",
+        "human": "Dense"
+      },
+      {
+        "robot": "Absent",
+        "human": "Dense"
+      },
+      {
+        "robot": "Absent",
+        "human": "Sparse"
+      },
+      {
+        "robot": "Absent",
+        "human": "Absent"
+      }
+    ],
+    "series": [
+      {
+        "label": "Human mid-training → robot-only FT",
+        "key": "human-midtraining",
+        "color": "#dfc985",
+        "actionLossReduction": [
+          5.1,
+          14.9,
+          7.3,
+          -9.3
+        ]
+      },
+      {
+        "label": "Human–robot co-training",
+        "key": "human-cotraining",
+        "color": "#6086b0",
+        "actionLossReduction": [
+          10.0,
+          22.7,
+          10.8,
+          0.3
+        ]
+      }
+    ],
+    "notes": [
+      "Rows follow Figure 11 from top to bottom: robot-dense/human-dense; robot-absent/human-dense; robot-absent/human-sparse; robot-absent/human-absent.",
+      "Values and the yellow/blue series assignment were visually audited against Figure 11.",
+      "Positive values mean lower action loss than robot-only; negative values mean higher loss.",
+      "Means over nine late-training checkpoints; coverage strata are secondary semantic groupings, not original dataset partitions."
+    ],
+    "title": "Human experience across task-coverage strata",
+    "caption": "Figure 11 · Action-loss reduction relative to robot-only, averaged over nine late-training checkpoints. Positive values mean lower loss; negative values mean higher loss. Coverage describes each task family in the robot and human training corpora."
+  }
+}
