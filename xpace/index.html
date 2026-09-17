@@ -1,0 +1,1233 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="XPACE: Joint World and Action Modeling from Heterogeneous Experience. Explore instruction-following and human-to-robot skill transfer on IRON.">
+  <meta name="theme-color" content="#111214">
+  <title>XPACE — XPENG Robotics</title>
+  <link rel="icon" type="image/png" href="assets/fe0/xpeng-favicon-ink.png">
+  <link rel="icon" type="image/png" href="assets/fe0/xpeng-favicon-white.png" media="(prefers-color-scheme: dark)">
+  <link rel="apple-touch-icon" href="assets/fe0/xpeng-favicon-ink.png">
+  <link rel="preload" as="image" href="assets/fe0/iron-front-hand.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/fe0/iron-david-stance.webp" fetchpriority="high">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="charts.css">
+  <script>
+    try {
+      if (localStorage.getItem('xpace-theme') === 'dark') document.documentElement.dataset.theme = 'dark';
+    } catch (_) { /* The page also works with storage disabled. */ }
+  </script>
+  <script src="script.js" defer></script>
+  <script src="charts.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#overview">Skip to content</a>
+  <header class="site-header">
+    <div class="nav-shell">
+      <a class="brand" href="#top" aria-label="XPACE home">
+        <img src="assets/fe0/xpeng-logo-ink.png" width="36" height="24" alt="">
+        <span>XPENG <span class="brand-light">Robotics</span></span>
+      </a>
+      <nav class="primary-nav" id="primary-nav" aria-label="Primary navigation">
+        <a href="#overview">Overview</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="assets/papers/xpace.pdf" data-report-dialog aria-haspopup="dialog">Technical Report ↗</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-button theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false" title="Switch color theme">
+          <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14A8.5 8.5 0 0 1 10 3.5 8.5 8.5 0 1 0 20.5 14Z"/></svg>
+          <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+        </button>
+        <a class="nav-cta" href="https://github.com/xpeng-robotics" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.79 23.39c.6.11.82-.26.82-.58v-2.23c-3.34.73-4.04-1.42-4.04-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.23 1.84 1.23 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.93.43.37.82 1.1.82 2.22v3.3c0 .32.22.7.83.58A12 12 0 0 0 12 .3Z"/></svg>
+          <span>Github</span><span aria-hidden="true">↗</span>
+        </a>
+        <button class="icon-button menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open navigation"><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-art" aria-hidden="true">
+        <img class="hero-robot hero-robot--front" src="assets/fe0/iron-front-hand.webp" width="2400" height="1345" alt="" fetchpriority="high">
+        <img class="hero-robot hero-robot--stance" src="assets/fe0/iron-david-stance.webp" width="2200" height="1237" alt="">
+      </div>
+      <div class="hero-copy">
+        <p class="eyebrow hero-eyebrow"><span class="status-dot"></span> XPENG ROBOTICS</p>
+        <h1 id="hero-title">XPACE</h1>
+        <p class="hero-subtitle"><span class="hero-subtitle-line">Joint World and Action Modeling from</span><span class="hero-subtitle-line">Heterogeneous Experience</span></p>
+        <div class="hero-actions">
+          <a class="hero-link" href="assets/papers/xpace.pdf" data-report-dialog aria-haspopup="dialog">Technical Report <svg class="download-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M5 16v5h14v-5"/></svg></a>
+          <a class="hero-link" href="#capabilities">Watch Demos <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+    </section>
+
+    <div class="main-card" id="collection">
+      <section class="overview" id="overview" aria-labelledby="overview-title">
+        <h2 id="overview-title">Overview</h2>
+        <p>XPACE is a unified embodied world model that serves as both a world action model, jointly predicting executable robot actions and future video, and a world simulator, predicting the visual consequences of prescribed actions. A shared video backbone learns visual dynamics from action-unlabeled video and jointly learns video and action prediction from action-labeled human and robot demonstrations. A coarse-to-fine curriculum progressively emphasizes robot control while retaining human experience, allowing the policy to learn behaviors beyond those covered by robot demonstrations. To improve the policy further, XPACE adapts its simulator to self-generated context, synthesizes deviation–recovery trajectories around expert demonstrations, and fine-tunes the policy on filtered recovery examples. Experiments on XPENG’s IRON humanoid show improved robustness, transfer of human-observed skills to tasks absent from robot demonstrations, and further gains in real-world task completion from simulation-generated recoveries.</p>
+        <figure class="research-figure">
+          <a href="assets/figures/report-overview.png" data-preview data-title="XPACE overview" data-caption="Figure 1 · XPACE is a unified embodied world model, serving as both a world action model, jointly predicting executable actions and future video from observations, current state, and task instructions, and a world simulator, predicting future video from history, prescribed skeleton controls, and camera poses. The model learns jointly from human video and robot demonstrations, with human bridge data supporting cross-embodiment alignment. Recovery trajectories generated by the learned world simulator enable policy self-improvement through DAgger fine-tuning." aria-label="Enlarge the XPACE overview figure" aria-haspopup="dialog">
+            <img src="assets/figures/report-overview.png" width="2200" height="1252" decoding="async" loading="lazy" alt="XPACE overview connecting human video and robot teleoperation data, joint action and video prediction, and the shared video–action model and world simulator.">
+          </a>
+          <figcaption>Figure 1 · XPACE is a unified embodied world model, serving as both a world action model, jointly predicting executable actions and future video from observations, current state, and task instructions, and a world simulator, predicting future video from history, prescribed skeleton controls, and camera poses. The model learns jointly from human video and robot demonstrations, with human bridge data supporting cross-embodiment alignment. Recovery trajectories generated by the learned world simulator enable policy self-improvement through DAgger fine-tuning.</figcaption>
+        </figure>
+      </section>
+      <section class="capabilities" id="capabilities" aria-label="Real-robot demonstrations">
+        <div class="demo-group">
+          <header class="demo-group-heading"><h2>Different instructions. Different targets.</h2><p>Choose the green or red apple with a language instruction.</p></header>
+          <div class="demo-grid demo-grid--pair">
+            <article class="demo-card">
+              <a class="demo-media" href="assets/videos/green_apple_graded.mp4" data-video-preview data-title="Select the green apple" data-prompt="pick up the green apple and put it in the basket." aria-label="Watch Select the green apple in a larger player" aria-haspopup="dialog">
+                <video autoplay muted loop playsinline preload="metadata" poster="assets/posters/green_apple_graded.jpg" aria-hidden="true" tabindex="-1"><source src="assets/videos/green_apple_graded.mp4" type="video/mp4"></video>
+                <span class="demo-expand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg><span>Watch demo</span></span>
+              </a>
+              <div class="demo-copy">
+                <p class="demo-label">Instruction following</p>
+                <h3>Select the green apple</h3>
+                <p class="demo-prompt">“pick up the green apple and put it in the basket.”</p>
+                <p class="demo-description">The instruction specifies the green apple as the target.</p>
+              </div>
+            </article>
+            <article class="demo-card">
+              <a class="demo-media" href="assets/videos/red_apple_graded.mp4" data-video-preview data-title="Select the red apple" data-prompt="pick up the red apple and put it in the basket." aria-label="Watch Select the red apple in a larger player" aria-haspopup="dialog">
+                <video autoplay muted loop playsinline preload="metadata" poster="assets/posters/red_apple_graded.jpg" aria-hidden="true" tabindex="-1"><source src="assets/videos/red_apple_graded.mp4" type="video/mp4"></video>
+                <span class="demo-expand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg><span>Watch demo</span></span>
+              </a>
+              <div class="demo-copy">
+                <p class="demo-label">Instruction following</p>
+                <h3>Select the red apple</h3>
+                <p class="demo-prompt">“pick up the red apple and put it in the basket.”</p>
+                <p class="demo-description">Change the instruction to select the red apple instead.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div class="demo-group" id="transfer-demos">
+          <header class="demo-group-heading"><h2>From human experience to robot execution.</h2><p>Object approach, manipulation transfer, and sequential subtask composition.</p></header>
+          <div class="demo-grid demo-grid--trio">
+            <article class="demo-card">
+              <a class="demo-media" href="assets/videos/drawer_graded.mp4" data-video-preview data-title="Close the drawer" data-prompt="Close the drawer" aria-label="Watch Close the drawer in a larger player" aria-haspopup="dialog">
+                <video autoplay muted loop playsinline preload="metadata" poster="assets/posters/drawer_graded.jpg" aria-hidden="true" tabindex="-1"><source src="assets/videos/drawer_graded.mp4" type="video/mp4"></video>
+                <span class="demo-expand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg><span>Watch demo</span></span>
+              </a>
+              <div class="demo-copy">
+                <p class="demo-label">Object approach</p>
+                <h3>Close the drawer</h3>
+                <p class="demo-prompt">“Close the drawer”</p>
+                <p class="demo-description">Approach, contact, and push a drawer absent from robot training data.</p>
+              </div>
+            </article>
+            <article class="demo-card">
+              <a class="demo-media" href="assets/videos/bread_graded.mp4" data-video-preview data-title="Transfer the bread" data-prompt="Put the bread in the plate." aria-label="Watch Transfer the bread in a larger player" aria-haspopup="dialog">
+                <video autoplay muted loop playsinline preload="metadata" poster="assets/posters/bread_graded.jpg" aria-hidden="true" tabindex="-1"><source src="assets/videos/bread_graded.mp4" type="video/mp4"></video>
+                <span class="demo-expand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg><span>Watch demo</span></span>
+              </a>
+              <div class="demo-copy">
+                <p class="demo-label">Manipulation transfer</p>
+                <h3>Transfer the bread</h3>
+                <p class="demo-prompt">“Put the bread in the plate.”</p>
+                <p class="demo-description">Move bread from a toaster to a plate in a task absent from robot demonstrations.</p>
+              </div>
+            </article>
+            <article class="demo-card">
+              <a class="demo-media" href="assets/videos/three_bowls_graded.mp4" data-video-preview data-title="Stack three bowls" data-prompt="Stack three bowls." aria-label="Watch Stack three bowls in a larger player" aria-haspopup="dialog">
+                <video autoplay muted loop playsinline preload="metadata" poster="assets/posters/three_bowls_graded.jpg" aria-hidden="true" tabindex="-1"><source src="assets/videos/three_bowls_graded.mp4" type="video/mp4"></video>
+                <span class="demo-expand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg><span>Watch demo</span></span>
+              </a>
+              <div class="demo-copy">
+                <p class="demo-label">Sequential composition</p>
+                <h3>Stack three bowls</h3>
+                <p class="demo-prompt">“Stack three bowls.”</p>
+                <p class="demo-description">Complete two successive placements under a single task instruction.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <div class="catalog">
+        <section class="catalog-section" id="method" aria-labelledby="method-title">
+          <header class="category-heading">
+            <h2 id="method-title">Method</h2>
+            <p>From heterogeneous experience to shared world and action modeling, then simulation-driven policy improvement.</p>
+          </header>
+          <div class="research-content">
+            <article class="research-block" id="method-data">
+              <h3>Data</h3>
+              <p>XPACE organizes 5,000 hours of embodied video into four complementary layers: broad egocentric video, human video–action data, task- and appearance-aligned bridge data, and IRON teleoperation. Multi-level captions connect episode goals with local actions, while a shared action schema represents human and robot end-effector poses, hand articulation, and torso/camera poses. A separate failure set supplies unsuccessful, low-progress, and recovery trajectories exclusively for simulation; their actions are excluded from policy imitation.</p>
+              <figure class="research-figure">
+                <a href="assets/figures/report-data.png" data-preview data-title="A pyramid of heterogeneous experience" data-caption="Figure 2 · L1 video, L2 human motion, L3 bridge data, and L4 IRON demonstrations provide complementary supervision. Failure and recovery data (F) train simulation only." aria-label="Enlarge the heterogeneous data pyramid" aria-haspopup="dialog">
+                  <img src="assets/figures/report-data.png" width="2000" height="916" decoding="async" alt="Four-layer pyramid of egocentric video, human motion, aligned bridge data, and IRON demonstrations, with a separate simulator-only failure set." loading="lazy">
+                </a>
+                <figcaption>Figure 2 · Broad visual experience is progressively grounded in robot-executable control.</figcaption>
+              </figure>
+            </article>
+            <article class="research-block" id="method-architecture">
+              <h3>Model Architecture</h3>
+              <p>XPACE uses an asymmetric mixture-of-transformers (MoT) with a causal Video Transformer shared by policy and simulation. In video–action mode, visual history and a task instruction condition future-video prediction; an Action Transformer reads multi-level video features and the current state to predict 16-step action chunks. Embodiment-specific input/output projections map human and robot actions, while action-loss gradients refine the video backbone. In simulation mode, visual history, prescribed skeleton controls, and camera poses condition future video; the action branch is inactive and no language instruction is supplied.</p>
+              <figure class="research-figure">
+                <a href="assets/figures/report-model.png" data-preview data-title="Joint world and action modeling" data-caption="Figure 4 · The shared causal video Transformer supports policy and simulation modes; an action Transformer reads its visual features to predict executable actions." aria-label="Enlarge the XPACE model architecture" aria-haspopup="dialog">
+                  <img src="assets/figures/report-model.png" width="2000" height="797" decoding="async" alt="Shared video backbone and action Transformer with separate policy and skeleton-conditioned simulation modes." loading="lazy">
+                </a>
+                <figcaption>Figure 4 · A common representation of visual dynamics supports both control and simulation.</figcaption>
+              </figure>
+            </article>
+            <article class="research-block" id="method-training">
+              <h3>Training Paradigm</h3>
+              <p>Stage I adapts the pretrained video backbone to embodied video without action supervision. Stage II adds the action branch and samples video–action or simulation mode with equal probability at each update, using flow-matching objectives. Its three phases move from broad human co-training, through increased bridge and robot supervision, to target-robot co-training.</p>
+              <p>Human demonstrations, bridge data, and action-unlabeled video remain in the final mixture to limit overfitting and forgetting. Policy captions shift from dense descriptions toward original and paraphrased task instructions; L1 video retains descriptive captions. Failure data enter simulation updates only, beginning in Phase II-b.</p>
+              <figure class="research-figure">
+                <a href="assets/figures/report-training.png" data-preview data-title="Progressive training curriculum" data-caption="Figure 5 · Video pretraining and joint learning lead to separate simulator and policy copies initialized from Phase II-c. The connection between the post-training branches carries synthetic recovery data, not model weights." aria-label="Enlarge the training curriculum" aria-haspopup="dialog">
+                  <img src="assets/figures/report-training.png" width="2000" height="562" decoding="async" alt="Stage I video pretraining and Stage II joint learning followed by separate simulator adaptation and policy improvement branches." loading="lazy">
+                </a>
+                <figcaption>Figure 5 · Coarse-to-fine joint training prepares the model for the two post-training branches.</figcaption>
+              </figure>
+            </article>
+            <article class="research-block" id="method-post-training">
+              <h3>Post Training</h3>
+              <p><strong>Stage III-sim</strong> adapts a simulator copy to self-generated context using self-gradient forcing (SGF). It learns under prescribed skeleton controls and camera poses, reducing the mismatch between teacher-forced training and autoregressive rollouts.</p>
+              <ol class="recovery-flow" aria-label="Recovery data synthesis and policy improvement">
+                <li>Perturb one end effector from an expert pivot pose and prescribe a return to that pose.</li>
+                <li>Render the deviation and recovery with the adapted simulator.</li>
+                <li>Filter for visual consistency and attach the recorded expert continuation.</li>
+                <li>Mix retained recoveries into policy fine-tuning.</li>
+              </ol>
+              <p><strong>Stage III-policy</strong> fine-tunes a separate copy of the Phase II-c policy with 8% synthetic recovery examples and 92% of the original data recipe. The SGF simulator stays fixed; both branches start from Phase II-c, and only recovery data pass from simulator to policy.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="catalog-section" id="results" aria-labelledby="results-title">
+          <header class="category-heading">
+            <h2 id="results-title">Results</h2>
+            <p>Simulation fidelity, real-robot control, and the contributions of human experience and synthetic recoveries.</p>
+          </header>
+          <div class="research-content results-content">
+            <article class="research-block" id="experimental-setup">
+              <h3>Experimental Setup</h3>
+              <p>Simulation and offline action prediction use 19 evaluation subsets collected separately from training. In-distribution (ID) subsets cover representative pick-and-place interactions; out-of-distribution (OOD) subsets vary scenes, objects, instructions, and behaviors. Some behaviors absent from robot demonstrations are covered by human data. The subsets retain their collection-based grouping, rather than uniformly task- or scene-disjoint splits.</p>
+              <dl class="evaluation-setup">
+                <div><dt>Simulation</dt><dd>480 × 832 video (height × width); 97- and 193-frame horizons. Image fidelity, motion consistency, feature similarity, latency, and memory.</dd></div>
+                <div><dt>Offline policy</dt><dd>Teacher-forced MSE in normalized action space, using recorded context and aggregated across all 19 subsets as “Benchmark.”</dd></div>
+                <div><dt>Real robot</dt><dd>IRON-R01-1.11; 20 trials per task per method with matched resets. Normalized task progress averages per-trial milestone credit; success requires full completion.</dd></div>
+              </dl>
+            </article>
+
+            <section class="research-group" id="simulation" aria-labelledby="simulation-title">
+              <header class="research-group-heading">
+                <h3 id="simulation-title">Simulation</h3>
+                <p>How well does the model predict controlled futures, and how efficiently can it roll out under its own generated context?</p>
+              </header>
+              <article class="research-block" id="skeleton-conditioning">
+                <h4>Short-horizon prediction: skeleton conditioning</h4>
+                <p>Token addition gives the best PSNR, SSIM, and DINO scores on both splits, and the best OOD motion consistency. Against AdaLN, PSNR improves by 0.95 dB on ID and 1.11 dB on OOD without increasing inference cost. These four variants share the same video-model initialization and L4+F training data.</p>
+                <!-- table:conditioning:start -->
+                <figure class="experiment-figure" id="table-conditioning">
+                <figcaption class="table-title" id="table-conditioning-title"><span>Table 1</span>Skeleton-conditioning ablation</figcaption>
+                <div class="table-scroll" tabindex="0" role="region" aria-labelledby="table-conditioning-title" aria-describedby="table-conditioning-note">
+                <table class="experiment-table" aria-labelledby="table-conditioning-title">
+                <thead><tr><th scope="col">Injection</th>
+                <th scope="col" title="Peak signal-to-noise ratio; higher indicates greater image fidelity.">PSNR ↑</th>
+                <th scope="col" title="Structural similarity; higher indicates greater image fidelity.">SSIM ↑</th>
+                <th scope="col" title="Optical Flow Similarity: average cosine similarity between predicted and ground-truth flow fields computed with OpenCV Farneback.">OFS ↑</th>
+                <th scope="col" title="Visual feature similarity computed with a DINOv3-Large encoder.">DINO ↑</th>
+                <th scope="col" title="">Latency ↓</th>
+                <th scope="col" title="">Memory ↓</th>
+                </tr></thead>
+                <tbody data-split="ID">
+                <tr class="table-group"><th scope="rowgroup" colspan="7">In-distribution</th></tr>
+                <tr><th scope="row">AdaLN</th>
+                <td data-metric="psnr" data-value="17.12">17.12</td>
+                <td data-metric="ssim" data-value="0.5818">0.5818</td>
+                <td data-metric="ofs" data-value="0.3864"><strong>0.3864</strong></td>
+                <td data-metric="dino" data-value="0.9770">0.9770</td>
+                <td data-metric="latency" data-value="61.25">61.25</td>
+                <td data-metric="memory" data-value="41.41">41.41</td>
+                </tr>
+                <tr><th scope="row">Cross-attention</th>
+                <td data-metric="psnr" data-value="16.29">16.29</td>
+                <td data-metric="ssim" data-value="0.5631">0.5631</td>
+                <td data-metric="ofs" data-value="0.3308">0.3308</td>
+                <td data-metric="dino" data-value="0.9764">0.9764</td>
+                <td data-metric="latency" data-value="59.60">59.60</td>
+                <td data-metric="memory" data-value="41.27">41.27</td>
+                </tr>
+                <tr><th scope="row">Channel concat.</th>
+                <td data-metric="psnr" data-value="17.62">17.62</td>
+                <td data-metric="ssim" data-value="0.5902">0.5902</td>
+                <td data-metric="ofs" data-value="0.3760">0.3760</td>
+                <td data-metric="dino" data-value="0.9732">0.9732</td>
+                <td data-metric="latency" data-value="57.76">57.76</td>
+                <td data-metric="memory" data-value="41.27">41.27</td>
+                </tr>
+                <tr><th scope="row">Token addition</th>
+                <td data-metric="psnr" data-value="18.07"><strong>18.07</strong></td>
+                <td data-metric="ssim" data-value="0.6030"><strong>0.6030</strong></td>
+                <td data-metric="ofs" data-value="0.3854">0.3854</td>
+                <td data-metric="dino" data-value="0.9809"><strong>0.9809</strong></td>
+                <td data-metric="latency" data-value="57.68">57.68</td>
+                <td data-metric="memory" data-value="41.27">41.27</td>
+                </tr>
+                </tbody>
+                <tbody data-split="OOD">
+                <tr class="table-group"><th scope="rowgroup" colspan="7">Out-of-distribution</th></tr>
+                <tr><th scope="row">AdaLN</th>
+                <td data-metric="psnr" data-value="16.88">16.88</td>
+                <td data-metric="ssim" data-value="0.5818">0.5818</td>
+                <td data-metric="ofs" data-value="0.4500">0.4500</td>
+                <td data-metric="dino" data-value="0.9678">0.9678</td>
+                <td data-metric="latency" data-value="59.68">59.68</td>
+                <td data-metric="memory" data-value="41.41">41.41</td>
+                </tr>
+                <tr><th scope="row">Cross-attention</th>
+                <td data-metric="psnr" data-value="16.31">16.31</td>
+                <td data-metric="ssim" data-value="0.5703">0.5703</td>
+                <td data-metric="ofs" data-value="0.3723">0.3723</td>
+                <td data-metric="dino" data-value="0.9688">0.9688</td>
+                <td data-metric="latency" data-value="59.50">59.50</td>
+                <td data-metric="memory" data-value="41.27">41.27</td>
+                </tr>
+                <tr><th scope="row">Channel concat.</th>
+                <td data-metric="psnr" data-value="17.47">17.47</td>
+                <td data-metric="ssim" data-value="0.5865">0.5865</td>
+                <td data-metric="ofs" data-value="0.4565">0.4565</td>
+                <td data-metric="dino" data-value="0.9646">0.9646</td>
+                <td data-metric="latency" data-value="57.13">57.13</td>
+                <td data-metric="memory" data-value="41.27">41.27</td>
+                </tr>
+                <tr><th scope="row">Token addition</th>
+                <td data-metric="psnr" data-value="17.99"><strong>17.99</strong></td>
+                <td data-metric="ssim" data-value="0.6109"><strong>0.6109</strong></td>
+                <td data-metric="ofs" data-value="0.4632"><strong>0.4632</strong></td>
+                <td data-metric="dino" data-value="0.9765"><strong>0.9765</strong></td>
+                <td data-metric="latency" data-value="56.96">56.96</td>
+                <td data-metric="memory" data-value="41.27">41.27</td>
+                </tr>
+                </tbody>
+                </table></div>
+                <p class="table-note" id="table-conditioning-note">PSNR is in dB. Evaluation on 97-frame videos with 50 denoising steps. Best quality metrics are highlighted within each split. Latency is in seconds and memory in GB; measurements use four significant figures. OFS measures optical-flow agreement; DINO measures visual-feature similarity. ↑ Higher is better; ↓ lower is better.</p>
+                </figure>
+                <!-- table:conditioning:end -->
+              </article>
+              <article class="research-block" id="simulation-sgf">
+                <h4>Long-horizon rollout: self-gradient forcing</h4>
+                <p>SGF improves all four quality metrics at both horizons on ID and OOD videos. At 193 frames, PSNR gains 0.89 dB and 1.01 dB, with 3.00× and 3.30× faster generation. The comparison includes a change from 50 sampling steps for the baseline to 8 for SGF; memory use is essentially unchanged.</p>
+                <!-- table:sgf:start -->
+                <figure class="experiment-figure" id="table-sgf">
+                <figcaption class="table-title" id="table-sgf-title"><span>Table 2</span>Effect of self-gradient forcing on video prediction</figcaption>
+                <div class="table-scroll" tabindex="0" role="region" aria-labelledby="table-sgf-title" aria-describedby="table-sgf-note">
+                <table class="experiment-table" aria-labelledby="table-sgf-title">
+                <thead><tr><th scope="col">Method</th>
+                <th scope="col" title="Peak signal-to-noise ratio; higher indicates greater image fidelity.">PSNR ↑</th>
+                <th scope="col" title="Structural similarity; higher indicates greater image fidelity.">SSIM ↑</th>
+                <th scope="col" title="Optical Flow Similarity: average cosine similarity between predicted and ground-truth flow fields computed with OpenCV Farneback.">OFS ↑</th>
+                <th scope="col" title="Visual feature similarity computed with a DINOv3-Large encoder.">DINO ↑</th>
+                <th scope="col" title="">Latency ↓</th>
+                <th scope="col" title="">Memory ↓</th>
+                </tr></thead>
+                <tbody data-split="ID">
+                <tr class="table-group"><th scope="rowgroup" colspan="7">97 frames · In-distribution</th></tr>
+                <tr><th scope="row">Baseline</th>
+                <td data-metric="psnr" data-value="18.07">18.07</td>
+                <td data-metric="ssim" data-value="0.6030">0.6030</td>
+                <td data-metric="ofs" data-value="0.3854">0.3854</td>
+                <td data-metric="dino" data-value="0.9809">0.9809</td>
+                <td data-metric="latency" data-value="57.68">57.68</td>
+                <td data-metric="memory" data-value="41.27">41.27</td>
+                </tr>
+                <tr><th scope="row">Baseline + SGF</th>
+                <td data-metric="psnr" data-value="19.17"><strong>19.17</strong></td>
+                <td data-metric="ssim" data-value="0.6394"><strong>0.6394</strong></td>
+                <td data-metric="ofs" data-value="0.5696"><strong>0.5696</strong></td>
+                <td data-metric="dino" data-value="0.9848"><strong>0.9848</strong></td>
+                <td data-metric="latency" data-value="20.95">20.95</td>
+                <td data-metric="memory" data-value="41.27">41.27</td>
+                </tr>
+                </tbody>
+                <tbody data-split="OOD">
+                <tr class="table-group"><th scope="rowgroup" colspan="7">97 frames · Out-of-distribution</th></tr>
+                <tr><th scope="row">Baseline</th>
+                <td data-metric="psnr" data-value="17.99">17.99</td>
+                <td data-metric="ssim" data-value="0.6109">0.6109</td>
+                <td data-metric="ofs" data-value="0.4632">0.4632</td>
+                <td data-metric="dino" data-value="0.9765">0.9765</td>
+                <td data-metric="latency" data-value="56.96">56.96</td>
+                <td data-metric="memory" data-value="41.27">41.27</td>
+                </tr>
+                <tr><th scope="row">Baseline + SGF</th>
+                <td data-metric="psnr" data-value="18.72"><strong>18.72</strong></td>
+                <td data-metric="ssim" data-value="0.6347"><strong>0.6347</strong></td>
+                <td data-metric="ofs" data-value="0.5467"><strong>0.5467</strong></td>
+                <td data-metric="dino" data-value="0.9799"><strong>0.9799</strong></td>
+                <td data-metric="latency" data-value="20.00">20.00</td>
+                <td data-metric="memory" data-value="41.27">41.27</td>
+                </tr>
+                </tbody>
+                <tbody data-split="ID">
+                <tr class="table-group"><th scope="rowgroup" colspan="7">193 frames · In-distribution</th></tr>
+                <tr><th scope="row">Baseline</th>
+                <td data-metric="psnr" data-value="16.94">16.94</td>
+                <td data-metric="ssim" data-value="0.5651">0.5651</td>
+                <td data-metric="ofs" data-value="0.4035">0.4035</td>
+                <td data-metric="dino" data-value="0.9782">0.9782</td>
+                <td data-metric="latency" data-value="119.7">119.7</td>
+                <td data-metric="memory" data-value="44.96">44.96</td>
+                </tr>
+                <tr><th scope="row">Baseline + SGF</th>
+                <td data-metric="psnr" data-value="17.83"><strong>17.83</strong></td>
+                <td data-metric="ssim" data-value="0.5976"><strong>0.5976</strong></td>
+                <td data-metric="ofs" data-value="0.4797"><strong>0.4797</strong></td>
+                <td data-metric="dino" data-value="0.9825"><strong>0.9825</strong></td>
+                <td data-metric="latency" data-value="39.86">39.86</td>
+                <td data-metric="memory" data-value="44.94">44.94</td>
+                </tr>
+                </tbody>
+                <tbody data-split="OOD">
+                <tr class="table-group"><th scope="rowgroup" colspan="7">193 frames · Out-of-distribution</th></tr>
+                <tr><th scope="row">Baseline</th>
+                <td data-metric="psnr" data-value="17.74">17.74</td>
+                <td data-metric="ssim" data-value="0.6009">0.6009</td>
+                <td data-metric="ofs" data-value="0.4878">0.4878</td>
+                <td data-metric="dino" data-value="0.9755">0.9755</td>
+                <td data-metric="latency" data-value="120.2">120.2</td>
+                <td data-metric="memory" data-value="44.96">44.96</td>
+                </tr>
+                <tr><th scope="row">Baseline + SGF</th>
+                <td data-metric="psnr" data-value="18.75"><strong>18.75</strong></td>
+                <td data-metric="ssim" data-value="0.6350"><strong>0.6350</strong></td>
+                <td data-metric="ofs" data-value="0.5563"><strong>0.5563</strong></td>
+                <td data-metric="dino" data-value="0.9797"><strong>0.9797</strong></td>
+                <td data-metric="latency" data-value="36.44">36.44</td>
+                <td data-metric="memory" data-value="44.96">44.96</td>
+                </tr>
+                </tbody>
+                </table></div>
+                <p class="table-note" id="table-sgf-note">PSNR is in dB. Baseline + SGF is the token-addition baseline further trained with SGF. The baseline uses 50 ODE steps per chunk; Baseline + SGF uses 8. Best quality metrics are highlighted within each horizon and split. Latency is in seconds and memory in GB.</p>
+                </figure>
+                <!-- table:sgf:end -->
+                <h5 class="research-detail-title">The simulator used to generate recoveries</h5>
+                <p>The final recovery simulator applies SGF to the full Phase II-c XPACE checkpoint. It is distinct from the L4+F conditioning baseline above; Table 3 reports its fidelity on the same evaluation videos.</p>
+                <!-- table:simulator:start -->
+                <figure class="experiment-figure" id="table-simulator">
+                <figcaption class="table-title" id="table-simulator-title"><span>Table 3</span>Final simulator (Phase II-c + SGF)</figcaption>
+                <div class="table-scroll" tabindex="0" role="region" aria-labelledby="table-simulator-title" aria-describedby="table-simulator-note">
+                <table class="experiment-table experiment-table--compact" aria-labelledby="table-simulator-title">
+                <thead><tr><th scope="col">Frames</th>
+                <th scope="col" title="Peak signal-to-noise ratio; higher indicates greater image fidelity.">PSNR ↑</th>
+                <th scope="col" title="Structural similarity; higher indicates greater image fidelity.">SSIM ↑</th>
+                <th scope="col" title="Optical Flow Similarity: average cosine similarity between predicted and ground-truth flow fields computed with OpenCV Farneback.">OFS ↑</th>
+                <th scope="col" title="Visual feature similarity computed with a DINOv3-Large encoder.">DINO ↑</th>
+                </tr></thead>
+                <tbody data-split="ID">
+                <tr class="table-group"><th scope="rowgroup" colspan="5">In-distribution</th></tr>
+                <tr><th scope="row">97</th>
+                <td data-metric="psnr" data-value="19.73">19.73</td>
+                <td data-metric="ssim" data-value="0.6612">0.6612</td>
+                <td data-metric="ofs" data-value="0.6007">0.6007</td>
+                <td data-metric="dino" data-value="0.9853">0.9853</td>
+                </tr>
+                <tr><th scope="row">193</th>
+                <td data-metric="psnr" data-value="18.11">18.11</td>
+                <td data-metric="ssim" data-value="0.6086">0.6086</td>
+                <td data-metric="ofs" data-value="0.5170">0.5170</td>
+                <td data-metric="dino" data-value="0.9834">0.9834</td>
+                </tr>
+                </tbody>
+                <tbody data-split="OOD">
+                <tr class="table-group"><th scope="rowgroup" colspan="5">Out-of-distribution</th></tr>
+                <tr><th scope="row">97</th>
+                <td data-metric="psnr" data-value="18.44">18.44</td>
+                <td data-metric="ssim" data-value="0.6274">0.6274</td>
+                <td data-metric="ofs" data-value="0.5642">0.5642</td>
+                <td data-metric="dino" data-value="0.9758">0.9758</td>
+                </tr>
+                <tr><th scope="row">193</th>
+                <td data-metric="psnr" data-value="18.05">18.05</td>
+                <td data-metric="ssim" data-value="0.6142">0.6142</td>
+                <td data-metric="ofs" data-value="0.5552">0.5552</td>
+                <td data-metric="dino" data-value="0.9705">0.9705</td>
+                </tr>
+                </tbody>
+                </table></div>
+                <p class="table-note" id="table-simulator-note">PSNR is in dB. Quality of the full Phase II-c checkpoint after SGF adaptation, evaluated on the same ID and OOD videos at both horizons. This fixed simulator generates the recovery data used for policy self-improvement.</p>
+                </figure>
+                <!-- table:simulator:end -->
+              </article>
+            </section>
+
+            <section class="research-group" id="policy" aria-labelledby="policy-title">
+              <header class="research-group-heading">
+                <h3 id="policy-title">Policy</h3>
+                <p>Real-robot performance is followed by skill transfer, controlled data ablations, coverage analysis, and simulation-driven improvement.</p>
+              </header>
+              <article class="research-block" id="policy-performance">
+                <h4>Real-robot performance and robustness</h4>
+                <p>XPACE achieves 68.3% average success across banana pick-and-place, water pouring, and bowl stacking, compared with 40.0% for DreamZero and 6.7% for GR00T. Bowl stacking is absent from robot demonstrations but present in human and bridge data. Supervised corpora are matched, while XPACE alone receives Stage I video adaptation: this compares complete models and training recipes.</p>
+                <!-- chart:results:start -->
+              <figure class="research-figure chart-figure" id="chart-results">
+              <div class="chart-card">
+              <header class="chart-heading"><h4>Real-robot benchmark</h4>
+              <button class="chart-expand" type="button" data-chart-preview="chart-results" aria-label="Enlarge Real-robot benchmark" aria-haspopup="dialog" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button></header>
+              <div class="chart-legend" aria-label="Chart legend">
+              <span class="chart-legend-item" data-series="gr00t"><span style="--series-color:#dfc985" aria-hidden="true"></span>GR00T</span>
+              <span class="chart-legend-item" data-series="dreamzero"><span style="--series-color:#9eb19e" aria-hidden="true"></span>DreamZero</span>
+              <span class="chart-legend-item" data-series="xpace"><span style="--series-color:#6086b0" aria-hidden="true"></span>XPACE</span>
+              </div>
+              <div class="chart-grid">
+              <section class="chart-panel" aria-labelledby="results-taskProgress-heading">
+<h5 id="results-taskProgress-heading">Task-progress score</h5>
+<svg class="report-chart" viewBox="0 0 460 320" role="group" aria-labelledby="results-taskProgress-title" aria-describedby="results-taskProgress-desc">
+<title id="results-taskProgress-title">Real-robot benchmark: Task-progress score</title>
+<desc id="results-taskProgress-desc">Grouped bars compare GR00T, DreamZero, XPACE. Higher is better. Values are printed above every bar.</desc>
+<rect class="chart-average-band" x="345" y="12" width="101" height="286" rx="8"/>
+<line class="chart-gridline" x1="42" y1="260.0" x2="446" y2="260.0"/>
+<text class="chart-axis-label" x="32" y="265.0" text-anchor="end">0</text>
+<line class="chart-gridline" x1="42" y1="202.0" x2="446" y2="202.0"/>
+<text class="chart-axis-label" x="32" y="207.0" text-anchor="end">0.25</text>
+<line class="chart-gridline" x1="42" y1="144.0" x2="446" y2="144.0"/>
+<text class="chart-axis-label" x="32" y="149.0" text-anchor="end">0.5</text>
+<line class="chart-gridline" x1="42" y1="86.0" x2="446" y2="86.0"/>
+<text class="chart-axis-label" x="32" y="91.0" text-anchor="end">0.75</text>
+<line class="chart-gridline" x1="42" y1="28.0" x2="446" y2="28.0"/>
+<text class="chart-axis-label" x="32" y="33.0" text-anchor="end">1</text>
+<path class="chart-axis" d="M42 28V260H446"/>
+<g class="chart-series" data-series="gr00t" data-metric="taskProgress" data-category="T1 banana" data-number="0.4" data-label="GR00T · T1 banana" data-value="Task progress: 0.40" role="img" aria-label="GR00T · T1 banana; Task progress: 0.40">
+<rect class="chart-bar" x="52.5" y="167.2" width="22" height="92.8" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="63.5" y="159.2" text-anchor="middle">0.40</text>
+<rect class="chart-hit-area" x="50.5" y="145.2" width="26" height="114.8" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="dreamzero" data-metric="taskProgress" data-category="T1 banana" data-number="0.83" data-label="DreamZero · T1 banana" data-value="Task progress: 0.83" role="img" aria-label="DreamZero · T1 banana; Task progress: 0.83">
+<rect class="chart-bar" x="81.5" y="67.44" width="22" height="192.56" rx="2" fill="#9eb19e"/>
+<text class="chart-value-label" x="92.5" y="59.44" text-anchor="middle">0.83</text>
+<rect class="chart-hit-area" x="79.5" y="45.44" width="26" height="214.56" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="xpace" data-metric="taskProgress" data-category="T1 banana" data-number="0.93" data-label="XPACE · T1 banana" data-value="Task progress: 0.93" role="img" aria-label="XPACE · T1 banana; Task progress: 0.93">
+<rect class="chart-bar" x="110.5" y="44.24" width="22" height="215.76" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="121.5" y="36.24" text-anchor="middle">0.93</text>
+<rect class="chart-hit-area" x="108.5" y="22.24" width="26" height="237.76" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="92.5" y="281" text-anchor="middle"><tspan x="92.5" dy="0">T1</tspan><tspan x="92.5" dy="18">banana</tspan></text>
+<g class="chart-series" data-series="gr00t" data-metric="taskProgress" data-category="T2 pour" data-number="0.33" data-label="GR00T · T2 pour" data-value="Task progress: 0.33" role="img" aria-label="GR00T · T2 pour; Task progress: 0.33">
+<rect class="chart-bar" x="153.5" y="183.44" width="22" height="76.56" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="164.5" y="175.44" text-anchor="middle">0.33</text>
+<rect class="chart-hit-area" x="151.5" y="161.44" width="26" height="98.56" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="dreamzero" data-metric="taskProgress" data-category="T2 pour" data-number="0.43" data-label="DreamZero · T2 pour" data-value="Task progress: 0.43" role="img" aria-label="DreamZero · T2 pour; Task progress: 0.43">
+<rect class="chart-bar" x="182.5" y="160.24" width="22" height="99.76" rx="2" fill="#9eb19e"/>
+<text class="chart-value-label" x="193.5" y="152.24" text-anchor="middle">0.43</text>
+<rect class="chart-hit-area" x="180.5" y="138.24" width="26" height="121.76" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="xpace" data-metric="taskProgress" data-category="T2 pour" data-number="0.78" data-label="XPACE · T2 pour" data-value="Task progress: 0.78" role="img" aria-label="XPACE · T2 pour; Task progress: 0.78">
+<rect class="chart-bar" x="211.5" y="79.04" width="22" height="180.96" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="222.5" y="71.04" text-anchor="middle">0.78</text>
+<rect class="chart-hit-area" x="209.5" y="57.04" width="26" height="202.96" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="193.5" y="281" text-anchor="middle"><tspan x="193.5" dy="0">T2</tspan><tspan x="193.5" dy="18">pour</tspan></text>
+<g class="chart-series" data-series="gr00t" data-metric="taskProgress" data-category="T3 stack" data-number="0.35" data-label="GR00T · T3 stack" data-value="Task progress: 0.35" role="img" aria-label="GR00T · T3 stack; Task progress: 0.35">
+<rect class="chart-bar" x="254.5" y="178.8" width="22" height="81.2" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="265.5" y="170.8" text-anchor="middle">0.35</text>
+<rect class="chart-hit-area" x="252.5" y="156.8" width="26" height="103.2" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="dreamzero" data-metric="taskProgress" data-category="T3 stack" data-number="0.78" data-label="DreamZero · T3 stack" data-value="Task progress: 0.78" role="img" aria-label="DreamZero · T3 stack; Task progress: 0.78">
+<rect class="chart-bar" x="283.5" y="79.04" width="22" height="180.96" rx="2" fill="#9eb19e"/>
+<text class="chart-value-label" x="294.5" y="71.04" text-anchor="middle">0.78</text>
+<rect class="chart-hit-area" x="281.5" y="57.04" width="26" height="202.96" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="xpace" data-metric="taskProgress" data-category="T3 stack" data-number="0.83" data-label="XPACE · T3 stack" data-value="Task progress: 0.83" role="img" aria-label="XPACE · T3 stack; Task progress: 0.83">
+<rect class="chart-bar" x="312.5" y="67.44" width="22" height="192.56" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="323.5" y="59.44" text-anchor="middle">0.83</text>
+<rect class="chart-hit-area" x="310.5" y="45.44" width="26" height="214.56" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="294.5" y="281" text-anchor="middle"><tspan x="294.5" dy="0">T3</tspan><tspan x="294.5" dy="18">stack</tspan></text>
+<g class="chart-series" data-series="gr00t" data-metric="taskProgress" data-category="Avg" data-number="0.36" data-label="GR00T · Average" data-value="Task progress: 0.36" role="img" aria-label="GR00T · Average; Task progress: 0.36">
+<rect class="chart-bar" x="355.5" y="176.48" width="22" height="83.52" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="366.5" y="168.48" text-anchor="middle">0.36</text>
+<rect class="chart-hit-area" x="353.5" y="154.48" width="26" height="105.52" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="dreamzero" data-metric="taskProgress" data-category="Avg" data-number="0.68" data-label="DreamZero · Average" data-value="Task progress: 0.68" role="img" aria-label="DreamZero · Average; Task progress: 0.68">
+<rect class="chart-bar" x="384.5" y="102.24" width="22" height="157.76" rx="2" fill="#9eb19e"/>
+<text class="chart-value-label" x="395.5" y="94.24" text-anchor="middle">0.68</text>
+<rect class="chart-hit-area" x="382.5" y="80.24" width="26" height="179.76" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="xpace" data-metric="taskProgress" data-category="Avg" data-number="0.84" data-label="XPACE · Average" data-value="Task progress: 0.84" role="img" aria-label="XPACE · Average; Task progress: 0.84">
+<rect class="chart-bar" x="413.5" y="65.12" width="22" height="194.88" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="424.5" y="57.12" text-anchor="middle">0.84</text>
+<rect class="chart-hit-area" x="411.5" y="43.12" width="26" height="216.88" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="395.5" y="285" text-anchor="middle"><tspan x="395.5" dy="0">Average</tspan></text>
+</svg>
+</section>
+              <section class="chart-panel" aria-labelledby="results-successRate-heading">
+<h5 id="results-successRate-heading">Success rate (%)</h5>
+<svg class="report-chart" viewBox="0 0 460 320" role="group" aria-labelledby="results-successRate-title" aria-describedby="results-successRate-desc">
+<title id="results-successRate-title">Real-robot benchmark: Success rate (%)</title>
+<desc id="results-successRate-desc">Grouped bars compare GR00T, DreamZero, XPACE. Higher is better. Values are printed above every bar.</desc>
+<rect class="chart-average-band" x="345" y="12" width="101" height="286" rx="8"/>
+<line class="chart-gridline" x1="42" y1="260.0" x2="446" y2="260.0"/>
+<text class="chart-axis-label" x="32" y="265.0" text-anchor="end">0</text>
+<line class="chart-gridline" x1="42" y1="202.0" x2="446" y2="202.0"/>
+<text class="chart-axis-label" x="32" y="207.0" text-anchor="end">25</text>
+<line class="chart-gridline" x1="42" y1="144.0" x2="446" y2="144.0"/>
+<text class="chart-axis-label" x="32" y="149.0" text-anchor="end">50</text>
+<line class="chart-gridline" x1="42" y1="86.0" x2="446" y2="86.0"/>
+<text class="chart-axis-label" x="32" y="91.0" text-anchor="end">75</text>
+<line class="chart-gridline" x1="42" y1="28.0" x2="446" y2="28.0"/>
+<text class="chart-axis-label" x="32" y="33.0" text-anchor="end">100</text>
+<path class="chart-axis" d="M42 28V260H446"/>
+<g class="chart-series" data-series="gr00t" data-metric="successRate" data-category="T1 banana" data-number="20" data-label="GR00T · T1 banana" data-value="Success rate: 20%" role="img" aria-label="GR00T · T1 banana; Success rate: 20%">
+<rect class="chart-bar" x="52.5" y="213.6" width="22" height="46.4" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="63.5" y="205.6" text-anchor="middle">20</text>
+<rect class="chart-hit-area" x="50.5" y="191.6" width="26" height="68.4" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="dreamzero" data-metric="successRate" data-category="T1 banana" data-number="65" data-label="DreamZero · T1 banana" data-value="Success rate: 65%" role="img" aria-label="DreamZero · T1 banana; Success rate: 65%">
+<rect class="chart-bar" x="81.5" y="109.2" width="22" height="150.8" rx="2" fill="#9eb19e"/>
+<text class="chart-value-label" x="92.5" y="101.2" text-anchor="middle">65</text>
+<rect class="chart-hit-area" x="79.5" y="87.2" width="26" height="172.8" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="xpace" data-metric="successRate" data-category="T1 banana" data-number="80" data-label="XPACE · T1 banana" data-value="Success rate: 80%" role="img" aria-label="XPACE · T1 banana; Success rate: 80%">
+<rect class="chart-bar" x="110.5" y="74.4" width="22" height="185.6" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="121.5" y="66.4" text-anchor="middle">80</text>
+<rect class="chart-hit-area" x="108.5" y="52.4" width="26" height="207.6" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="92.5" y="281" text-anchor="middle"><tspan x="92.5" dy="0">T1</tspan><tspan x="92.5" dy="18">banana</tspan></text>
+<g class="chart-series" data-series="gr00t" data-metric="successRate" data-category="T2 pour" data-number="0" data-label="GR00T · T2 pour" data-value="Success rate: 0%" role="img" aria-label="GR00T · T2 pour; Success rate: 0%">
+<rect class="chart-bar" x="153.5" y="260" width="22" height="0" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="164.5" y="252" text-anchor="middle">0</text>
+<rect class="chart-hit-area" x="151.5" y="234" width="26" height="26" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="dreamzero" data-metric="successRate" data-category="T2 pour" data-number="5" data-label="DreamZero · T2 pour" data-value="Success rate: 5%" role="img" aria-label="DreamZero · T2 pour; Success rate: 5%">
+<rect class="chart-bar" x="182.5" y="248.4" width="22" height="11.6" rx="2" fill="#9eb19e"/>
+<text class="chart-value-label" x="193.5" y="240.4" text-anchor="middle">5</text>
+<rect class="chart-hit-area" x="180.5" y="226.4" width="26" height="33.6" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="xpace" data-metric="successRate" data-category="T2 pour" data-number="50" data-label="XPACE · T2 pour" data-value="Success rate: 50%" role="img" aria-label="XPACE · T2 pour; Success rate: 50%">
+<rect class="chart-bar" x="211.5" y="144" width="22" height="116" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="222.5" y="136" text-anchor="middle">50</text>
+<rect class="chart-hit-area" x="209.5" y="122" width="26" height="138" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="193.5" y="281" text-anchor="middle"><tspan x="193.5" dy="0">T2</tspan><tspan x="193.5" dy="18">pour</tspan></text>
+<g class="chart-series" data-series="gr00t" data-metric="successRate" data-category="T3 stack" data-number="0" data-label="GR00T · T3 stack" data-value="Success rate: 0%" role="img" aria-label="GR00T · T3 stack; Success rate: 0%">
+<rect class="chart-bar" x="254.5" y="260" width="22" height="0" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="265.5" y="252" text-anchor="middle">0</text>
+<rect class="chart-hit-area" x="252.5" y="234" width="26" height="26" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="dreamzero" data-metric="successRate" data-category="T3 stack" data-number="50" data-label="DreamZero · T3 stack" data-value="Success rate: 50%" role="img" aria-label="DreamZero · T3 stack; Success rate: 50%">
+<rect class="chart-bar" x="283.5" y="144" width="22" height="116" rx="2" fill="#9eb19e"/>
+<text class="chart-value-label" x="294.5" y="136" text-anchor="middle">50</text>
+<rect class="chart-hit-area" x="281.5" y="122" width="26" height="138" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="xpace" data-metric="successRate" data-category="T3 stack" data-number="75" data-label="XPACE · T3 stack" data-value="Success rate: 75%" role="img" aria-label="XPACE · T3 stack; Success rate: 75%">
+<rect class="chart-bar" x="312.5" y="86" width="22" height="174" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="323.5" y="78" text-anchor="middle">75</text>
+<rect class="chart-hit-area" x="310.5" y="64" width="26" height="196" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="294.5" y="281" text-anchor="middle"><tspan x="294.5" dy="0">T3</tspan><tspan x="294.5" dy="18">stack</tspan></text>
+<g class="chart-series" data-series="gr00t" data-metric="successRate" data-category="Avg" data-number="6.7" data-label="GR00T · Average" data-value="Success rate: 6.7%" role="img" aria-label="GR00T · Average; Success rate: 6.7%">
+<rect class="chart-bar" x="355.5" y="244.46" width="22" height="15.54" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="366.5" y="236.46" text-anchor="middle">6.7</text>
+<rect class="chart-hit-area" x="353.5" y="222.46" width="26" height="37.54" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="dreamzero" data-metric="successRate" data-category="Avg" data-number="40" data-label="DreamZero · Average" data-value="Success rate: 40%" role="img" aria-label="DreamZero · Average; Success rate: 40%">
+<rect class="chart-bar" x="384.5" y="167.2" width="22" height="92.8" rx="2" fill="#9eb19e"/>
+<text class="chart-value-label" x="395.5" y="159.2" text-anchor="middle">40</text>
+<rect class="chart-hit-area" x="382.5" y="145.2" width="26" height="114.8" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="xpace" data-metric="successRate" data-category="Avg" data-number="68.3" data-label="XPACE · Average" data-value="Success rate: 68.3%" role="img" aria-label="XPACE · Average; Success rate: 68.3%">
+<rect class="chart-bar" x="413.5" y="101.54" width="22" height="158.46" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="424.5" y="93.54" text-anchor="middle">68.3</text>
+<rect class="chart-hit-area" x="411.5" y="79.54" width="26" height="180.46" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="395.5" y="285" text-anchor="middle"><tspan x="395.5" dy="0">Average</tspan></text>
+</svg>
+</section>
+              </div>
+              </div>
+              <figcaption>Figure 7 · Banana pick-and-place, water pouring, and bowl stacking; 20 trials per task per method. Average success rates follow the report text (6.7% and 68.3%); the original figure rounds them to 7% and 68%. Progress averages are retained as reported. Only XPACE receives Stage I video adaptation; this compares complete systems.</figcaption>
+              </figure>
+              <!-- chart:results:end -->
+                <p class="research-followup">Full-data training raises success from 50% to 80% on banana pick-and-place across five fixed positions, and from 30% to 50% on a separate block-to-box task with unseen distractors. This ablation removes human action supervision and unsupervised video together; the studies below examine their contributions separately.</p>
+                <!-- chart:robustness:start -->
+              <figure class="research-figure chart-figure" id="chart-robustness">
+              <div class="chart-card">
+              <header class="chart-heading"><h4>Position and distractor robustness</h4>
+              <button class="chart-expand" type="button" data-chart-preview="chart-robustness" aria-label="Enlarge Position and distractor robustness" aria-haspopup="dialog" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button></header>
+              <div class="chart-legend" aria-label="Chart legend">
+              <span class="chart-legend-item" data-series="robot-only"><span style="--series-color:#dfc985" aria-hidden="true"></span>Robot-only</span>
+              <span class="chart-legend-item" data-series="full-data"><span style="--series-color:#6086b0" aria-hidden="true"></span>Full data</span>
+              </div>
+              <div class="chart-grid">
+              <section class="chart-panel" aria-labelledby="robustness-taskProgress-heading">
+<h5 id="robustness-taskProgress-heading">Task-progress score</h5>
+<svg class="report-chart" viewBox="0 0 460 320" role="group" aria-labelledby="robustness-taskProgress-title" aria-describedby="robustness-taskProgress-desc">
+<title id="robustness-taskProgress-title">Position and distractor robustness: Task-progress score</title>
+<desc id="robustness-taskProgress-desc">Grouped bars compare Robot-only, Full data. Higher is better. Values are printed above every bar.</desc>
+<line class="chart-gridline" x1="42" y1="260.0" x2="446" y2="260.0"/>
+<text class="chart-axis-label" x="32" y="265.0" text-anchor="end">0</text>
+<line class="chart-gridline" x1="42" y1="202.0" x2="446" y2="202.0"/>
+<text class="chart-axis-label" x="32" y="207.0" text-anchor="end">0.25</text>
+<line class="chart-gridline" x1="42" y1="144.0" x2="446" y2="144.0"/>
+<text class="chart-axis-label" x="32" y="149.0" text-anchor="end">0.5</text>
+<line class="chart-gridline" x1="42" y1="86.0" x2="446" y2="86.0"/>
+<text class="chart-axis-label" x="32" y="91.0" text-anchor="end">0.75</text>
+<line class="chart-gridline" x1="42" y1="28.0" x2="446" y2="28.0"/>
+<text class="chart-axis-label" x="32" y="33.0" text-anchor="end">1</text>
+<path class="chart-axis" d="M42 28V260H446"/>
+<g class="chart-series" data-series="robot-only" data-metric="taskProgress" data-category="T1 positions" data-number="0.7" data-label="Robot-only · T1 positions" data-value="Task progress: 0.70" role="img" aria-label="Robot-only · T1 positions; Task progress: 0.70">
+<rect class="chart-bar" x="110" y="97.6" width="27" height="162.4" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="123.5" y="89.6" text-anchor="middle">0.70</text>
+<rect class="chart-hit-area" x="108" y="75.6" width="31" height="184.4" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="full-data" data-metric="taskProgress" data-category="T1 positions" data-number="0.93" data-label="Full data · T1 positions" data-value="Task progress: 0.93" role="img" aria-label="Full data · T1 positions; Task progress: 0.93">
+<rect class="chart-bar" x="149" y="44.24" width="27" height="215.76" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="162.5" y="36.24" text-anchor="middle">0.93</text>
+<rect class="chart-hit-area" x="147" y="22.24" width="31" height="237.76" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="143" y="281" text-anchor="middle"><tspan x="143" dy="0">T1</tspan><tspan x="143" dy="18">positions</tspan></text>
+<g class="chart-series" data-series="robot-only" data-metric="taskProgress" data-category="T4 distractor" data-number="0.48" data-label="Robot-only · T4 distractor" data-value="Task progress: 0.48" role="img" aria-label="Robot-only · T4 distractor; Task progress: 0.48">
+<rect class="chart-bar" x="312" y="148.64" width="27" height="111.36" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="325.5" y="140.64" text-anchor="middle">0.48</text>
+<rect class="chart-hit-area" x="310" y="126.64" width="31" height="133.36" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="full-data" data-metric="taskProgress" data-category="T4 distractor" data-number="0.74" data-label="Full data · T4 distractor" data-value="Task progress: 0.74" role="img" aria-label="Full data · T4 distractor; Task progress: 0.74">
+<rect class="chart-bar" x="351" y="88.32" width="27" height="171.68" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="364.5" y="80.32" text-anchor="middle">0.74</text>
+<rect class="chart-hit-area" x="349" y="66.32" width="31" height="193.68" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="345" y="281" text-anchor="middle"><tspan x="345" dy="0">T4</tspan><tspan x="345" dy="18">distractor</tspan></text>
+</svg>
+</section>
+              <section class="chart-panel" aria-labelledby="robustness-successRate-heading">
+<h5 id="robustness-successRate-heading">Success rate (%)</h5>
+<svg class="report-chart" viewBox="0 0 460 320" role="group" aria-labelledby="robustness-successRate-title" aria-describedby="robustness-successRate-desc">
+<title id="robustness-successRate-title">Position and distractor robustness: Success rate (%)</title>
+<desc id="robustness-successRate-desc">Grouped bars compare Robot-only, Full data. Higher is better. Values are printed above every bar.</desc>
+<line class="chart-gridline" x1="42" y1="260.0" x2="446" y2="260.0"/>
+<text class="chart-axis-label" x="32" y="265.0" text-anchor="end">0</text>
+<line class="chart-gridline" x1="42" y1="202.0" x2="446" y2="202.0"/>
+<text class="chart-axis-label" x="32" y="207.0" text-anchor="end">25</text>
+<line class="chart-gridline" x1="42" y1="144.0" x2="446" y2="144.0"/>
+<text class="chart-axis-label" x="32" y="149.0" text-anchor="end">50</text>
+<line class="chart-gridline" x1="42" y1="86.0" x2="446" y2="86.0"/>
+<text class="chart-axis-label" x="32" y="91.0" text-anchor="end">75</text>
+<line class="chart-gridline" x1="42" y1="28.0" x2="446" y2="28.0"/>
+<text class="chart-axis-label" x="32" y="33.0" text-anchor="end">100</text>
+<path class="chart-axis" d="M42 28V260H446"/>
+<g class="chart-series" data-series="robot-only" data-metric="successRate" data-category="T1 positions" data-number="50" data-label="Robot-only · T1 positions" data-value="Success rate: 50%" role="img" aria-label="Robot-only · T1 positions; Success rate: 50%">
+<rect class="chart-bar" x="110" y="144" width="27" height="116" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="123.5" y="136" text-anchor="middle">50</text>
+<rect class="chart-hit-area" x="108" y="122" width="31" height="138" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="full-data" data-metric="successRate" data-category="T1 positions" data-number="80" data-label="Full data · T1 positions" data-value="Success rate: 80%" role="img" aria-label="Full data · T1 positions; Success rate: 80%">
+<rect class="chart-bar" x="149" y="74.4" width="27" height="185.6" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="162.5" y="66.4" text-anchor="middle">80</text>
+<rect class="chart-hit-area" x="147" y="52.4" width="31" height="207.6" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="143" y="281" text-anchor="middle"><tspan x="143" dy="0">T1</tspan><tspan x="143" dy="18">positions</tspan></text>
+<g class="chart-series" data-series="robot-only" data-metric="successRate" data-category="T4 distractor" data-number="30" data-label="Robot-only · T4 distractor" data-value="Success rate: 30%" role="img" aria-label="Robot-only · T4 distractor; Success rate: 30%">
+<rect class="chart-bar" x="312" y="190.4" width="27" height="69.6" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="325.5" y="182.4" text-anchor="middle">30</text>
+<rect class="chart-hit-area" x="310" y="168.4" width="31" height="91.6" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="full-data" data-metric="successRate" data-category="T4 distractor" data-number="50" data-label="Full data · T4 distractor" data-value="Success rate: 50%" role="img" aria-label="Full data · T4 distractor; Success rate: 50%">
+<rect class="chart-bar" x="351" y="144" width="27" height="116" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="364.5" y="136" text-anchor="middle">50</text>
+<rect class="chart-hit-area" x="349" y="122" width="31" height="138" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="345" y="281" text-anchor="middle"><tspan x="345" dy="0">T4</tspan><tspan x="345" dy="18">distractor</tspan></text>
+</svg>
+</section>
+              </div>
+              </div>
+              <figcaption>Figure 8 · Position and distractor robustness, with 20 real-robot trials per task. The robot-only variant excludes human data and unsupervised video.</figcaption>
+              </figure>
+              <!-- chart:robustness:end -->
+              </article>
+              <article class="research-block" id="policy-transfer">
+                <h4>Human-to-robot skill transfer</h4>
+                <p>Qualitative executions show three levels of transfer: approaching and pushing a drawer absent from robot training; moving familiar bread from a toaster to a plate, a task absent from robot demonstrations; and nesting three bowls through two successive placements under one instruction. These examples illustrate object approach, manipulation transfer, and sequential task composition.</p>
+                <figure class="research-figure">
+                  <a href="assets/figures/report-transfer.png" data-preview data-title="Human-to-robot skill transfer" data-caption="Figure 9 · Real-robot keyframes show drawer approach and pushing, bread transfer from toaster to plate, and two successive placements to nest three bowls. These are qualitative demonstrations, not an additional success-rate benchmark." aria-label="Enlarge the human-to-robot transfer examples" aria-haspopup="dialog">
+                    <img src="assets/figures/report-transfer.png" width="2000" height="1273" decoding="async" alt="Three rows of real-robot keyframes: approaching and pushing a drawer, transferring bread to a plate, and sequentially nesting three bowls." loading="lazy">
+                  </a>
+                  <figcaption>Figure 9 · From object approach to manipulation transfer and sequential composition. <a class="inline-research-link" href="#transfer-demos">Watch the demonstrations ↑</a></figcaption>
+                </figure>
+              </article>
+              <article class="research-block" id="policy-pretraining">
+                <h4>Contribution of video pretraining</h4>
+                <p>With identical action fine-tuning, even one-eighth of Stage I video exposure lowers benchmark action loss by 8.1%; full exposure reaches 12.5%. The zero-exposure baseline retains the pretrained video-model initialization. This measures the benefit of additional video adaptation under a fixed action-training budget; video exposure and pretraining compute increase together.</p>
+                <!-- chart:pretraining:start -->
+              <figure class="research-figure chart-figure" id="chart-pretraining">
+              <div class="chart-card">
+              <header class="chart-heading"><h4>Video pretraining prepares the policy for control</h4>
+              <button class="chart-expand" type="button" data-chart-preview="chart-pretraining" aria-label="Enlarge Video pretraining prepares the policy for control" aria-haspopup="dialog" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button></header>
+              <section class="chart-panel chart-line-panel" aria-labelledby="pretraining-actionLossChange-heading">
+<h5 id="pretraining-actionLossChange-heading">Benchmark action-loss change (↓)</h5>
+<svg class="report-chart chart-line-plot" viewBox="0 0 530 300" role="group" aria-labelledby="pretraining-actionLossChange-title" aria-describedby="pretraining-actionLossChange-desc">
+<title id="pretraining-actionLossChange-title">Video pretraining prepares the policy for control</title>
+<desc id="pretraining-actionLossChange-desc">Action-loss change relative to zero Stage I exposure. Lower is better. The exposure fractions are shown as equally spaced categories, as in the report.</desc>
+<line class="chart-gridline" x1="54" y1="32" x2="484" y2="32"/>
+<text class="chart-axis-label" x="42" y="37" text-anchor="end">0%</text>
+<line class="chart-gridline" x1="54" y1="100" x2="484" y2="100"/>
+<text class="chart-axis-label" x="42" y="105" text-anchor="end">-5%</text>
+<line class="chart-gridline" x1="54" y1="168" x2="484" y2="168"/>
+<text class="chart-axis-label" x="42" y="173" text-anchor="end">-10%</text>
+<line class="chart-gridline" x1="54" y1="236" x2="484" y2="236"/>
+<text class="chart-axis-label" x="42" y="241" text-anchor="end">-15%</text>
+<path class="chart-axis" d="M54 32V236H484"/>
+<polyline class="chart-trend-line" points="54,32 161.5,142.16 269,154.4 376.5,154.4 484,202" fill="none" stroke="#0068b8"/>
+<g class="chart-series" data-series="stage-i-exposure" data-metric="actionLossChange" data-category="0" data-number="0" data-label="Stage I exposure: 0" data-value="Action-loss change: 0% vs. no Stage I adaptation" role="img" aria-label="Stage I exposure: 0; Action-loss change: 0% vs. no Stage I adaptation">
+<circle class="chart-point" cx="54" cy="32" r="5" fill="#0068b8"/>
+<text class="chart-value-label" x="54" y="19" text-anchor="middle">0%</text>
+<circle class="chart-hit-area" cx="54" cy="32" r="19" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="54" y="263" text-anchor="middle">0</text>
+<g class="chart-series" data-series="stage-i-exposure" data-metric="actionLossChange" data-category="1/8" data-number="-8.1" data-label="Stage I exposure: 1/8" data-value="Action-loss change: -8.1% vs. no Stage I adaptation" role="img" aria-label="Stage I exposure: 1/8; Action-loss change: -8.1% vs. no Stage I adaptation">
+<circle class="chart-point" cx="161.5" cy="142.16" r="5" fill="#0068b8"/>
+<text class="chart-value-label" x="161.5" y="129.16" text-anchor="middle">-8.1%</text>
+<circle class="chart-hit-area" cx="161.5" cy="142.16" r="19" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="161.5" y="263" text-anchor="middle">1/8</text>
+<g class="chart-series" data-series="stage-i-exposure" data-metric="actionLossChange" data-category="1/4" data-number="-9.0" data-label="Stage I exposure: 1/4" data-value="Action-loss change: -9.0% vs. no Stage I adaptation" role="img" aria-label="Stage I exposure: 1/4; Action-loss change: -9.0% vs. no Stage I adaptation">
+<circle class="chart-point" cx="269" cy="154.4" r="5" fill="#0068b8"/>
+<text class="chart-value-label" x="269" y="141.4" text-anchor="middle">-9.0%</text>
+<circle class="chart-hit-area" cx="269" cy="154.4" r="19" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="269" y="263" text-anchor="middle">1/4</text>
+<g class="chart-series" data-series="stage-i-exposure" data-metric="actionLossChange" data-category="1/2" data-number="-9.0" data-label="Stage I exposure: 1/2" data-value="Action-loss change: -9.0% vs. no Stage I adaptation" role="img" aria-label="Stage I exposure: 1/2; Action-loss change: -9.0% vs. no Stage I adaptation">
+<circle class="chart-point" cx="376.5" cy="154.4" r="5" fill="#0068b8"/>
+<text class="chart-value-label" x="376.5" y="141.4" text-anchor="middle">-9.0%</text>
+<circle class="chart-hit-area" cx="376.5" cy="154.4" r="19" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="376.5" y="263" text-anchor="middle">1/2</text>
+<g class="chart-series" data-series="stage-i-exposure" data-metric="actionLossChange" data-category="1" data-number="-12.5" data-label="Stage I exposure: 1" data-value="Action-loss change: -12.5% vs. no Stage I adaptation" role="img" aria-label="Stage I exposure: 1; Action-loss change: -12.5% vs. no Stage I adaptation">
+<circle class="chart-point" cx="484" cy="202" r="5" fill="#0068b8"/>
+<text class="chart-value-label" x="484" y="189" text-anchor="middle">-12.5%</text>
+<circle class="chart-hit-area" cx="484" cy="202" r="19" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="484" y="263" text-anchor="middle">1</text>
+</svg>
+<p class="chart-axis-caption">Stage I exposure fraction <i>r</i></p>
+</section>
+              </div>
+              <figcaption>Figure 10 · Teacher-forced action-loss change relative to no Stage I adaptation, after matched action fine-tuning (tail-window average; MSE in normalized action space). Lower is better. Stage I exposure and pretraining compute increase together.</figcaption>
+              </figure>
+              <!-- chart:pretraining:end -->
+              </article>
+              <article class="research-block" id="policy-human-supervision">
+                <h4>Human supervision during robot adaptation</h4>
+                <p>Keeping human data in the final training mixture reduces benchmark action loss by 14.0% relative to robot-only, compared with 8.5% when human mid-training is followed by robot-only fine-tuning. The two human-data recipes share their mid-trained initialization, learning rate, and final-stage budget, showing that continued human supervision matters beyond initialization.</p>
+                <!-- table:human-supervision:start -->
+                <figure class="experiment-figure" id="table-human-supervision">
+                <figcaption class="table-title" id="table-human-supervision-title"><span>Table 4</span>Human supervision during robot adaptation</figcaption>
+                <div class="table-scroll" tabindex="0" role="region" aria-labelledby="table-human-supervision-title" aria-describedby="table-human-supervision-note">
+                <table class="experiment-table experiment-table--recipes" aria-labelledby="table-human-supervision-title">
+                <thead><tr><th scope="col">Recipe</th>
+                <th scope="col" title="">Benchmark Δ action loss ↓</th>
+                <th scope="col" title="Across-checkpoint standard deviation in percentage points, within one training run; not uncertainty across independent seeds.">Checkpoint s.d.</th>
+                </tr></thead>
+                <tbody data-split="benchmark">
+                <tr><th scope="row">Robot-only<span class="table-reference">Reference</span></th>
+                <td data-metric="actionLossChange" data-value="0">0%</td>
+                <td data-metric="checkpointSd" data-value="">—</td>
+                </tr>
+                <tr><th scope="row">Human mid-training then robot-only FT</th>
+                <td data-metric="actionLossChange" data-value="-8.5">−8.5%</td>
+                <td data-metric="checkpointSd" data-value="2.7">2.7</td>
+                </tr>
+                <tr><th scope="row">Human–robot co-training</th>
+                <td data-metric="actionLossChange" data-value="-14.0"><strong>−14.0%</strong></td>
+                <td data-metric="checkpointSd" data-value="2.8">2.8</td>
+                </tr>
+                </tbody>
+                </table></div>
+                <p class="table-note" id="table-human-supervision-note">Held-out action-loss change relative to robot-only, averaged over nine late-training checkpoints. Standard deviation is in percentage points and describes checkpoint variation within a run, not uncertainty across independent seeds.</p>
+                </figure>
+                <!-- table:human-supervision:end -->
+              </article>
+              <article class="research-block" id="policy-generalization">
+                <h4>Cross-embodiment generalization</h4>
+                <p>Grouping the 19 benchmark subsets into eight task-semantic families reveals complementary benefits. Human–robot co-training lowers action loss by 10.0% where both sources densely cover the behavior, and by 22.7% where robot demonstrations lack it but human data are dense. Sparse human coverage brings smaller gains; behaviors absent from both sources show no comparable benefit. These coverage strata are secondary analysis groupings, distinct from the original dataset partitions.</p>
+                <!-- chart:coverage:start -->
+              <figure class="research-figure chart-figure" id="chart-coverage">
+              <div class="chart-card">
+              <header class="chart-heading"><h4>Human experience across task-coverage strata</h4>
+              <button class="chart-expand" type="button" data-chart-preview="chart-coverage" aria-label="Enlarge Human experience across task-coverage strata" aria-haspopup="dialog" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button></header>
+              <div class="chart-legend" aria-label="Chart legend">
+              <span class="chart-legend-item" data-series="human-midtraining"><span style="--series-color:#dfc985" aria-hidden="true"></span>Human mid-training → robot-only FT</span>
+              <span class="chart-legend-item" data-series="human-cotraining"><span style="--series-color:#6086b0" aria-hidden="true"></span>Human–robot co-training</span>
+              </div>
+              <div class="chart-coverage">
+<section class="chart-coverage-row" aria-labelledby="coverage-stratum-1-label">
+<h5 class="chart-coverage-label" id="coverage-stratum-1-label"><span><small>Robot</small>Dense</span><span><small>Human</small>Dense</span></h5>
+<svg class="report-chart chart-coverage-plot" viewBox="0 0 450 84" role="group" aria-labelledby="coverage-stratum-1-title" aria-describedby="coverage-stratum-1-desc">
+<title id="coverage-stratum-1-title">Robot coverage: dense; human coverage: dense</title>
+<desc id="coverage-stratum-1-desc">Relative action-loss reduction against robot-only. Higher is better. Yellow is human mid-training followed by robot-only fine-tuning; blue is human–robot co-training.</desc>
+<line class="chart-gridline" x1="42.25" y1="0" x2="42.25" y2="84"/>
+<line class="chart-gridline" x1="96" y1="0" x2="96" y2="84"/>
+<line class="chart-gridline" x1="149.75" y1="0" x2="149.75" y2="84"/>
+<line class="chart-gridline" x1="203.5" y1="0" x2="203.5" y2="84"/>
+<line class="chart-gridline" x1="257.25" y1="0" x2="257.25" y2="84"/>
+<line class="chart-gridline" x1="311" y1="0" x2="311" y2="84"/>
+<line class="chart-gridline" x1="364.75" y1="0" x2="364.75" y2="84"/>
+<line class="chart-gridline" x1="418.5" y1="0" x2="418.5" y2="84"/>
+<path class="chart-axis" d="M149.75 0V84"/>
+<g class="chart-series" data-series="human-midtraining" data-metric="actionLossReduction" data-category="Dense / Dense" data-number="5.1" data-label="Human mid-training → robot-only FT · robot dense, human dense" data-value="Action-loss reduction: 5.1% vs. robot-only" role="img" aria-label="Human mid-training → robot-only FT · robot dense, human dense; Action-loss reduction: 5.1% vs. robot-only">
+<rect class="chart-bar" x="149.75" y="14" width="54.83" height="20" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="212.58" y="29" text-anchor="start">5.1</text>
+<rect class="chart-hit-area" x="146.75" y="10" width="104.83" height="28" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="human-cotraining" data-metric="actionLossReduction" data-category="Dense / Dense" data-number="10.0" data-label="Human–robot co-training · robot dense, human dense" data-value="Action-loss reduction: 10.0% vs. robot-only" role="img" aria-label="Human–robot co-training · robot dense, human dense; Action-loss reduction: 10.0% vs. robot-only">
+<rect class="chart-bar" x="149.75" y="47" width="107.5" height="20" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="265.25" y="62" text-anchor="start">10.0</text>
+<rect class="chart-hit-area" x="146.75" y="43" width="157.5" height="28" fill="transparent"/>
+</g>
+</svg>
+</section>
+<section class="chart-coverage-row" aria-labelledby="coverage-stratum-2-label">
+<h5 class="chart-coverage-label" id="coverage-stratum-2-label"><span><small>Robot</small>Absent</span><span><small>Human</small>Dense</span></h5>
+<svg class="report-chart chart-coverage-plot" viewBox="0 0 450 84" role="group" aria-labelledby="coverage-stratum-2-title" aria-describedby="coverage-stratum-2-desc">
+<title id="coverage-stratum-2-title">Robot coverage: absent; human coverage: dense</title>
+<desc id="coverage-stratum-2-desc">Relative action-loss reduction against robot-only. Higher is better. Yellow is human mid-training followed by robot-only fine-tuning; blue is human–robot co-training.</desc>
+<line class="chart-gridline" x1="42.25" y1="0" x2="42.25" y2="84"/>
+<line class="chart-gridline" x1="96" y1="0" x2="96" y2="84"/>
+<line class="chart-gridline" x1="149.75" y1="0" x2="149.75" y2="84"/>
+<line class="chart-gridline" x1="203.5" y1="0" x2="203.5" y2="84"/>
+<line class="chart-gridline" x1="257.25" y1="0" x2="257.25" y2="84"/>
+<line class="chart-gridline" x1="311" y1="0" x2="311" y2="84"/>
+<line class="chart-gridline" x1="364.75" y1="0" x2="364.75" y2="84"/>
+<line class="chart-gridline" x1="418.5" y1="0" x2="418.5" y2="84"/>
+<path class="chart-axis" d="M149.75 0V84"/>
+<g class="chart-series" data-series="human-midtraining" data-metric="actionLossReduction" data-category="Absent / Dense" data-number="14.9" data-label="Human mid-training → robot-only FT · robot absent, human dense" data-value="Action-loss reduction: 14.9% vs. robot-only" role="img" aria-label="Human mid-training → robot-only FT · robot absent, human dense; Action-loss reduction: 14.9% vs. robot-only">
+<rect class="chart-bar" x="149.75" y="14" width="160.18" height="20" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="317.93" y="29" text-anchor="start">14.9</text>
+<rect class="chart-hit-area" x="146.75" y="10" width="210.18" height="28" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="human-cotraining" data-metric="actionLossReduction" data-category="Absent / Dense" data-number="22.7" data-label="Human–robot co-training · robot absent, human dense" data-value="Action-loss reduction: 22.7% vs. robot-only" role="img" aria-label="Human–robot co-training · robot absent, human dense; Action-loss reduction: 22.7% vs. robot-only">
+<rect class="chart-bar" x="149.75" y="47" width="244.03" height="20" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="401.78" y="62" text-anchor="start">22.7</text>
+<rect class="chart-hit-area" x="146.75" y="43" width="294.03" height="28" fill="transparent"/>
+</g>
+</svg>
+</section>
+<section class="chart-coverage-row" aria-labelledby="coverage-stratum-3-label">
+<h5 class="chart-coverage-label" id="coverage-stratum-3-label"><span><small>Robot</small>Absent</span><span><small>Human</small>Sparse</span></h5>
+<svg class="report-chart chart-coverage-plot" viewBox="0 0 450 84" role="group" aria-labelledby="coverage-stratum-3-title" aria-describedby="coverage-stratum-3-desc">
+<title id="coverage-stratum-3-title">Robot coverage: absent; human coverage: sparse</title>
+<desc id="coverage-stratum-3-desc">Relative action-loss reduction against robot-only. Higher is better. Yellow is human mid-training followed by robot-only fine-tuning; blue is human–robot co-training.</desc>
+<line class="chart-gridline" x1="42.25" y1="0" x2="42.25" y2="84"/>
+<line class="chart-gridline" x1="96" y1="0" x2="96" y2="84"/>
+<line class="chart-gridline" x1="149.75" y1="0" x2="149.75" y2="84"/>
+<line class="chart-gridline" x1="203.5" y1="0" x2="203.5" y2="84"/>
+<line class="chart-gridline" x1="257.25" y1="0" x2="257.25" y2="84"/>
+<line class="chart-gridline" x1="311" y1="0" x2="311" y2="84"/>
+<line class="chart-gridline" x1="364.75" y1="0" x2="364.75" y2="84"/>
+<line class="chart-gridline" x1="418.5" y1="0" x2="418.5" y2="84"/>
+<path class="chart-axis" d="M149.75 0V84"/>
+<g class="chart-series" data-series="human-midtraining" data-metric="actionLossReduction" data-category="Absent / Sparse" data-number="7.3" data-label="Human mid-training → robot-only FT · robot absent, human sparse" data-value="Action-loss reduction: 7.3% vs. robot-only" role="img" aria-label="Human mid-training → robot-only FT · robot absent, human sparse; Action-loss reduction: 7.3% vs. robot-only">
+<rect class="chart-bar" x="149.75" y="14" width="78.48" height="20" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="236.23" y="29" text-anchor="start">7.3</text>
+<rect class="chart-hit-area" x="146.75" y="10" width="128.48" height="28" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="human-cotraining" data-metric="actionLossReduction" data-category="Absent / Sparse" data-number="10.8" data-label="Human–robot co-training · robot absent, human sparse" data-value="Action-loss reduction: 10.8% vs. robot-only" role="img" aria-label="Human–robot co-training · robot absent, human sparse; Action-loss reduction: 10.8% vs. robot-only">
+<rect class="chart-bar" x="149.75" y="47" width="116.1" height="20" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="273.85" y="62" text-anchor="start">10.8</text>
+<rect class="chart-hit-area" x="146.75" y="43" width="166.1" height="28" fill="transparent"/>
+</g>
+</svg>
+</section>
+<section class="chart-coverage-row" aria-labelledby="coverage-stratum-4-label">
+<h5 class="chart-coverage-label" id="coverage-stratum-4-label"><span><small>Robot</small>Absent</span><span><small>Human</small>Absent</span></h5>
+<svg class="report-chart chart-coverage-plot" viewBox="0 0 450 84" role="group" aria-labelledby="coverage-stratum-4-title" aria-describedby="coverage-stratum-4-desc">
+<title id="coverage-stratum-4-title">Robot coverage: absent; human coverage: absent</title>
+<desc id="coverage-stratum-4-desc">Relative action-loss reduction against robot-only. Higher is better. Yellow is human mid-training followed by robot-only fine-tuning; blue is human–robot co-training.</desc>
+<line class="chart-gridline" x1="42.25" y1="0" x2="42.25" y2="84"/>
+<line class="chart-gridline" x1="96" y1="0" x2="96" y2="84"/>
+<line class="chart-gridline" x1="149.75" y1="0" x2="149.75" y2="84"/>
+<line class="chart-gridline" x1="203.5" y1="0" x2="203.5" y2="84"/>
+<line class="chart-gridline" x1="257.25" y1="0" x2="257.25" y2="84"/>
+<line class="chart-gridline" x1="311" y1="0" x2="311" y2="84"/>
+<line class="chart-gridline" x1="364.75" y1="0" x2="364.75" y2="84"/>
+<line class="chart-gridline" x1="418.5" y1="0" x2="418.5" y2="84"/>
+<path class="chart-axis" d="M149.75 0V84"/>
+<g class="chart-series" data-series="human-midtraining" data-metric="actionLossReduction" data-category="Absent / Absent" data-number="-9.3" data-label="Human mid-training → robot-only FT · robot absent, human absent" data-value="Action-loss reduction: -9.3% vs. robot-only" role="img" aria-label="Human mid-training → robot-only FT · robot absent, human absent; Action-loss reduction: -9.3% vs. robot-only">
+<rect class="chart-bar" x="49.77" y="14" width="99.98" height="20" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="41.77" y="29" text-anchor="end">-9.3</text>
+<rect class="chart-hit-area" x="3.77" y="10" width="149.98" height="28" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="human-cotraining" data-metric="actionLossReduction" data-category="Absent / Absent" data-number="0.3" data-label="Human–robot co-training · robot absent, human absent" data-value="Action-loss reduction: 0.3% vs. robot-only" role="img" aria-label="Human–robot co-training · robot absent, human absent; Action-loss reduction: 0.3% vs. robot-only">
+<rect class="chart-bar" x="149.75" y="47" width="3.22" height="20" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="160.97" y="62" text-anchor="start">0.3</text>
+<rect class="chart-hit-area" x="146.75" y="43" width="53.22" height="28" fill="transparent"/>
+</g>
+</svg>
+</section>
+<div class="chart-coverage-axis" aria-hidden="true">
+<svg class="report-chart" viewBox="0 0 450 26">
+<text class="chart-axis-label" x="42.25" y="18" text-anchor="middle">-10</text>
+<text class="chart-axis-label" x="96" y="18" text-anchor="middle">-5</text>
+<text class="chart-axis-label" x="149.75" y="18" text-anchor="middle">0</text>
+<text class="chart-axis-label" x="203.5" y="18" text-anchor="middle">5</text>
+<text class="chart-axis-label" x="257.25" y="18" text-anchor="middle">10</text>
+<text class="chart-axis-label" x="311" y="18" text-anchor="middle">15</text>
+<text class="chart-axis-label" x="364.75" y="18" text-anchor="middle">20</text>
+<text class="chart-axis-label" x="418.5" y="18" text-anchor="middle">25</text>
+</svg></div>
+<p class="chart-axis-caption">Action-loss reduction vs. robot-only (%; higher is better)</p>
+</div>
+              </div>
+              <figcaption>Figure 11 · Action-loss reduction relative to robot-only, averaged over nine late-training checkpoints. Positive values mean lower loss; negative values mean higher loss. Coverage describes each task family in the robot and human training corpora.</figcaption>
+              </figure>
+              <!-- chart:coverage:end -->
+              </article>
+              <article class="research-block" id="self-improvement">
+                <h4>Policy self-improvement</h4>
+                <p>Fine-tuning with an 8% mixture of simulated recoveries raises mean real-robot success from 61.7% to 86.7% and task progress from 0.81 to 0.93. Water pouring improves most, from 50% to 95% success. The policy copy trains in less than one day while the simulator stays fixed; the before/after comparison includes the additional fine-tuning budget.</p>
+                <!-- chart:improvement:start -->
+              <figure class="research-figure chart-figure" id="chart-improvement">
+              <div class="chart-card">
+              <header class="chart-heading"><h4>Policy improvement</h4>
+              <button class="chart-expand" type="button" data-chart-preview="chart-improvement" aria-label="Enlarge Policy improvement" aria-haspopup="dialog" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button></header>
+              <div class="chart-legend" aria-label="Chart legend">
+              <span class="chart-legend-item" data-series="before-dagger"><span style="--series-color:#dfc985" aria-hidden="true"></span>Before DAgger</span>
+              <span class="chart-legend-item" data-series="after-dagger"><span style="--series-color:#6086b0" aria-hidden="true"></span>After DAgger</span>
+              </div>
+              <div class="chart-grid">
+              <section class="chart-panel" aria-labelledby="improvement-taskProgress-heading">
+<h5 id="improvement-taskProgress-heading">Task-progress score</h5>
+<svg class="report-chart" viewBox="0 0 460 320" role="group" aria-labelledby="improvement-taskProgress-title" aria-describedby="improvement-taskProgress-desc">
+<title id="improvement-taskProgress-title">Policy improvement: Task-progress score</title>
+<desc id="improvement-taskProgress-desc">Grouped bars compare Before DAgger, After DAgger. Higher is better. Values are printed above every bar.</desc>
+<rect class="chart-average-band" x="345" y="12" width="101" height="286" rx="8"/>
+<line class="chart-gridline" x1="42" y1="260.0" x2="446" y2="260.0"/>
+<text class="chart-axis-label" x="32" y="265.0" text-anchor="end">0</text>
+<line class="chart-gridline" x1="42" y1="202.0" x2="446" y2="202.0"/>
+<text class="chart-axis-label" x="32" y="207.0" text-anchor="end">0.25</text>
+<line class="chart-gridline" x1="42" y1="144.0" x2="446" y2="144.0"/>
+<text class="chart-axis-label" x="32" y="149.0" text-anchor="end">0.5</text>
+<line class="chart-gridline" x1="42" y1="86.0" x2="446" y2="86.0"/>
+<text class="chart-axis-label" x="32" y="91.0" text-anchor="end">0.75</text>
+<line class="chart-gridline" x1="42" y1="28.0" x2="446" y2="28.0"/>
+<text class="chart-axis-label" x="32" y="33.0" text-anchor="end">1</text>
+<path class="chart-axis" d="M42 28V260H446"/>
+<g class="chart-series" data-series="before-dagger" data-metric="taskProgress" data-category="Banana" data-number="0.93" data-label="Before DAgger · Banana" data-value="Task progress: 0.93" role="img" aria-label="Before DAgger · Banana; Task progress: 0.93">
+<rect class="chart-bar" x="59.5" y="44.24" width="27" height="215.76" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="73" y="36.24" text-anchor="middle">0.93</text>
+<rect class="chart-hit-area" x="57.5" y="22.24" width="31" height="237.76" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="after-dagger" data-metric="taskProgress" data-category="Banana" data-number="0.98" data-label="After DAgger · Banana" data-value="Task progress: 0.98" role="img" aria-label="After DAgger · Banana; Task progress: 0.98">
+<rect class="chart-bar" x="98.5" y="32.64" width="27" height="227.36" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="112" y="24.64" text-anchor="middle">0.98</text>
+<rect class="chart-hit-area" x="96.5" y="10.64" width="31" height="249.36" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="92.5" y="285" text-anchor="middle"><tspan x="92.5" dy="0">Banana</tspan></text>
+<g class="chart-series" data-series="before-dagger" data-metric="taskProgress" data-category="Pour" data-number="0.78" data-label="Before DAgger · Pour" data-value="Task progress: 0.78" role="img" aria-label="Before DAgger · Pour; Task progress: 0.78">
+<rect class="chart-bar" x="160.5" y="79.04" width="27" height="180.96" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="174" y="71.04" text-anchor="middle">0.78</text>
+<rect class="chart-hit-area" x="158.5" y="57.04" width="31" height="202.96" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="after-dagger" data-metric="taskProgress" data-category="Pour" data-number="0.98" data-label="After DAgger · Pour" data-value="Task progress: 0.98" role="img" aria-label="After DAgger · Pour; Task progress: 0.98">
+<rect class="chart-bar" x="199.5" y="32.64" width="27" height="227.36" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="213" y="24.64" text-anchor="middle">0.98</text>
+<rect class="chart-hit-area" x="197.5" y="10.64" width="31" height="249.36" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="193.5" y="285" text-anchor="middle"><tspan x="193.5" dy="0">Pour</tspan></text>
+<g class="chart-series" data-series="before-dagger" data-metric="taskProgress" data-category="Cola" data-number="0.73" data-label="Before DAgger · Cola" data-value="Task progress: 0.73" role="img" aria-label="Before DAgger · Cola; Task progress: 0.73">
+<rect class="chart-bar" x="261.5" y="90.64" width="27" height="169.36" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="275" y="82.64" text-anchor="middle">0.73</text>
+<rect class="chart-hit-area" x="259.5" y="68.64" width="31" height="191.36" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="after-dagger" data-metric="taskProgress" data-category="Cola" data-number="0.83" data-label="After DAgger · Cola" data-value="Task progress: 0.83" role="img" aria-label="After DAgger · Cola; Task progress: 0.83">
+<rect class="chart-bar" x="300.5" y="67.44" width="27" height="192.56" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="314" y="59.44" text-anchor="middle">0.83</text>
+<rect class="chart-hit-area" x="298.5" y="45.44" width="31" height="214.56" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="294.5" y="285" text-anchor="middle"><tspan x="294.5" dy="0">Cola</tspan></text>
+<g class="chart-series" data-series="before-dagger" data-metric="taskProgress" data-category="Avg" data-number="0.81" data-label="Before DAgger · Average" data-value="Task progress: 0.81" role="img" aria-label="Before DAgger · Average; Task progress: 0.81">
+<rect class="chart-bar" x="362.5" y="72.08" width="27" height="187.92" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="376" y="64.08" text-anchor="middle">0.81</text>
+<rect class="chart-hit-area" x="360.5" y="50.08" width="31" height="209.92" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="after-dagger" data-metric="taskProgress" data-category="Avg" data-number="0.93" data-label="After DAgger · Average" data-value="Task progress: 0.93" role="img" aria-label="After DAgger · Average; Task progress: 0.93">
+<rect class="chart-bar" x="401.5" y="44.24" width="27" height="215.76" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="415" y="36.24" text-anchor="middle">0.93</text>
+<rect class="chart-hit-area" x="399.5" y="22.24" width="31" height="237.76" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="395.5" y="285" text-anchor="middle"><tspan x="395.5" dy="0">Average</tspan></text>
+</svg>
+</section>
+              <section class="chart-panel" aria-labelledby="improvement-successRate-heading">
+<h5 id="improvement-successRate-heading">Success rate (%)</h5>
+<svg class="report-chart" viewBox="0 0 460 320" role="group" aria-labelledby="improvement-successRate-title" aria-describedby="improvement-successRate-desc">
+<title id="improvement-successRate-title">Policy improvement: Success rate (%)</title>
+<desc id="improvement-successRate-desc">Grouped bars compare Before DAgger, After DAgger. Higher is better. Values are printed above every bar.</desc>
+<rect class="chart-average-band" x="345" y="12" width="101" height="286" rx="8"/>
+<line class="chart-gridline" x1="42" y1="260.0" x2="446" y2="260.0"/>
+<text class="chart-axis-label" x="32" y="265.0" text-anchor="end">0</text>
+<line class="chart-gridline" x1="42" y1="202.0" x2="446" y2="202.0"/>
+<text class="chart-axis-label" x="32" y="207.0" text-anchor="end">25</text>
+<line class="chart-gridline" x1="42" y1="144.0" x2="446" y2="144.0"/>
+<text class="chart-axis-label" x="32" y="149.0" text-anchor="end">50</text>
+<line class="chart-gridline" x1="42" y1="86.0" x2="446" y2="86.0"/>
+<text class="chart-axis-label" x="32" y="91.0" text-anchor="end">75</text>
+<line class="chart-gridline" x1="42" y1="28.0" x2="446" y2="28.0"/>
+<text class="chart-axis-label" x="32" y="33.0" text-anchor="end">100</text>
+<path class="chart-axis" d="M42 28V260H446"/>
+<g class="chart-series" data-series="before-dagger" data-metric="successRate" data-category="Banana" data-number="80" data-label="Before DAgger · Banana" data-value="Success rate: 80%" role="img" aria-label="Before DAgger · Banana; Success rate: 80%">
+<rect class="chart-bar" x="59.5" y="74.4" width="27" height="185.6" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="73" y="66.4" text-anchor="middle">80</text>
+<rect class="chart-hit-area" x="57.5" y="52.4" width="31" height="207.6" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="after-dagger" data-metric="successRate" data-category="Banana" data-number="90" data-label="After DAgger · Banana" data-value="Success rate: 90%" role="img" aria-label="After DAgger · Banana; Success rate: 90%">
+<rect class="chart-bar" x="98.5" y="51.2" width="27" height="208.8" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="112" y="43.2" text-anchor="middle">90</text>
+<rect class="chart-hit-area" x="96.5" y="29.2" width="31" height="230.8" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="92.5" y="285" text-anchor="middle"><tspan x="92.5" dy="0">Banana</tspan></text>
+<g class="chart-series" data-series="before-dagger" data-metric="successRate" data-category="Pour" data-number="50" data-label="Before DAgger · Pour" data-value="Success rate: 50%" role="img" aria-label="Before DAgger · Pour; Success rate: 50%">
+<rect class="chart-bar" x="160.5" y="144" width="27" height="116" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="174" y="136" text-anchor="middle">50</text>
+<rect class="chart-hit-area" x="158.5" y="122" width="31" height="138" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="after-dagger" data-metric="successRate" data-category="Pour" data-number="95" data-label="After DAgger · Pour" data-value="Success rate: 95%" role="img" aria-label="After DAgger · Pour; Success rate: 95%">
+<rect class="chart-bar" x="199.5" y="39.6" width="27" height="220.4" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="213" y="31.6" text-anchor="middle">95</text>
+<rect class="chart-hit-area" x="197.5" y="17.6" width="31" height="242.4" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="193.5" y="285" text-anchor="middle"><tspan x="193.5" dy="0">Pour</tspan></text>
+<g class="chart-series" data-series="before-dagger" data-metric="successRate" data-category="Cola" data-number="55" data-label="Before DAgger · Cola" data-value="Success rate: 55%" role="img" aria-label="Before DAgger · Cola; Success rate: 55%">
+<rect class="chart-bar" x="261.5" y="132.4" width="27" height="127.6" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="275" y="124.4" text-anchor="middle">55</text>
+<rect class="chart-hit-area" x="259.5" y="110.4" width="31" height="149.6" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="after-dagger" data-metric="successRate" data-category="Cola" data-number="75" data-label="After DAgger · Cola" data-value="Success rate: 75%" role="img" aria-label="After DAgger · Cola; Success rate: 75%">
+<rect class="chart-bar" x="300.5" y="86" width="27" height="174" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="314" y="78" text-anchor="middle">75</text>
+<rect class="chart-hit-area" x="298.5" y="64" width="31" height="196" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="294.5" y="285" text-anchor="middle"><tspan x="294.5" dy="0">Cola</tspan></text>
+<g class="chart-series" data-series="before-dagger" data-metric="successRate" data-category="Avg" data-number="61.7" data-label="Before DAgger · Average" data-value="Success rate: 61.7%" role="img" aria-label="Before DAgger · Average; Success rate: 61.7%">
+<rect class="chart-bar" x="362.5" y="116.86" width="27" height="143.14" rx="2" fill="#dfc985"/>
+<text class="chart-value-label" x="376" y="108.86" text-anchor="middle">61.7</text>
+<rect class="chart-hit-area" x="360.5" y="94.86" width="31" height="165.14" fill="transparent"/>
+</g>
+<g class="chart-series" data-series="after-dagger" data-metric="successRate" data-category="Avg" data-number="86.7" data-label="After DAgger · Average" data-value="Success rate: 86.7%" role="img" aria-label="After DAgger · Average; Success rate: 86.7%">
+<rect class="chart-bar" x="401.5" y="58.86" width="27" height="201.14" rx="2" fill="#6086b0"/>
+<text class="chart-value-label" x="415" y="50.86" text-anchor="middle">86.7</text>
+<rect class="chart-hit-area" x="399.5" y="36.86" width="31" height="223.14" fill="transparent"/>
+</g>
+<text class="chart-category-label" x="395.5" y="285" text-anchor="middle"><tspan x="395.5" dy="0">Average</tspan></text>
+</svg>
+</section>
+              </div>
+              </div>
+              <figcaption>Figure 12 · Banana pick-and-place, water pouring, and cola handover; 20 trials per task per method. Shaded columns show unweighted task averages. Before DAgger results for banana pick-and-place and water pouring reuse the Figure 7 trials. This suite replaces bowl stacking with cola handover; the comparison includes the additional fine-tuning budget.</figcaption>
+              </figure>
+              <!-- chart:improvement:end -->
+                <h5 class="research-detail-title">Policy–simulation closed-loop diagnosis</h5>
+                <p>Policy actions drive the simulator, whose generated frames become the next observations. These rollouts expose instruction-following errors before physical testing: the examples below select the correct targets in the first two rows, but a red fruit instead of a green fruit and a bottle instead of a curved fruit in the last two.</p>
+                <figure class="research-figure">
+                  <a href="assets/figures/report-simulation.png" data-preview data-title="Policy behavior in simulation" data-caption="Figure 13 · Policy-driven simulated frames with skeleton overlays. The first two rows select the requested targets; the last two expose target-selection errors despite plausible motions." aria-label="Enlarge the simulated policy rollouts" aria-haspopup="dialog">
+                    <img src="assets/figures/report-simulation.png" width="2000" height="1145" decoding="async" alt="Four simulated object-placement rollouts: correct red-fruit and baked-food selection, followed by a red fruit selected instead of a green fruit and a bottle instead of a curved fruit." loading="lazy">
+                  </a>
+                  <figcaption>Figure 13 · Qualitative closed-loop diagnosis makes target-selection failures visible before real-robot testing.</figcaption>
+                </figure>
+              </article>
+            </section>
+          </div>
+        </section>
+
+        <section class="catalog-section" id="contributors" aria-labelledby="contributors-title">
+          <header class="category-heading">
+            <h2 id="contributors-title">Contributors</h2>
+            <p>The team behind XPACE and the citation for our technical report.</p>
+          </header>
+          <div class="contributors-content">
+            <p class="contributor-names" aria-label="Authors in report order">
+              <span class="contributor-name">Jiacheng Wei<sup class="contributor-mark" aria-label="Core contribution; Equal contribution">*§</sup></span>,
+              <span class="contributor-name">Jerry Bai<sup class="contributor-mark" aria-label="Core contribution; Equal contribution">*§</sup></span>,
+              <span class="contributor-name">Xiaoyu Yue<sup class="contributor-mark" aria-label="Core contribution">*</sup></span>,
+              <span class="contributor-name">Zidong Wang<sup class="contributor-mark" aria-label="Core contribution">*</sup></span>,
+              <span class="contributor-name">Xiaoyang Guo<sup class="contributor-mark" aria-label="Core contribution; Project lead">*†</sup></span>,
+              <span class="contributor-name">Cheng Chen</span>,
+              <span class="contributor-name">Fanqi Pu</span>,
+              <span class="contributor-name">Fan Wu</span>,
+              <span class="contributor-name">Zhixu Yue</span>,
+              <span class="contributor-name">Yizhuo Li</span>,
+              <span class="contributor-name">Feng Qiu</span>,
+              <span class="contributor-name">Bo Liu</span>,
+              <span class="contributor-name">Yuying Ge</span>,
+              <span class="contributor-name">Hui Zhou</span>,
+              <span class="contributor-name">Chenyi Chen</span>,
+              <span class="contributor-name">Yixiao Ge<sup class="contributor-mark" aria-label="Supervision">‡</sup></span>
+            </p>
+            <p class="contributor-affiliation">All authors are with XPENG Robotics.</p>
+            <ul class="contributor-notes" aria-label="Contribution roles">
+              <li><sup class="contributor-mark">*</sup> Core contribution.</li>
+              <li><sup class="contributor-mark">§</sup> Equal contribution.</li>
+              <li><sup class="contributor-mark">†</sup> Project lead.</li>
+              <li><sup class="contributor-mark">‡</sup> Supervision.</li>
+            </ul>
+            <div class="citation-block" aria-label="BibTeX citation">
+              <button class="citation-copy" type="button" aria-label="Copy BibTeX" aria-controls="citation-bibtex">Copy</button>
+              <pre class="citation-pre" id="citation-bibtex" tabindex="0" aria-label="XPACE BibTeX citation"><code>@techreport{wei2026xpace,
+  author = {Jiacheng Wei and Jerry Bai and Xiaoyu Yue and Zidong Wang and Xiaoyang Guo and Cheng Chen and Fanqi Pu and Fan Wu and Zhixu Yue and Yizhuo Li and Feng Qiu and Bo Liu and Yuying Ge and Hui Zhou and Chenyi Chen and Yixiao Ge},
+  title = {{XPACE}: Joint World and Action Modeling from Heterogeneous Experience},
+  institution = {XPENG Robotics},
+  type = {Technical Report},
+  year = {2026},
+  url = {https://xpeng-robotics.github.io/xpace/},
+}</code></pre>
+            </div>
+            <p class="citation-status" role="status" aria-live="polite"></p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <a class="back-to-top" href="#top" aria-label="Back to top" title="Back to top">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m-6 6 6-6 6 6"/></svg>
+  </a>
+
+  <footer class="site-footer">
+    <a class="footer-brand" href="#top"><img src="assets/fe0/xpeng-logo-white.png" width="36" height="24" alt="">XPENG Robotics <span>/ XPACE</span></a>
+    <p>© <span id="year">2026</span> XPENG Robotics</p>
+    <a class="design-credit" href="https://www.creative-tim.com/product/vue-material-kit" target="_blank" rel="noopener noreferrer">Design reference · Creative Tim ↗</a>
+  </footer>
+
+  <dialog class="report-dialog animated-dialog" aria-labelledby="report-title" aria-describedby="report-description">
+    <div class="dialog-heading"><div><p class="eyebrow">XPENG ROBOTICS</p><h2 id="report-title">XPACE Technical Report</h2></div><button class="icon-button report-close" type="button" aria-label="Close report window">×</button></div>
+    <p id="report-description">Joint World and Action Modeling from Heterogeneous Experience</p>
+    <p class="report-meta">xpace.pdf · PDF · 28 pages · 41 MB</p>
+    <div class="report-actions">
+      <a class="report-download" href="assets/papers/xpace.pdf" download="xpace.pdf" target="_blank" rel="noopener">Download PDF <svg class="download-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M5 16v5h14v-5"/></svg></a>
+      <a class="report-arxiv" href="https://arxiv.org/abs/2609.17372" target="_blank" rel="noopener noreferrer">arXiv <svg class="external-link-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
+    </div>
+  </dialog>
+
+  <dialog class="video-dialog animated-dialog" aria-labelledby="video-title" aria-describedby="video-prompt">
+    <div class="dialog-heading"><div><p class="eyebrow">IRON · REAL-ROBOT DEMONSTRATION</p><h2 id="video-title">XPACE demo</h2></div><button class="icon-button video-close" type="button" aria-label="Close video">×</button></div>
+    <video class="expanded-video" controls playsinline preload="none"></video>
+    <p class="video-prompt" id="video-prompt"></p>
+    <p class="video-error" role="status" hidden>Unable to play this video. <a class="video-direct-link" href="assets/videos/green_apple_graded.mp4">Open the video file ↗</a></p>
+  </dialog>
+
+  <dialog class="chart-dialog animated-dialog" aria-labelledby="chart-title" aria-describedby="chart-caption">
+    <div class="dialog-heading"><div><p class="eyebrow">XPACE · RESULTS</p><h2 id="chart-title">Results chart</h2></div><button class="icon-button chart-close" type="button" aria-label="Close chart">×</button></div>
+    <div class="expanded-charts"></div>
+    <p class="dialog-caption" id="chart-caption"></p>
+  </dialog>
+
+  <dialog class="preview-dialog animated-dialog" aria-labelledby="preview-title">
+    <div class="dialog-heading"><div><p class="eyebrow">XPACE · TECHNICAL REPORT</p><h2 id="preview-title">Report figure</h2></div><button class="icon-button dialog-close" type="button" aria-label="Close preview">×</button></div>
+    <img class="dialog-image" alt="">
+    <p class="dialog-caption"></p>
+    <a class="dialog-original" href="assets/papers/xpace.pdf" target="_blank" rel="noopener">Open full-size image ↗</a>
+  </dialog>
+  <div class="chart-tooltip" id="chart-tooltip" role="tooltip" hidden></div>
+</body>
+</html>
