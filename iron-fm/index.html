@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=v2-188" />
+  <link rel="stylesheet" href="styles.css?v=v2-192" />
 </head>
 <body class="edition-v2">
   <header class="nav-wrap">
@@ -112,15 +112,15 @@
       <div class="news-list reveal" id="newsList">
         <article class="news-item featured">
           <time datetime="2026-09-29">2026.09.29</time>
-          <span class="news-tag product-vit">IronViT</span>
-          <h3>IronViT 1.0 released</h3>
-          <p>We release IronViT 1.0, a family of models built on softmax, hybrid and linear attention architectures. Results demonstrate strong performance across recognition, dense prediction, and multimodal understanding benchmarks.</p>
-        </article>
-        <article class="news-item featured">
-          <time datetime="2026-09-29">2026.09.29</time>
           <span class="news-tag product-llm">IronLLM</span>
           <h3>IronLLM 0.6B released</h3>
           <p>We release IronLLM-0.6B, an in-house language model&mdash;covering data, hybrid architecture, mid/post-training, and edge-ready deployment in one stack.</p>
+        </article>
+        <article class="news-item featured">
+          <time datetime="2026-09-29">2026.09.29</time>
+          <span class="news-tag product-vit">IronViT</span>
+          <h3>IronViT 1.0 released</h3>
+          <p>We release IronViT 1.0, a family of models built on softmax, hybrid and linear attention architectures. Results demonstrate strong performance across recognition, dense prediction, and multimodal understanding benchmarks.</p>
         </article>
       </div>
     </section>
@@ -566,7 +566,7 @@
           <div><b>1152</b><span>hidden width</span></div>
           <div><b>16</b><span>attention heads</span></div>
           <div><b>4304</b><span>MLP width</span></div>
-          <div><b>584</b><span>tokens @384</span></div>
+          <div><b>16&times;16</b><span>patch size</span></div>
           <div><b>MAP</b><span>global head</span></div>
         </div>
       </article>
@@ -579,7 +579,7 @@
             <p>Full self-attention preserves global token interactions across every layer, prioritizing representational capacity and benchmark performance.</p>
           </div>
           <dl>
-            <div><dt>deploy params</dt><dd>421.223M</dd></div>
+            <div><dt>deploy params</dt><dd>~0.4B</dd></div>
             <div><dt>attention</dt><dd>27 softmax</dd></div>
             <div><dt>advantage</dt><dd>Accuracy-first</dd></div>
           </dl>
@@ -592,7 +592,7 @@
             <p>Hybrid attention retains selected global-attention layers while replacing the remainder with efficient linear blocks, yielding a calibrated trade-off between accuracy and speed.</p>
           </div>
           <dl>
-            <div><dt>deploy params</dt><dd>445.028M</dd></div>
+            <div><dt>deploy params</dt><dd>~0.4B</dd></div>
             <div><dt>attention</dt><dd>3L : 1S</dd></div>
             <div><dt>advantage</dt><dd>Balanced</dd></div>
           </dl>
@@ -605,7 +605,7 @@
             <p>Linear attention minimizes sequence-scaling cost across the deployed encoder, making it the preferred variant for high-throughput inference on long visual-token streams.</p>
           </div>
           <dl>
-            <div><dt>deploy params</dt><dd>456.927M</dd></div>
+            <div><dt>deploy params</dt><dd>~0.4B</dd></div>
             <div><dt>attention</dt><dd>27 linear</dd></div>
             <div><dt>advantage</dt><dd>Fastest</dd></div>
           </dl>
@@ -627,7 +627,7 @@
 
         <figure class="train-figure training-framework-figure reveal">
           <div class="figure-matte">
-            <img class="figure-img" src="assets/vit_model.png?v=ref" alt="IronViT high-level representation transfer framework" width="1600" height="900" loading="lazy" />
+            <img class="figure-img" src="assets/model_overview_white.png?v=20260929" alt="IronViT two-stage representation transfer framework" width="2424" height="1458" loading="lazy" />
           </div>
           <figcaption>Figure A &middot; High-level representation transfer framework</figcaption>
         </figure>
@@ -669,7 +669,7 @@
 
       <figure class="data-figure reveal">
         <div class="figure-matte">
-          <img class="figure-img" src="assets/vit_data.png?v=ref" alt="IronViT visual data curation pipeline" width="1600" height="900" loading="lazy" />
+          <img class="figure-img" src="assets/data_pipeline2.png?v=20260929" alt="IronViT visual data curation pipeline" width="2560" height="1440" loading="lazy" />
         </div>
         <figcaption>Figure C &middot; Visual data curation pipeline</figcaption>
       </figure>
@@ -707,17 +707,17 @@
 
         <div class="result-highlights reveal" aria-label="Headline benchmarks">
           <article class="highlight-card">
-            <strong>87.25</strong>
+            <strong>87.35</strong>
             <span class="highlight-metric">IN-1k Linear</span>
             <p>Recognition probe</p>
           </article>
           <article class="highlight-card">
-            <strong>53.69</strong>
+            <strong>52.97</strong>
             <span class="highlight-metric">ADE20K</span>
             <p>Dense segmentation</p>
           </article>
           <article class="highlight-card">
-            <strong>65.64</strong>
+            <strong>66.44</strong>
             <span class="highlight-metric">VLM Total Avg.</span>
             <p>Multimodal transfer</p>
           </article>
@@ -760,11 +760,10 @@
                       <tr><th scope="row">SigLIP2-So400M/16-NaFlex</th><td class="knn-separator">85.28</td><td class="best">83.81</td><td class="second">77.75</td><td class="best">95.78</td><td class="second">85.56</td><td class="best">75.99</td><td class="second">83.78</td></tr>
                       <tr><th scope="row">GenLIP-So/16</th><td class="knn-separator">72.88</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
                       <tr><th scope="row">C-RADIOv4-SO400M</th><td class="knn-separator">85.04</td><td>81.14</td><td>75.05</td><td>94.59</td><td>80.92</td><td>68.91</td><td>80.12</td></tr>
-                      <tr><th scope="row">DINOv3-L/16</th><td class="knn-separator">85.42</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+                      <tr><th scope="row">DINOv3-L/16</th><td class="second knn-separator">85.42</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
                       <tr><th scope="row">PE-Core-L/14</th><td class="knn-separator">85.01</td><td class="second">83.56</td><td class="best">77.91</td><td class="second">95.31</td><td class="best">90.24</td><td class="second">73.47</td><td class="best">84.10</td></tr>
-                      <tr><th scope="row">Qwen3-ViT-400M</th><td class="knn-separator">80.22</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-                      <tr class="iron-row"><th scope="row">Ours-Softmax</th><td class="best knn-separator">85.96</td><td>83.02</td><td>76.51</td><td>93.76</td><td>81.87</td><td>70.28</td><td>81.09</td></tr>
-                      <tr class="iron-row"><th scope="row">Ours-Hybrid</th><td class="second knn-separator">85.65</td><td>82.65</td><td>75.93</td><td>92.68</td><td>79.47</td><td>69.78</td><td>80.10</td></tr>
+                      <tr class="iron-row"><th scope="row">Ours-Softmax</th><td class="best knn-separator">85.82</td><td>83.27</td><td>76.91</td><td>94.13</td><td>81.99</td><td>71.18</td><td>81.50</td></tr>
+                      <tr class="iron-row"><th scope="row">Ours-Hybrid</th><td class="knn-separator">85.37</td><td>82.88</td><td>76.20</td><td>93.48</td><td>79.89</td><td>70.22</td><td>80.53</td></tr>
                       <tr class="iron-row"><th scope="row">Ours-Linear</th><td class="knn-separator">84.90</td><td>81.59</td><td>74.58</td><td>90.68</td><td>72.11</td><td>67.22</td><td>77.24</td></tr>
                     </tbody>
                   </table>
@@ -785,11 +784,11 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr><th scope="row">SigLIP2-So400M/16-NaFlex</th><td>56.24</td><td class="second">72.28</td><td>83.12</td><td>94.40</td><td class="second">76.51</td></tr>
-                      <tr><th scope="row">C-RADIOv4-SO400M</th><td>56.26</td><td>71.38</td><td>83.84</td><td class="second">94.50</td><td>76.495</td></tr>
+                      <tr><th scope="row">SigLIP2-So400M/16-NaFlex</th><td>56.24</td><td class="second">72.28</td><td>83.12</td><td>94.40</td><td>76.51</td></tr>
+                      <tr><th scope="row">C-RADIOv4-SO400M</th><td>56.26</td><td>71.38</td><td>83.84</td><td>94.50</td><td>76.495</td></tr>
                       <tr><th scope="row">PE-Core-L/14</th><td class="best">56.98</td><td class="best">76.04</td><td class="best">85.74</td><td class="best">95.80</td><td class="best">78.64</td></tr>
-                      <tr class="iron-row"><th scope="row">Ours-Softmax</th><td class="second">56.43</td><td>66.60</td><td class="second">84.56</td><td>92.80</td><td>75.0975</td></tr>
-                      <tr class="iron-row"><th scope="row">Ours-Hybrid</th><td>56.09</td><td>67.64</td><td>84.46</td><td>93.00</td><td>75.2975</td></tr>
+                      <tr class="iron-row"><th scope="row">Ours-Softmax</th><td class="second">56.33</td><td>71.36</td><td>84.24</td><td class="second">94.70</td><td class="second">76.66</td></tr>
+                      <tr class="iron-row"><th scope="row">Ours-Hybrid</th><td>56.22</td><td>70.66</td><td class="second">84.92</td><td>94.10</td><td>76.48</td></tr>
                       <tr class="iron-row"><th scope="row">Ours-Linear</th><td>54.65</td><td>68.44</td><td>82.28</td><td>92.20</td><td>74.3925</td></tr>
                     </tbody>
                   </table>
@@ -799,38 +798,32 @@
           </div>
 
           <div class="result-panel" data-result-panel="linear-probe" hidden>
-            <p class="result-panel-desc">Frozen visual encoders with lightweight readout heads probe recognition, dense semantics, and geometry. Classification uses a single ImageNet-1k linear head transferred to distribution-shift variants.</p>
+            <p class="result-panel-desc">Frozen visual encoders with lightweight readout heads probe recognition, dense semantics, and geometry. Classification reports ImageNet-1k linear probing.</p>
             <div class="result-task-card wide">
               <div class="robotic-table-wrap linear-table-wrap">
                 <table class="robotic-table linear-table">
                   <thead>
                     <tr>
                       <th scope="col" rowspan="2">Encoder</th>
-                      <th scope="colgroup" colspan="6" class="metric-group group-separator">Classification</th>
+                      <th scope="colgroup" colspan="1" class="metric-group group-separator">Classification</th>
                       <th scope="colgroup" colspan="1" class="metric-group group-separator">Segmentation</th>
                       <th scope="colgroup" colspan="1" class="metric-group">Depth</th>
                     </tr>
                     <tr>
                       <th scope="col">IN-1k &uarr;</th>
-                      <th scope="col">IN-v2 &uarr;</th>
-                      <th scope="col">IN-R &uarr;</th>
-                      <th scope="col">IN-A &uarr;</th>
-                      <th scope="col">IN-sketch &uarr;</th>
-                      <th scope="col" class="group-separator">Cls Avg. &uarr;</th>
                       <th scope="col" class="group-separator">ADE20K &uarr;</th>
                       <th scope="col">NYUv2 &darr;</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr><th scope="row">SigLIP2-So400M/16-NaFlex</th><td class="best">87.45</td><td class="best">80.17</td><td class="best">92.47</td><td class="second">82.11</td><td class="best">70.22</td><td class="best">82.484</td><td>44.48</td><td>0.459</td></tr>
-                    <tr><th scope="row">GenLIP-So/16</th><td>71.25</td><td>60.83</td><td>69.88</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>45.59</td><td>0.484</td></tr>
-                    <tr><th scope="row">C-RADIOv4-SO400M</th><td class="second">87.33</td><td class="second">79.69</td><td>88.97</td><td>78.65</td><td>64.76</td><td>79.880</td><td class="best">54.10</td><td class="best">0.295</td></tr>
-                    <tr><th scope="row">DINOv3-L/16</th><td>87.07</td><td>79.66</td><td>87.88</td><td>81.17</td><td>66.25</td><td>80.406</td><td>52.86</td><td class="second">0.320</td></tr>
-                    <tr><th scope="row">PE-Core-L/14</th><td>87.17</td><td>78.92</td><td>88.10</td><td class="best">83.20</td><td>65.08</td><td>80.494</td><td>40.57</td><td>0.611</td></tr>
-                    <tr><th scope="row">Qwen3-ViT-400M</th><td>78.28</td><td>69.12</td><td>73.76</td><td>54.68</td><td>54.36</td><td>66.040</td><td>33.81</td><td>0.503</td></tr>
-                    <tr class="iron-row"><th scope="row">Ours-Softmax</th><td>87.25</td><td>79.47</td><td class="second">90.09</td><td>81.17</td><td class="second">66.53</td><td class="second">80.902</td><td class="second">53.69</td><td>0.333</td></tr>
-                    <tr class="iron-row"><th scope="row">Ours-Hybrid</th><td>86.81</td><td>78.87</td><td>88.85</td><td>78.87</td><td>65.43</td><td>79.766</td><td>53.17</td><td>0.344</td></tr>
-                    <tr class="iron-row"><th scope="row">Ours-Linear</th><td>85.98</td><td>77.34</td><td>86.54</td><td>72.69</td><td>63.39</td><td>77.188</td><td>50.28</td><td>0.407</td></tr>
+                    <tr><th scope="row">SigLIP2-So400M/16-NaFlex</th><td class="best">87.45</td><td>44.48</td><td>0.459</td></tr>
+                    <tr><th scope="row">GenLIP-So/16</th><td>71.25</td><td>45.59</td><td>0.484</td></tr>
+                    <tr><th scope="row">C-RADIOv4-SO400M</th><td>87.33</td><td class="best">54.10</td><td class="best">0.295</td></tr>
+                    <tr><th scope="row">DINOv3-L/16</th><td>87.07</td><td>52.86</td><td class="second">0.320</td></tr>
+                    <tr><th scope="row">PE-Core-L/14</th><td>87.17</td><td>40.57</td><td>0.611</td></tr>
+                    <tr class="iron-row"><th scope="row">Ours-Softmax</th><td class="second">87.35</td><td class="second">52.97</td><td>0.339</td></tr>
+                    <tr class="iron-row"><th scope="row">Ours-Hybrid</th><td>87.12</td><td>52.60</td><td>0.343</td></tr>
+                    <tr class="iron-row"><th scope="row">Ours-Linear</th><td>85.98</td><td>50.28</td><td>0.407</td></tr>
                   </tbody>
                 </table>
               </div>
@@ -850,39 +843,39 @@
                       <th scope="col">C-RADIO</th>
                       <th scope="col">DINOv3</th>
                       <th scope="col">PE-Core</th>
-                      <th scope="col">Qwen3</th>
                       <th scope="col">Ours-S</th>
                       <th scope="col">Ours-H</th>
                       <th scope="col">Ours-L</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr class="family-row"><th scope="row">OCR Avg.</th><td>57.94</td><td class="second">61.34</td><td>57.73</td><td>41.90</td><td>57.43</td><td class="best">63.65</td><td>60.95</td><td>59.61</td><td>56.17</td></tr>
-                    <tr><th scope="row">TextVQA</th><td>68.16</td><td class="second">70.55</td><td>66.40</td><td>47.25</td><td>66.83</td><td class="best">71.04</td><td>68.03</td><td>66.23</td><td>62.92</td></tr>
-                    <tr><th scope="row">DocVQA</th><td>71.38</td><td class="second">77.30</td><td>70.99</td><td>51.46</td><td>72.93</td><td class="best">79.69</td><td>75.52</td><td>74.04</td><td>68.57</td></tr>
-                    <tr><th scope="row">OCRBench</th><td>57.40</td><td>62.50</td><td>57.60</td><td>36.60</td><td>54.80</td><td class="best">66.10</td><td class="second">63.00</td><td>61.30</td><td>56.30</td></tr>
-                    <tr><th scope="row">ChartQA</th><td>72.32</td><td>74.64</td><td>73.44</td><td>57.72</td><td>72.64</td><td class="best">77.64</td><td class="second">76.16</td><td>75.72</td><td>72.40</td></tr>
-                    <tr><th scope="row">OCRBench v2</th><td>20.42</td><td>21.72</td><td>20.21</td><td>16.47</td><td>19.95</td><td class="best">23.77</td><td class="second">22.02</td><td>20.76</td><td>20.64</td></tr>
-                    <tr class="family-row"><th scope="row">Knowledge Avg.</th><td>80.86</td><td>79.86</td><td>80.40</td><td>78.05</td><td>79.66</td><td>80.41</td><td class="best">81.39</td><td class="second">81.10</td><td>80.11</td></tr>
-                    <tr><th scope="row">ScienceQA</th><td class="second">82.53</td><td>80.57</td><td>81.40</td><td>79.63</td><td>82.08</td><td>81.42</td><td class="best">82.57</td><td>82.50</td><td>81.40</td></tr>
-                    <tr><th scope="row">AI2D</th><td>79.18</td><td>79.15</td><td>79.40</td><td>76.46</td><td>77.23</td><td>79.40</td><td class="best">80.21</td><td class="second">79.70</td><td>78.82</td></tr>
-                    <tr class="family-row"><th scope="row">Vision Avg.</th><td>63.35</td><td class="second">63.76</td><td class="best">64.18</td><td>61.54</td><td>63.62</td><td>61.85</td><td>62.47</td><td>63.11</td><td>62.20</td></tr>
-                    <tr><th scope="row">RealWorldQA</th><td class="best">65.23</td><td>63.79</td><td class="second">64.44</td><td>63.14</td><td>63.27</td><td>62.35</td><td>62.61</td><td>62.35</td><td>61.05</td></tr>
-                    <tr><th scope="row">POPE</th><td>87.19</td><td>87.54</td><td class="best">88.10</td><td class="second">87.72</td><td>87.38</td><td>86.39</td><td>87.36</td><td>87.42</td><td>86.67</td></tr>
-                    <tr><th scope="row">MMVP</th><td class="second">54.00</td><td>52.00</td><td class="best">54.67</td><td>46.67</td><td>52.67</td><td>44.67</td><td>46.67</td><td>52.00</td><td>50.00</td></tr>
-                    <tr><th scope="row">CV-Bench 2D</th><td class="second">68.34</td><td>67.36</td><td class="best">68.83</td><td>63.38</td><td>68.00</td><td>66.01</td><td>65.92</td><td>64.42</td><td>63.99</td></tr>
-                    <tr><th scope="row">CV-Bench 3D</th><td>63.33</td><td>68.42</td><td class="best">69.50</td><td>61.00</td><td class="second">68.83</td><td>63.92</td><td>65.75</td><td>65.17</td><td>65.25</td></tr>
-                    <tr><th scope="row">What's Up</th><td>65.56</td><td>66.65</td><td>65.05</td><td class="best">69.23</td><td>65.74</td><td class="second">68.50</td><td>66.10</td><td>67.46</td><td>67.02</td></tr>
-                    <tr><th scope="row">HallusionBench</th><td>60.94</td><td>60.50</td><td>61.38</td><td>58.46</td><td>58.90</td><td>62.18</td><td class="best">63.86</td><td class="second">63.24</td><td>61.74</td></tr>
-                    <tr><th scope="row">BLINK</th><td>42.19</td><td class="second">43.82</td><td>41.50</td><td>42.71</td><td class="best">44.13</td><td>40.77</td><td>41.45</td><td>42.82</td><td>41.87</td></tr>
-                    <tr><th scope="row">GQA</th><td>65.20</td><td>64.96</td><td class="second">65.41</td><td>64.10</td><td class="best">65.65</td><td>64.33</td><td>64.87</td><td>65.16</td><td>64.14</td></tr>
-                    <tr class="family-row"><th scope="row">General Avg.</th><td>67.97</td><td>66.92</td><td>67.76</td><td>64.46</td><td>67.08</td><td>68.20</td><td class="best">68.53</td><td class="second">68.24</td><td>67.17</td></tr>
-                    <tr><th scope="row">MME</th><td class="second">1640.09</td><td>1609.74</td><td>1586.16</td><td>1492.04</td><td>1636.25</td><td class="best">1655.89</td><td>1632.52</td><td>1627.36</td><td>1588.83</td></tr>
-                    <tr><th scope="row">MMStar</th><td>52.80</td><td>52.27</td><td>54.07</td><td>49.47</td><td>50.60</td><td class="second">55.73</td><td class="best">56.00</td><td>54.07</td><td>54.00</td></tr>
-                    <tr><th scope="row">SEED-I</th><td class="second">74.89</td><td>74.00</td><td class="best">75.00</td><td>72.37</td><td>74.51</td><td>73.62</td><td>74.06</td><td>74.12</td><td>73.53</td></tr>
-                    <tr><th scope="row">MMBench DEV EN</th><td>84.62</td><td>81.54</td><td>84.20</td><td>78.61</td><td>82.77</td><td>84.71</td><td class="best">85.38</td><td class="second">84.75</td><td>83.92</td></tr>
-                    <tr><th scope="row">MMMU</th><td>48.29</td><td>48.29</td><td>48.57</td><td>47.62</td><td>47.14</td><td>48.00</td><td class="second">49.24</td><td class="best">50.00</td><td>48.00</td></tr>
-                    <tr class="family-row total-row"><th scope="row">Total Avg.</th><td>65.05</td><td>65.62</td><td>65.21</td><td>59.27</td><td>64.66</td><td class="best">65.86</td><td class="second">65.64</td><td>65.46</td><td>63.89</td></tr>
+                    <tr class="family-row"><th scope="row">OCR Avg.</th><td>57.94</td><td>61.34</td><td>57.73</td><td>41.90</td><td>57.43</td><td>61.52</td><td>61.14</td><td>56.17</td></tr>
+                    <tr><th scope="row">TextVQA</th><td>68.16</td><td>70.55</td><td>66.40</td><td>47.25</td><td>66.83</td><td>68.89</td><td>67.86</td><td>62.92</td></tr>
+                    <tr><th scope="row">DocVQA</th><td>71.38</td><td>77.30</td><td>70.99</td><td>51.46</td><td>72.93</td><td>76.99</td><td>76.34</td><td>68.57</td></tr>
+                    <tr><th scope="row">OCRBench</th><td>57.40</td><td>62.50</td><td>57.60</td><td>36.60</td><td>54.80</td><td>64.20</td><td>62.90</td><td>56.30</td></tr>
+                    <tr><th scope="row">ChartQA</th><td>72.32</td><td>74.64</td><td>73.44</td><td>57.72</td><td>72.64</td><td>75.68</td><td>75.80</td><td>72.40</td></tr>
+                    <tr><th scope="row">OCRBench v2</th><td>20.42</td><td>21.72</td><td>20.21</td><td>16.47</td><td>19.95</td><td>21.85</td><td>22.82</td><td>20.64</td></tr>
+                    <tr class="family-row"><th scope="row">Knowledge Avg.</th><td>80.86</td><td>79.86</td><td>80.40</td><td>78.04</td><td>79.66</td><td>81.29</td><td>80.96</td><td>80.11</td></tr>
+                    <tr><th scope="row">ScienceQA</th><td>82.53</td><td>80.57</td><td>81.40</td><td>79.63</td><td>82.08</td><td>82.06</td><td>81.99</td><td>81.40</td></tr>
+                    <tr><th scope="row">AI2D</th><td>79.18</td><td>79.15</td><td>79.40</td><td>76.46</td><td>77.23</td><td>80.51</td><td>79.92</td><td>78.82</td></tr>
+                    <tr class="family-row"><th scope="row">Vision Avg.</th><td>66.37</td><td>63.95</td><td>64.01</td><td>60.29</td><td>62.84</td><td>64.48</td><td>64.12</td><td>62.20</td></tr>
+                    <tr><th scope="row">RealWorldQA</th><td>65.23</td><td>63.79</td><td>64.44</td><td>63.14</td><td>63.27</td><td>64.84</td><td>63.66</td><td>61.05</td></tr>
+                    <tr><th scope="row">POPE</th><td>87.19</td><td>87.54</td><td>88.10</td><td>87.72</td><td>87.38</td><td>86.43</td><td>87.24</td><td>86.67</td></tr>
+                    <tr><th scope="row">MMVP</th><td>54.00</td><td>52.00</td><td>54.67</td><td>46.67</td><td>52.67</td><td>52.00</td><td>50.00</td><td>50.00</td></tr>
+                    <tr><th scope="row">CV-Bench 2D</th><td>68.34</td><td>67.36</td><td>68.83</td><td>63.38</td><td>68.00</td><td>66.88</td><td>65.82</td><td>63.99</td></tr>
+                    <tr><th scope="row">CV-Bench 3D</th><td>63.33</td><td>68.42</td><td>69.50</td><td>61.00</td><td>68.83</td><td>66.08</td><td>66.00</td><td>65.25</td></tr>
+                    <tr><th scope="row">What's Up</th><td>65.56</td><td>66.65</td><td>65.05</td><td>69.23</td><td>65.74</td><td>68.26</td><td>67.93</td><td>67.02</td></tr>
+                    <tr><th scope="row">HallusionBench</th><td>60.94</td><td>60.50</td><td>61.38</td><td>58.46</td><td>58.90</td><td>63.24</td><td>61.29</td><td>61.74</td></tr>
+                    <tr><th scope="row">BLINK</th><td>42.19</td><td>43.82</td><td>41.50</td><td>42.71</td><td>44.13</td><td>42.35</td><td>42.82</td><td>41.87</td></tr>
+                    <tr><th scope="row">CountBenchQA</th><td>90.55</td><td>65.50</td><td>62.63</td><td>50.31</td><td>56.67</td><td>70.23</td><td>72.28</td><td>&mdash;</td></tr>
+                    <tr class="family-row"><th scope="row">General Avg.</th><td>67.97</td><td>66.92</td><td>67.76</td><td>64.46</td><td>67.08</td><td>68.55</td><td>68.08</td><td>67.17</td></tr>
+                    <tr><th scope="row">GQA</th><td>65.20</td><td>64.96</td><td>65.41</td><td>64.10</td><td>65.65</td><td>64.99</td><td>65.04</td><td>64.14</td></tr>
+                    <tr><th scope="row">MME</th><td>1640.09</td><td>1609.74</td><td>1586.16</td><td>1492.04</td><td>1636.25</td><td>1650.76</td><td>1630.15</td><td>1588.83</td></tr>
+                    <tr><th scope="row">MMStar</th><td>52.80</td><td>52.27</td><td>54.07</td><td>49.47</td><td>50.60</td><td>56.27</td><td>55.20</td><td>54.00</td></tr>
+                    <tr><th scope="row">SEEDBench-IMG</th><td>74.89</td><td>74.00</td><td>75.00</td><td>72.37</td><td>74.51</td><td>74.18</td><td>74.27</td><td>73.53</td></tr>
+                    <tr><th scope="row">MMBench-dev-EN</th><td>84.62</td><td>81.54</td><td>84.20</td><td>78.61</td><td>82.77</td><td>85.31</td><td>84.87</td><td>83.92</td></tr>
+                    <tr><th scope="row">MMMU</th><td>48.29</td><td>48.29</td><td>48.57</td><td>47.62</td><td>47.14</td><td>48.00</td><td>47.62</td><td>48.00</td></tr>
+                    <tr class="family-row total-row"><th scope="row">Total Avg.</th><td class="second">66.21</td><td>65.62</td><td>65.10</td><td>58.86</td><td>64.30</td><td class="best">66.44</td><td>66.05</td><td>63.89</td></tr>
                   </tbody>
                 </table>
               </div>
@@ -890,46 +883,13 @@
           </div>
 
           <div class="result-panel" data-result-panel="robotic" hidden>
-            <p class="result-panel-desc">Frozen ViT encoders feed image observations through convolutional pooling and AdaLN into a DiT-style action expert. Success rates are reported on language-conditioned manipulation and CortexBench suites.</p>
+            <p class="result-panel-desc">Frozen ViT encoders are evaluated on CortexBench to measure transfer to embodied policy learning across dexterous and tabletop manipulation tasks.</p>
             <div class="robotic-benchmark-stack">
-              <article class="robotic-benchmark libero-benchmark">
-                <div class="robotic-benchmark-head">
-                  <div>
-                    <h4>LIBERO: Language-conditioned manipulation</h4>
-                    <p>We freeze the ViT encoder to encode image observations, apply convolutional pooling over patch tokens, and inject the resulting visual features through AdaLN into a DiT-style action expert. All encoders use the same input resolution, and task success rates are reported across spatial, object, goal, and long-horizon suites.</p>
-                  </div>
-                </div>
-
-                <div class="robotic-table-wrap">
-                  <table class="robotic-table">
-                    <thead>
-                      <tr>
-                        <th scope="col">Encoder</th>
-                        <th scope="col">Spatial</th>
-                        <th scope="col">Object</th>
-                        <th scope="col">Goal</th>
-                        <th scope="col">Long</th>
-                        <th scope="col">Avg.</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr><th scope="row">SigLIP2-So400M/16-NaFlex</th><td>51.13&plusmn;0.75</td><td>91.27&plusmn;1.20</td><td>51.53&plusmn;1.80</td><td>53.40&plusmn;2.16</td><td>61.83&plusmn;1.31</td></tr>
-                      <tr><th scope="row">C-RADIOv4-SO400M</th><td>79.07&plusmn;0.98</td><td class="second">97.13&plusmn;0.74</td><td class="best">86.80&plusmn;0.85</td><td class="best">79.53&plusmn;1.52</td><td class="second">85.63&plusmn;0.33</td></tr>
-                      <tr><th scope="row">Qwen3-ViT-400M</th><td>49.27&plusmn;0.57</td><td>87.73&plusmn;0.38</td><td>58.47&plusmn;1.24</td><td>46.60&plusmn;1.40</td><td>60.70&plusmn;0.05</td></tr>
-                      <tr><th scope="row">GenLIP-So/16</th><td>74.13&plusmn;0.47</td><td>95.60&plusmn;0.49</td><td>81.07&plusmn;0.66</td><td>70.33&plusmn;1.16</td><td>80.28&plusmn;0.41</td></tr>
-                      <tr><th scope="row">DINOv3-L/16</th><td class="second">79.80&plusmn;0.75</td><td>94.07&plusmn;0.77</td><td>83.67&plusmn;1.52</td><td>76.60&plusmn;1.30</td><td>83.53&plusmn;0.63</td></tr>
-                      <tr><th scope="row">PE-Core-L/14</th><td>69.67&plusmn;1.72</td><td>90.00&plusmn;1.30</td><td>71.00&plusmn;0.71</td><td>54.13&plusmn;0.84</td><td>71.20&plusmn;0.82</td></tr>
-                      <tr class="iron-row"><th scope="row">Ours-Softmax</th><td class="best">80.80&plusmn;2.51</td><td class="best">97.87&plusmn;0.41</td><td class="second">86.60&plusmn;0.86</td><td class="second">78.80&plusmn;1.70</td><td class="best">86.02&plusmn;0.83</td></tr>
-                    </tbody>
-                  </table>
-                </div>
-              </article>
-
               <article class="robotic-benchmark cortexbench-benchmark">
                 <div class="robotic-benchmark-head">
                   <div>
                     <h4>CortexBench: Embodied policy transfer</h4>
-                    <p>For CortexBench, ViT features are connected to a convolutional-pooling multi-layer MLP policy head. We report task success rates under the same input-resolution setting to assess robotic-learning transfer beyond LIBERO.</p>
+                    <p>For CortexBench, ViT features are connected to a convolutional-pooling multi-layer MLP policy head. We report task success rates under the same input-resolution setting to assess robotic-learning transfer across diverse manipulation tasks.</p>
                   </div>
                 </div>
                 <div class="robotic-table-wrap">
@@ -948,12 +908,13 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr><th scope="row">SigLIP2-So400M/16-NaFlex</th><td>73.3&plusmn;8.3</td><td>42.7&plusmn;9.2</td><td>77.3&plusmn;18.9</td><td>66.7&plusmn;6.1</td><td>64.0&plusmn;8.0</td><td class="best">100.0&plusmn;0.0</td><td>57.3&plusmn;8.3</td><td>68.8</td></tr>
-                      <tr><th scope="row">C-RADIOv4-SO400M</th><td class="second">74.7&plusmn;2.3</td><td class="best">66.7&plusmn;6.1</td><td class="best">97.3&plusmn;4.6</td><td>73.3&plusmn;12.2</td><td class="best">89.3&plusmn;4.6</td><td class="best">100.0&plusmn;0.0</td><td class="best">97.3&plusmn;2.3</td><td class="second">85.5</td></tr>
-                      <tr><th scope="row">GenLIP-So/16</th><td>73.3&plusmn;8.3</td><td>54.7&plusmn;6.1</td><td>93.3&plusmn;8.3</td><td>73.3&plusmn;2.3</td><td>65.3&plusmn;6.1</td><td class="best">100.0&plusmn;0.0</td><td>86.7&plusmn;9.2</td><td>78.1</td></tr>
-                      <tr><th scope="row">DINOv3-L/16</th><td>73.3&plusmn;6.1</td><td>42.7&plusmn;9.2</td><td>94.7&plusmn;9.2</td><td>77.3&plusmn;8.3</td><td class="second">88.0&plusmn;4.0</td><td class="best">100.0&plusmn;0.0</td><td class="second">96.0&plusmn;4.0</td><td>81.7</td></tr>
-                      <tr class="iron-row"><th scope="row">Ours-Softmax</th><td class="best">77.3&plusmn;2.3</td><td class="second">65.3&plusmn;6.1</td><td class="second">96.0&plusmn;6.9</td><td class="second">82.7&plusmn;4.6</td><td>86.7&plusmn;4.6</td><td class="best">100.0&plusmn;0.0</td><td>94.7&plusmn;6.1</td><td class="best">86.1</td></tr>
-                      <tr class="iron-row"><th scope="row">Ours-Hybrid</th><td class="best">77.3&plusmn;4.6</td><td>60.0&plusmn;4.0</td><td class="best">97.3&plusmn;4.6</td><td class="best">85.3&plusmn;12.9</td><td>81.3&plusmn;8.3</td><td class="best">100.0&plusmn;0.0</td><td>92.0&plusmn;4.0</td><td>84.7</td></tr>
+                      <tr><th scope="row">SigLIP2-So400M/16-NaFlex</th><td>73.33&plusmn;8.33</td><td>42.67&plusmn;9.24</td><td>77.33&plusmn;18.90</td><td>66.67&plusmn;6.11</td><td>64.00&plusmn;8.00</td><td class="best">100.00&plusmn;0.00</td><td>57.33&plusmn;8.33</td><td>68.76</td></tr>
+                      <tr><th scope="row">C-RADIOv4-SO400M</th><td class="second">74.67&plusmn;2.31</td><td class="best">66.67&plusmn;6.11</td><td class="best">97.33&plusmn;4.62</td><td>73.33&plusmn;12.22</td><td class="best">89.33&plusmn;4.62</td><td class="best">100.00&plusmn;0.00</td><td class="best">97.33&plusmn;2.31</td><td class="second">85.52</td></tr>
+                      <tr><th scope="row">GenLIP-So/16</th><td>73.33&plusmn;8.33</td><td>54.67&plusmn;6.11</td><td>93.33&plusmn;8.33</td><td>73.33&plusmn;2.31</td><td>65.33&plusmn;6.11</td><td class="best">100.00&plusmn;0.00</td><td>86.67&plusmn;9.24</td><td>78.09</td></tr>
+                      <tr><th scope="row">DINOv3-L/16</th><td>73.33&plusmn;6.11</td><td>42.67&plusmn;9.24</td><td>94.67&plusmn;9.24</td><td>77.33&plusmn;8.33</td><td class="second">88.00&plusmn;4.00</td><td class="best">100.00&plusmn;0.00</td><td class="second">96.00&plusmn;4.00</td><td>81.71</td></tr>
+                      <tr><th scope="row">PE-Core-L/14</th><td>70.7&plusmn;6.1</td><td>56.0&plusmn;4.0</td><td>82.7&plusmn;10.1</td><td>76.0&plusmn;6.9</td><td>52.0&plusmn;4.0</td><td class="best">100.00</td><td>68.0&plusmn;12.0</td><td>72.20</td></tr>
+                      <tr class="iron-row"><th scope="row">Ours-Softmax</th><td class="best">77.3&plusmn;2.3</td><td class="second">65.3&plusmn;6.1</td><td>96.0&plusmn;6.9</td><td class="second">82.7&plusmn;4.6</td><td>86.7&plusmn;4.6</td><td class="best">100.0&plusmn;0.0</td><td>94.7&plusmn;6.1</td><td class="best">86.10</td></tr>
+                      <tr class="iron-row"><th scope="row">Ours-Hybrid</th><td class="best">77.3&plusmn;4.6</td><td>60.0&plusmn;4.0</td><td class="second">97.3&plusmn;4.6</td><td class="best">85.3&plusmn;12.9</td><td>81.3&plusmn;8.3</td><td class="best">100.0&plusmn;0.0</td><td>92.0&plusmn;4.0</td><td>84.74</td></tr>
                     </tbody>
                   </table>
                 </div>
@@ -970,17 +931,6 @@
           </div>
         </div>
 
-        <div class="benchmark reveal">
-          <div class="benchmark-tabs" role="tablist" aria-label="Benchmark chart">
-            <button type="button" class="active" role="tab" aria-selected="true" data-metric="linear_in1k">IN-1k Linear</button>
-            <button type="button" role="tab" aria-selected="false" data-metric="ade20k">ADE20K</button>
-            <button type="button" role="tab" aria-selected="false" data-metric="vlm_general">VLM General</button>
-            <button type="button" role="tab" aria-selected="false" data-metric="vlm_knowledge">VLM Knowledge</button>
-            <button type="button" role="tab" aria-selected="false" data-metric="coco_it">COCO Retrieval</button>
-          </div>
-          <div class="chart" id="benchmarkChart-vit" aria-live="polite"></div>
-          <p class="chart-note">IronViT variants vs SigLIP2 and PE-Core baselines.</p>
-        </div>
       </div>
     </section>
     </div>
@@ -999,6 +949,6 @@
       <a href="#top">Back to top &rarr;</a>
     </div>
   </footer>
-<script src="script.js?v=v2-50"></script>
+<script src="script.js?v=v2-51"></script>
 </body>
 </html>
