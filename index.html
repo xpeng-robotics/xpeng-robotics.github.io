@@ -320,14 +320,17 @@
 
     .hero h1 {
       margin: 0;
-      max-width: 820px;
+      max-width: 11.4em;
       font-size: clamp(40px, 5.6vw, 72px);
       line-height: 1.02;
       letter-spacing: -0.035em;
       font-weight: 600;
     }
 
+    .hero h1 .keep { white-space: nowrap; }
+
     .hero h1 .grad {
+      white-space: nowrap;
       background: linear-gradient(100deg, var(--accent) 10%, var(--accent-2) 90%);
       -webkit-background-clip: text;
       background-clip: text;
@@ -620,6 +623,10 @@
       .row .tag { display: none; }
     }
 
+    @media (max-width: 760px) {
+      .hero h1 .grad, .hero h1 .keep { white-space: normal; }
+    }
+
     @media (max-width: 640px) {
       .wrap { width: calc(100% - 32px); }
       .brand-sub, .nav-links a { display: none; }
@@ -662,7 +669,7 @@
       <img class="hero-figure hero-figure--day" src="assets/iron-david-stance.webp" width="2200" height="1237" alt="" decoding="async" fetchpriority="high">
     </div>
     <div class="wrap">
-      <h1 class="reveal">Humanoids that <span class="grad">perceive, reason, and act</span> in the physical world.</h1>
+      <h1 class="reveal">Humanoids that <span class="grad">perceive, reason, and act</span> <span class="keep">in the physical world.</span></h1>
       <div class="hero-actions reveal">
         <a class="btn btn-primary" href="#research">Explore research
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
