@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>XPENG Robotics</title>
+  <meta name="description" content="XPENG Robotics research blog: humanoid robots that perceive, reason, and act in the physical world.">
   <link rel="icon" type="image/png" href="assets/xpeng-favicon-ink.png">
   <link rel="icon" type="image/png" href="assets/xpeng-favicon-ink.png" media="(prefers-color-scheme: light)">
   <link rel="icon" type="image/png" href="assets/xpeng-favicon-white.png" media="(prefers-color-scheme: dark)">
@@ -13,52 +14,58 @@
   <!-- End Cloudflare Web Analytics -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script>
-    const storedTheme = localStorage.getItem("paper-blog-theme");
-    if (storedTheme === "day" || storedTheme === "night") {
-      document.documentElement.dataset.theme = storedTheme;
-    }
+    try {
+      const storedTheme = localStorage.getItem("paper-blog-theme");
+      if (storedTheme === "day" || storedTheme === "night") {
+        document.documentElement.dataset.theme = storedTheme;
+      }
+    } catch (e) {}
+    document.documentElement.classList.add("js");
   </script>
   <style>
     :root {
       color-scheme: dark;
-      --bg: #0f1110;
-      --paper: #171917;
-      --paper-2: #20231f;
-      --ink: #f4f1e8;
-      --muted: #b8b1a2;
-      --soft: #777062;
-      --line: rgba(244, 241, 232, 0.16);
-      --accent: #f05f3b;
-      --accent-2: #98d957;
-      --accent-3: #60c4bf;
-      --shadow: rgba(0, 0, 0, 0.35);
-      --max: 1180px;
-      --radius: 8px;
-      --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      --font-mono: ui-monospace, "SFMono-Regular", "SF Mono", "Roboto Mono", "Cascadia Mono", "Liberation Mono", Menlo, Consolas, monospace;
-      --small-size: 13px;
-      --label-size: 12px;
+      --bg: #0a0b0d;
+      --surface: #111317;
+      --surface-2: #171a1f;
+      --ink: #eef0f3;
+      --muted: #a1a7b0;
+      --soft: #6b717b;
+      --line: rgba(238, 240, 243, 0.09);
+      --line-strong: rgba(238, 240, 243, 0.16);
+      --accent: #ff6b3d;
+      --accent-2: #ffb36b;
+      --accent-3: #5ec8c2;
+      --glow: rgba(255, 107, 61, 0.16);
+      --max: 1200px;
+      --radius: 20px;
+      --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, monospace;
+      --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
     }
 
     html[data-theme="day"] {
       color-scheme: light;
-      --bg: #f5f2ea;
-      --paper: #fffcf4;
-      --paper-2: #ede8dc;
-      --ink: #191815;
-      --muted: #5e5a50;
-      --soft: #8c8576;
-      --line: rgba(25, 24, 21, 0.16);
-      --accent: #d64624;
-      --accent-2: #497f1f;
-      --accent-3: #087b7b;
-      --shadow: rgba(45, 38, 25, 0.14);
+      --bg: #f7f7f5;
+      --surface: #ffffff;
+      --surface-2: #f0f0ed;
+      --ink: #121417;
+      --muted: #5a606a;
+      --soft: #8b909a;
+      --line: rgba(18, 20, 23, 0.08);
+      --line-strong: rgba(18, 20, 23, 0.15);
+      --accent: #e5522a;
+      --accent-2: #d9822f;
+      --accent-3: #0f8a85;
+      --glow: rgba(229, 82, 42, 0.12);
     }
 
     * { box-sizing: border-box; }
+
     html {
+      overflow-x: clip;
       scroll-behavior: smooth;
       overflow-y: scroll;
       scrollbar-gutter: stable;
@@ -66,65 +73,88 @@
       scrollbar-width: thin;
     }
 
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb {
       border: 3px solid transparent;
       border-radius: 999px;
       background: color-mix(in srgb, var(--muted) 26%, transparent);
       background-clip: content-box;
     }
-
     ::-webkit-scrollbar-thumb:hover {
       background: color-mix(in srgb, var(--accent) 38%, transparent);
       background-clip: content-box;
     }
+
     body {
       margin: 0;
       min-height: 100vh;
       overflow-x: hidden;
-      background:
-        linear-gradient(180deg, rgba(240, 95, 59, 0.10), transparent 360px),
-        var(--bg);
+      background: var(--bg);
       color: var(--ink);
       font-family: var(--font-sans);
-      letter-spacing: 0;
+      font-feature-settings: "ss01", "cv11";
+      -webkit-font-smoothing: antialiased;
     }
 
     body::before {
       content: "";
-      position: fixed;
-      inset: 0;
+      position: absolute;
+      top: -240px;
+      left: 50%;
+      width: min(1200px, 100%);
+      height: 760px;
+      transform: translateX(-50%);
       pointer-events: none;
-      opacity: 0.08;
+      background: radial-gradient(closest-side, var(--glow), transparent 72%);
+      z-index: 0;
+    }
+
+    body::after {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 820px;
+      pointer-events: none;
       background-image:
         linear-gradient(var(--line) 1px, transparent 1px),
         linear-gradient(90deg, var(--line) 1px, transparent 1px);
-      background-size: 42px 42px;
-      mask-image: linear-gradient(180deg, #000, transparent 72%);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 20%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 20%, transparent 75%);
+      z-index: 0;
     }
 
     a { color: inherit; text-decoration: none; }
-    .wrap { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+    .wrap { position: relative; z-index: 1; width: min(var(--max), calc(100% - 48px)); margin: 0 auto; }
 
+    ::view-transition-old(root),
+    ::view-transition-new(root) { animation-duration: 320ms; }
+
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 8px;
+    }
+
+    /* ---------- Nav ---------- */
     .nav {
       position: sticky;
       top: 0;
       z-index: 30;
-      border-bottom: 1px solid var(--line);
-      background: color-mix(in srgb, var(--bg) 84%, transparent);
-      backdrop-filter: blur(18px);
+      border-bottom: 1px solid transparent;
+      transition: background-color 240ms ease, border-color 240ms ease;
+    }
+
+    .nav.scrolled {
+      background: color-mix(in srgb, var(--bg) 78%, transparent);
+      border-bottom-color: var(--line);
+      backdrop-filter: saturate(160%) blur(18px);
+      -webkit-backdrop-filter: saturate(160%) blur(18px);
     }
 
     .nav-inner {
-      min-height: 66px;
+      min-height: 68px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -135,31 +165,23 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      font-size: var(--small-size);
-      text-transform: uppercase;
-      color: var(--muted);
-      white-space: nowrap;
-      min-width: 0;
-    }
-
-    .brand-text {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-      font-family: var(--font-sans);
+      font-size: 14px;
       font-weight: 600;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
     }
 
-    .brand-sep {
+    .brand-sub {
       color: var(--soft);
-      margin: 0 4px;
+      font-weight: 500;
+      padding-left: 12px;
+      border-left: 1px solid var(--line-strong);
     }
 
     .mark {
       position: relative;
-      width: 34px;
-      height: 18px;
+      width: 36px;
+      height: 19px;
       display: block;
       flex: 0 0 auto;
     }
@@ -176,432 +198,669 @@
     html[data-theme="day"] .logo-mark--ink { display: block; }
     html[data-theme="day"] .logo-mark--white { display: none; }
 
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .nav-links a {
+      padding: 8px 14px;
+      border-radius: 999px;
+      transition: color 180ms ease, background-color 180ms ease;
+    }
+
+    .nav-links a:hover { color: var(--ink); background: var(--surface-2); }
+
+    .theme-toggle {
+      margin-left: 8px;
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--ink);
+      cursor: pointer;
+      transition: border-color 180ms ease, transform 180ms ease;
+    }
+
+    .theme-toggle:hover { border-color: color-mix(in srgb, var(--accent) 60%, var(--line-strong)); }
+    .theme-toggle:active { transform: scale(0.94); }
+    .theme-toggle svg { width: 17px; height: 17px; }
+    .theme-toggle .icon-sun { display: none; }
+    html[data-theme="day"] .theme-toggle .icon-sun { display: block; }
+    html[data-theme="day"] .theme-toggle .icon-moon { display: none; }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      position: relative;
+      min-height: min(820px, calc(100vh - 68px));
+      display: flex;
+      align-items: flex-end;
+      margin-top: -68px;
+      padding: 208px 0 72px;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 55%, transparent) 38%, transparent 62%, color-mix(in srgb, var(--bg) 70%, transparent) 100%),
+        linear-gradient(180deg, transparent 0%, transparent 55%, var(--bg) 100%);
+    }
+
+    .hero-art {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      transition: opacity 900ms ease;
+    }
+
+    .hero-figure {
+      position: absolute;
+      left: 62%;
+      top: 0;
+      width: clamp(920px, 118vw, 1600px);
+      max-width: none;
+      height: auto;
+      opacity: 0.26;
+      filter: saturate(0.58) contrast(1.2) brightness(0.92);
+      transform: translateX(-50%);
+      mix-blend-mode: lighten;
+      transition: opacity 520ms ease;
+      mask-image: linear-gradient(180deg, #000 0%, #000 44%, rgba(0, 0, 0, 0.6) 56%, transparent 72%);
+      -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 44%, rgba(0, 0, 0, 0.6) 56%, transparent 72%);
+    }
+
+    .hero-figure--day {
+      width: clamp(1300px, 160vw, 2100px);
+      opacity: 0;
+      filter: saturate(0.4) contrast(1.05) brightness(1.08);
+      transform: translateX(-47%);
+      mix-blend-mode: multiply;
+      mask-image: linear-gradient(180deg, #000 0%, #000 34%, rgba(0, 0, 0, 0.5) 46%, transparent 60%);
+      -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 34%, rgba(0, 0, 0, 0.5) 46%, transparent 60%);
+    }
+
+    .js .hero-art:not(.ready) { opacity: 0; }
+
+    html[data-theme="day"] .hero-figure--night { opacity: 0; }
+    html[data-theme="day"] .hero-figure--day { opacity: 0.22; }
+
+    .hero h1 {
+      margin: 0;
+      max-width: 820px;
+      font-size: clamp(40px, 5.6vw, 72px);
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+      font-weight: 600;
+    }
+
+    .hero h1 .grad {
+      background: linear-gradient(100deg, var(--accent) 10%, var(--accent-2) 90%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 36px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      height: 46px;
+      padding: 0 22px;
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 500;
+      transition: transform 180ms var(--ease), background-color 180ms ease, border-color 180ms ease;
+    }
+
+    .btn svg { width: 16px; height: 16px; transition: transform 180ms var(--ease); }
+
+    .btn:hover svg { transform: translateX(3px); }
+
+    .btn-primary { background: var(--ink); color: var(--bg); }
+
+    .btn-primary:hover { transform: translateY(-1px); }
+
+
+    /* ---------- Fe0 / Si0 marks ---------- */
     .fe-mark {
       display: inline-flex;
       align-items: baseline;
       color: inherit;
       line-height: 0.88;
-      letter-spacing: 0;
       white-space: nowrap;
-      text-shadow: 0 0 18px color-mix(in srgb, var(--accent-3) 10%, transparent);
     }
 
     .fe-name {
-      font-family: "Chakra Petch", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-style: normal;
-      font-weight: normal;
-    }
-
-    .fe-zero {
-      font-family: "SFMono-Regular", "Roboto Mono", "Cascadia Mono", "Liberation Mono", Menlo, Consolas, monospace;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 0.32em;
-      line-height: 1;
-      margin-left: 0.02em;
-      transform: translateY(0.24em);
-      vertical-align: baseline;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 22px;
-      font-size: var(--small-size);
-      color: var(--muted);
-    }
-
-    .nav-links a {
-      position: relative;
-      transition: color 180ms ease;
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--ink);
-    }
-
-    .nav-links a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -8px;
-      height: 1px;
-      background: var(--accent);
-      transform: scaleX(0);
-      transition: transform 180ms ease;
-    }
-
-    .nav-links a:hover::after,
-    .nav-links a.active::after {
-      transform: scaleX(1);
-    }
-
-    .theme-toggle {
-      border: 1px solid var(--line);
-      color: var(--ink);
-      background: var(--paper);
-      height: 36px;
-      width: 76px;
-      border-radius: 999px;
-      padding: 3px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-    }
-
-    .theme-toggle span {
-      width: 30px;
-      height: 30px;
-      border-radius: 999px;
-      background: var(--ink);
-      color: var(--bg);
-      display: grid;
-      place-items: center;
-      font-size: var(--small-size);
-      transition: transform 260ms ease;
-    }
-
-    html[data-theme="day"] .theme-toggle span { transform: translateX(38px); }
-
-    .intro {
-      padding: 58px 0 38px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .eyebrow {
-      color: var(--accent-2);
-      font-size: var(--small-size);
-      text-transform: uppercase;
-      margin-bottom: 18px;
-    }
-
-    .intro-copy {
-      margin: 0;
-      max-width: 1000px;
-      color: var(--muted);
-      font-size: clamp(18px, 1.6vw, 21px);
-      line-height: 1.65;
-    }
-
-    .intro-copy strong {
-      color: var(--ink);
-    }
-
-    section {
-      position: relative;
-      padding: 44px 0 64px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .section-heading {
-      display: grid;
-      grid-template-columns: minmax(180px, 0.34fr) minmax(0, 1fr);
-      gap: 44px;
-      align-items: start;
-      margin-bottom: 32px;
-    }
-
-    .kicker {
-      color: var(--accent-2);
-      font-size: var(--label-size);
-      text-transform: uppercase;
-    }
-
-    .blog-list {
-      border-top: 1px solid var(--line);
-    }
-
-    .blog-row {
-      display: grid;
-      grid-template-columns: 150px minmax(0, 1fr) 120px;
-      gap: 30px;
-      padding: 30px 0;
-      border-bottom: 1px solid var(--line);
-      align-items: start;
-      transition: color 180ms ease, border-color 180ms ease;
-    }
-
-    .blog-row--featured {
-      position: relative;
-      isolation: isolate;
-      border-bottom-color: color-mix(in srgb, var(--accent) 28%, var(--line));
-    }
-
-    .blog-row--featured::before {
-      content: "";
-      position: absolute;
-      inset: 10px -16px;
-      z-index: -1;
-      border-radius: 8px;
-      border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
-      background: color-mix(in srgb, var(--accent) 7%, var(--paper));
-      box-shadow: inset 0 1px 0 color-mix(in srgb, var(--ink) 5%, transparent);
-      opacity: 0.82;
-    }
-
-    .blog-row--featured .blog-type {
-      color: color-mix(in srgb, var(--accent) 48%, var(--soft));
-    }
-
-    .blog-row--featured .fe-mark {
-      color: color-mix(in srgb, var(--accent) 72%, var(--ink));
-    }
-
-    html[data-theme="day"] .blog-row--featured {
-      border-bottom-color: color-mix(in srgb, var(--accent) 24%, var(--line));
-    }
-
-    html[data-theme="day"] .blog-row--featured::before {
-      border-color: color-mix(in srgb, var(--accent) 18%, transparent);
-      background: color-mix(in srgb, var(--accent) 6%, var(--paper));
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.74);
-      opacity: 1;
-    }
-
-    .blog-row:hover {
-      color: var(--accent);
-      border-color: color-mix(in srgb, var(--accent) 44%, var(--line));
-    }
-
-    .blog-date {
-      color: var(--soft);
-      font-size: var(--small-size);
-      line-height: 1.5;
-    }
-
-    .blog-title {
-      margin: 0;
-      color: var(--ink);
-      font-size: clamp(22px, 2.4vw, 30px);
-      line-height: 1.08;
-      letter-spacing: 0;
-      transition: color 180ms ease;
-    }
-
-    .blog-row:hover .blog-title {
-      color: var(--accent);
-    }
-
-    .blog-title .fe-mark {
-      font-size: 1.04em;
-    }
-
-    .blog-title .fe-name {
+      font-family: "Chakra Petch", var(--font-sans);
       font-weight: 700;
     }
 
-    .blog-summary {
-      max-width: 760px;
-      margin: 14px 0 0;
-      color: var(--muted);
-      font-size: 17px;
-      line-height: 1.58;
+    .fe-zero {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 0.42em;
+      line-height: 1;
+      margin-left: 0.04em;
+      transform: translateY(0.2em);
     }
 
-    .blog-type {
+    /* ---------- Research ---------- */
+    .research {
+      padding: 88px 0 96px;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .filters {
+      display: inline-flex;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+    }
+
+    .filter {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 36px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font: 500 14px var(--font-sans);
+      cursor: pointer;
+      transition: color 180ms ease, background-color 180ms ease;
+    }
+
+    .filter:hover { color: var(--ink); }
+
+    .filter[aria-pressed="true"] {
+      background: var(--surface-2);
+      color: var(--ink);
+      box-shadow: inset 0 0 0 1px var(--line-strong);
+    }
+
+    .filter-count {
       color: var(--soft);
       font-family: var(--font-mono);
-      font-size: var(--label-size);
+      font-size: 11px;
+    }
+
+    /* Featured */
+    .arrow {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      color: var(--ink);
+      transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease, transform 220ms var(--ease);
+    }
+
+    .arrow svg { width: 14px; height: 14px; }
+
+    .row:hover .arrow {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      transform: rotate(-45deg);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      height: 26px;
+      padding: 0 11px;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      text-align: right;
+      white-space: nowrap;
     }
 
-    .footer {
-      padding: 42px 0 64px;
+    .tag::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-3);
+    }
+
+    .tag--report::before { background: var(--accent); }
+
+    /* List */
+    .list {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      overflow: hidden;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 120px minmax(0, 1fr) auto 34px;
+      gap: 28px;
+      align-items: center;
+      padding: 26px 28px;
+      border-top: 1px solid var(--line);
+      transition: background-color 200ms ease;
+    }
+
+    .row.first-visible { border-top: 0; }
+    .row:focus-visible { outline-offset: -3px; border-radius: 0; }
+
+    .row:hover { background: var(--surface-2); }
+
+    .row--featured {
+      background: color-mix(in srgb, var(--ink) 2.5%, var(--surface));
+    }
+
+    .row--featured:hover { background: color-mix(in srgb, var(--ink) 5%, var(--surface)); }
+
+    .row--featured .row-date { color: var(--muted); }
+
+    .row--featured .row-date::after {
+      content: "Featured";
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: max-content;
+      margin-top: 10px;
+      color: var(--accent);
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .row.row--featured h3 { font-size: 19px; }
+    .row.row--featured h3 .rest { color: var(--ink); }
+    .row.row--featured p { color: var(--muted); }
+
+    .row-date {
       color: var(--soft);
-      font-size: var(--small-size);
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      font-variant-numeric: tabular-nums;
     }
 
-    @media (max-width: 900px) {
-      .section-heading {
-        grid-template-columns: 1fr;
-      }
+    .row h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.35;
+      letter-spacing: -0.012em;
+      transition: color 200ms ease;
+    }
 
-      .blog-row {
-        grid-template-columns: 110px minmax(0, 1fr);
-      }
+    .row h3 .acro { color: var(--ink); }
+    .row h3 .rest { color: var(--muted); font-weight: 500; transition: color 200ms ease; }
+    .row:hover h3 .rest { color: var(--ink); }
 
-      .blog-type {
-        grid-column: 2;
-        text-align: left;
-      }
+    .row p {
+      margin: 8px 0 0;
+      max-width: 720px;
+      color: var(--soft);
+      font-size: 14.5px;
+      line-height: 1.55;
+    }
+
+    [hidden] { display: none !important; }
+
+    .empty {
+      padding: 40px;
+      text-align: center;
+      color: var(--soft);
+    }
+
+    /* ---------- Footer ---------- */
+    .footer {
+      border-top: 1px solid var(--line);
+      padding: 36px 0 48px;
+      color: var(--soft);
+      font-size: 13px;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer .brand { color: var(--muted); font-size: 13px; }
+    .footer a:hover { color: var(--ink); }
+
+    /* ---------- Reveal ---------- */
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 700ms var(--ease), transform 700ms var(--ease);
+    }
+
+    .js .reveal.in { opacity: 1; transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .js .reveal { opacity: 1; transform: none; transition: none; }
+      .arrow { transition: none; }
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 980px) {
+        .row { grid-template-columns: 100px minmax(0, 1fr) 34px; }
+      .row .tag { display: none; }
     }
 
     @media (max-width: 640px) {
-      .wrap { width: min(100% - 24px, var(--max)); }
-      .nav-links a { display: none; }
-      .brand-text { overflow: hidden; text-overflow: ellipsis; }
-      .nav-links { gap: 14px; }
-      .intro { padding: 42px 0 34px; }
-      section { padding: 38px 0 52px; }
-      .blog-row {
-        grid-template-columns: 1fr;
-        gap: 12px;
-        padding: 26px 0;
-      }
-      .blog-type { grid-column: auto; }
+      .wrap { width: calc(100% - 32px); }
+      .brand-sub, .nav-links a { display: none; }
+      .hero { min-height: 0; padding: 200px 0 56px; }
+      .hero-figure { left: 70%; }
+      .hero-figure--day { width: 900px; top: 20px; }
+      .research { padding: 64px 0 72px; }
+      .filters { width: 100%; }
+      .filter { flex: 1; justify-content: center; padding: 0 10px; }
+          .row { grid-template-columns: minmax(0, 1fr) 34px; gap: 10px 16px; padding: 22px 20px; }
+      .row-date { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; }
+      .row--featured .row-date::after { margin-top: 0; }
+      .row h3 { font-size: 17px; }
+      .row.row--featured h3 { font-size: 17px; }
     }
   </style>
 </head>
 <body>
   <nav class="nav">
     <div class="wrap nav-inner">
-      <a class="brand" href="index.html"><span class="mark" aria-hidden="true"><img class="logo-mark logo-mark--white" src="assets/xpeng-logo-white.png" alt=""><img class="logo-mark logo-mark--ink" src="assets/xpeng-logo-ink.png" alt=""></span><span class="brand-text"><span>XPENG Robotics</span></span></a>
+      <a class="brand" href="index.html" aria-label="XPENG Robotics home">
+        <span class="mark" aria-hidden="true"><img class="logo-mark logo-mark--white" src="assets/xpeng-logo-white.png" alt=""><img class="logo-mark logo-mark--ink" src="assets/xpeng-logo-ink.png" alt=""></span>
+        <span>XPENG Robotics</span>
+        <span class="brand-sub">Research</span>
+      </a>
       <div class="nav-links">
-        <a class="active" href="index.html">Home</a>
-        <button class="theme-toggle" type="button" aria-label="Toggle day and night theme"><span>☾</span></button>
+        <a href="#about">About</a>
+        <a href="#research">Research</a>
+        <button class="theme-toggle" type="button" aria-label="Toggle day and night theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
       </div>
     </div>
   </nav>
 
-  <header class="intro">
+  <header class="hero" id="about">
+    <div class="hero-art" aria-hidden="true">
+      <img class="hero-figure hero-figure--night" src="assets/iron-front-hand.webp" width="2400" height="1345" alt="" decoding="async" fetchpriority="high">
+      <img class="hero-figure hero-figure--day" src="assets/iron-david-stance.webp" width="2200" height="1237" alt="" decoding="async" fetchpriority="high">
+    </div>
     <div class="wrap">
-      <div class="eyebrow">Research blog</div>
-      <p class="intro-copy"><strong>XPENG Robotics</strong> builds humanoid robots that perceive, reason, and act in the physical world.</p>
+      <h1 class="reveal">Humanoids that <span class="grad">perceive, reason, and act</span> in the physical world.</h1>
+      <div class="hero-actions reveal">
+        <a class="btn btn-primary" href="#research">Explore research
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+      </div>
     </div>
   </header>
 
   <main>
-    <section id="blog">
+    <section class="research" id="research">
       <div class="wrap">
-        <div class="section-heading">
-          <div class="kicker">Latest writing</div>
+        <div class="section-head reveal">
+          <div>
+            <div class="eyebrow">Research</div>
+          </div>
+          <div class="filters" role="group" aria-label="Filter by type">
+            <button class="filter" type="button" data-filter="all" aria-pressed="true">All <span class="filter-count" data-count="all"></span></button>
+            <button class="filter" type="button" data-filter="report" aria-pressed="false">Reports <span class="filter-count" data-count="report"></span></button>
+            <button class="filter" type="button" data-filter="paper" aria-pressed="false">Papers <span class="filter-count" data-count="paper"></span></button>
+          </div>
         </div>
 
-        <div class="blog-list" aria-label="Blog posts">
-          <a class="blog-row blog-row--featured" href="iron-fm/?model=llm">
-            <time class="blog-date" datetime="2026-09-29">Sep 29, 2026</time>
+        <div class="list reveal" aria-label="Blog posts">
+          <a class="row row--featured post" data-type="report" href="iron-fm/?model=llm">
+            <time class="row-date" datetime="2026-09-29">Sep 29, 2026</time>
             <div>
-              <h3 class="blog-title">IronLLM: Forging Compact Edge-Native Language Models for Real-Time Embodied Intelligence</h3>
-              <p class="blog-summary">A 654M edge-native language model combining hybrid attention with X-MTP for a 1.48x decoding speedup, alongside an optimized Light variant for deployment and quantization efficiency.</p>
+              <h3><span class="acro">IronLLM:</span> <span class="rest">Forging Compact Edge-Native Language Models for Real-Time Embodied Intelligence</span></h3>
+              <p>A 654M edge-native language model combining hybrid attention with X-MTP for a 1.48x decoding speedup, alongside an optimized Light variant for deployment and quantization efficiency.</p>
             </div>
-            <span class="blog-type">Report</span>
+            <span class="tag tag--report">Report</span>
+            <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </a>
 
-          <a class="blog-row blog-row--featured" href="iron-fm/?model=vit">
-            <time class="blog-date" datetime="2026-09-29">Sep 29, 2026</time>
+          <a class="row row--featured post" data-type="report" href="iron-fm/?model=vit">
+            <time class="row-date" datetime="2026-09-29">Sep 29, 2026</time>
             <div>
-              <h3 class="blog-title">IronViT: Toward Efficient Generalist Visual Representation Learning</h3>
-              <p class="blog-summary">An efficient, generalist visual encoder with softmax, hybrid, and linear attention variants, unifying recognition, dense prediction, and multimodal understanding in one backbone.</p>
+              <h3><span class="acro">IronViT:</span> <span class="rest">Toward Efficient Generalist Visual Representation Learning</span></h3>
+              <p>An efficient, generalist visual encoder with softmax, hybrid, and linear attention variants, unifying recognition, dense prediction, and multimodal understanding in one backbone.</p>
             </div>
-            <span class="blog-type">Report</span>
+            <span class="tag tag--report">Report</span>
+            <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </a>
 
-          <a class="blog-row blog-row--featured" href="xpace/">
-            <time class="blog-date" datetime="2026-09-17">Sep 17, 2026</time>
+          <a class="row row--featured post" data-type="report" href="xpace/">
+            <time class="row-date" datetime="2026-09-17">Sep 17, 2026</time>
             <div>
-              <h3 class="blog-title">XPACE: Joint World and Action Modeling from Heterogeneous Experience</h3>
-              <p class="blog-summary">A unified embodied world model that learns from human and robot experience to jointly predict actions and future video, then improves robot policies through simulated recoveries.</p>
+              <h3><span class="acro">XPACE:</span> <span class="rest">Joint World and Action Modeling from Heterogeneous Experience</span></h3>
+              <p>A unified embodied world model that learns from human and robot experience to jointly predict actions and future video, then improves robot policies through simulated recoveries.</p>
             </div>
-            <span class="blog-type">Report</span>
+            <span class="tag tag--report">Report</span>
+            <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </a>
 
-          <a class="blog-row" href="anyworld/">
-            <time class="blog-date" datetime="2026-09-01">Sep 1, 2026</time>
+          <a class="row post" data-type="paper" href="anyworld/">
+            <time class="row-date" datetime="2026-09-01">Sep 1, 2026</time>
             <div>
-              <h3 class="blog-title">AnyWorld: Factorized Egocentric World Models for Cross-Embodiment Generalization</h3>
-              <p class="blog-summary">Factorized egocentric world models that recompose unpaired human interactions into robot-native experience across embodiments, viewpoints, and scenes.</p>
+              <h3><span class="acro">AnyWorld:</span> <span class="rest">Factorized Egocentric World Models for Cross-Embodiment Generalization</span></h3>
+              <p>Factorized egocentric world models that recompose unpaired human interactions into robot-native experience across embodiments, viewpoints, and scenes.</p>
             </div>
-            <span class="blog-type">Paper</span>
+            <span class="tag">Paper</span>
+            <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </a>
 
-          <a class="blog-row blog-row--featured" href="capek-0.5/">
-            <time class="blog-date" datetime="2026-08-07">Aug 7, 2026</time>
+          <a class="row row--featured post" data-type="report" href="capek-0.5/">
+            <time class="row-date" datetime="2026-08-07">Aug 7, 2026</time>
             <div>
-              <h3 class="blog-title">Capek 0.5: An Execution-Centric Vision-Language Model for Embodied Intelligence</h3>
-              <p class="blog-summary">An execution-centric vision-language model organized around spatial reasoning, temporal understanding, action guidance, and state verification.</p>
+              <h3><span class="acro">Capek 0.5:</span> <span class="rest">An Execution-Centric Vision-Language Model for Embodied Intelligence</span></h3>
+              <p>An execution-centric vision-language model organized around spatial reasoning, temporal understanding, action guidance, and state verification.</p>
             </div>
-            <span class="blog-type">Report</span>
+            <span class="tag tag--report">Report</span>
+            <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </a>
 
-          <a class="blog-row blog-row--featured" href="si0/">
-            <time class="blog-date" datetime="2026-06-30">Jun 30, 2026</time>
+          <a class="row row--featured post" data-type="report" href="si0/">
+            <time class="row-date" datetime="2026-06-30">Jun 30, 2026</time>
             <div>
-              <h3 class="blog-title"><span class="fe-mark" aria-label="Si subscript zero"><span class="fe-name">Si</span><sub class="fe-zero">0</sub></span>: The Capabilities That Transfer, Perceived Through the Robot's Eyes</h3>
-              <p class="blog-summary">The capabilities, data, and sensor alignment behind Si<sub>0</sub> as a spatial-intelligence backbone for humanoids.</p>
+              <h3><span class="acro"><span class="fe-mark" aria-label="Si subscript zero"><span class="fe-name">Si</span><sub class="fe-zero">0</sub></span>:</span> <span class="rest">The Capabilities That Transfer, Perceived Through the Robot's Eyes</span></h3>
+              <p>The capabilities, data, and sensor alignment behind Si<sub>0</sub> as a spatial-intelligence backbone for humanoids.</p>
             </div>
-            <span class="blog-type">Report</span>
+            <span class="tag tag--report">Report</span>
+            <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </a>
 
-          <a class="blog-row" href="rove/">
-            <time class="blog-date" datetime="2026-06-14">Jun 14, 2026</time>
+          <a class="row post" data-type="paper" href="rove/">
+            <time class="row-date" datetime="2026-06-14">Jun 14, 2026</time>
             <div>
-              <h3 class="blog-title">ROVE: Unlocking Human Interventions for Humanoid Manipulation via Reinforcement Learning</h3>
-              <p class="blog-summary">The first human-in-the-loop VLA-RL framework for humanoid robots with dexterous hands.</p>
+              <h3><span class="acro">ROVE:</span> <span class="rest">Unlocking Human Interventions for Humanoid Manipulation via Reinforcement Learning</span></h3>
+              <p>The first human-in-the-loop VLA-RL framework for humanoid robots with dexterous hands.</p>
             </div>
-            <span class="blog-type">Paper</span>
+            <span class="tag">Paper</span>
+            <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </a>
 
-          <a class="blog-row" href="agra/">
-            <time class="blog-date" datetime="2026-06-10">Jun 10, 2026</time>
+          <a class="row post" data-type="paper" href="agra/">
+            <time class="row-date" datetime="2026-06-10">Jun 10, 2026</time>
             <div>
-              <h3 class="blog-title">AGRA: Making Foresight Actionable in World Action Models</h3>
-              <p class="blog-summary">An action-grounded representation alignment objective that bridges visual prediction and robot control in World Action Models.</p>
+              <h3><span class="acro">AGRA:</span> <span class="rest">Making Foresight Actionable in World Action Models</span></h3>
+              <p>An action-grounded representation alignment objective that bridges visual prediction and robot control in World Action Models.</p>
             </div>
-            <span class="blog-type">Paper</span>
+            <span class="tag">Paper</span>
+            <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </a>
 
-          <a class="blog-row blog-row--featured" href="fe0/">
-            <time class="blog-date" datetime="2026-05-30">May 30, 2026</time>
+          <a class="row row--featured post" data-type="report" href="fe0/">
+            <time class="row-date" datetime="2026-05-30">May 30, 2026</time>
             <div>
-              <h3 class="blog-title">Inside <span class="fe-mark" aria-label="Fe subscript zero"><span class="fe-name">Fe</span><sub class="fe-zero">0</sub></span>: What Cross-Embodiment Data Teaches an Embodied Foundation Model</h3>
-              <p class="blog-summary">A close look at how heterogeneous robot and human data helps an embodied foundation model generalize across visual, semantic, relational, planning, and control axes.</p>
+              <h3><span class="acro">Inside <span class="fe-mark" aria-label="Fe subscript zero"><span class="fe-name">Fe</span><sub class="fe-zero">0</sub></span>:</span> <span class="rest">What Cross-Embodiment Data Teaches an Embodied Foundation Model</span></h3>
+              <p>A close look at how heterogeneous robot and human data helps an embodied foundation model generalize across visual, semantic, relational, planning, and control axes.</p>
             </div>
-            <span class="blog-type">Report</span>
+            <span class="tag tag--report">Report</span>
+            <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </a>
 
-          <a class="blog-row" href="vigil/">
-            <time class="blog-date" datetime="2026-05-09">May 9, 2026</time>
+          <a class="row post" data-type="paper" href="vigil/">
+            <time class="row-date" datetime="2026-05-09">May 9, 2026</time>
             <div>
-              <h3 class="blog-title">VIGIL: Terminal Commitment in Embodied Evaluation</h3>
-              <p class="blog-summary">A benchmark that separates world-state completion from terminal commitment under egocentric RGB, hidden world state, and mandatory semantic reports.</p>
+              <h3><span class="acro">VIGIL:</span> <span class="rest">Terminal Commitment in Embodied Evaluation</span></h3>
+              <p>A benchmark that separates world-state completion from terminal commitment under egocentric RGB, hidden world state, and mandatory semantic reports.</p>
             </div>
-            <span class="blog-type">Paper</span>
+            <span class="tag">Paper</span>
+            <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </a>
 
-          <a class="blog-row" href="unit/">
-            <time class="blog-date" datetime="2026-04-21">Apr 21, 2026</time>
+          <a class="row post" data-type="paper" href="unit/">
+            <time class="row-date" datetime="2026-04-21">Apr 21, 2026</time>
             <div>
-              <h3 class="blog-title">UniT: Toward a Unified Physical Language for Human-to-Humanoid Policy Learning and World Modeling</h3>
-              <p class="blog-summary">A unified physical language that maps heterogeneous human and robot motion into shared action primitives.</p>
+              <h3><span class="acro">UniT:</span> <span class="rest">Toward a Unified Physical Language for Human-to-Humanoid Policy Learning and World Modeling</span></h3>
+              <p>A unified physical language that maps heterogeneous human and robot motion into shared action primitives.</p>
             </div>
-            <span class="blog-type">Paper</span>
+            <span class="tag">Paper</span>
+            <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </a>
 
-          <a class="blog-row" href="dial/">
-            <time class="blog-date" datetime="2026-03-31">Mar 31, 2026</time>
+          <a class="row post" data-type="paper" href="dial/">
+            <time class="row-date" datetime="2026-03-31">Mar 31, 2026</time>
             <div>
-              <h3 class="blog-title">DIAL: Decoupling Intent and Action via Latent World Modeling for End-to-End VLA</h3>
-              <p class="blog-summary">Latent world modeling that decouples high-level intent from low-level actions in end-to-end vision-language-action policies.</p>
+              <h3><span class="acro">DIAL:</span> <span class="rest">Decoupling Intent and Action via Latent World Modeling for End-to-End VLA</span></h3>
+              <p>Latent world modeling that decouples high-level intent from low-level actions in end-to-end vision-language-action policies.</p>
             </div>
-            <span class="blog-type">Paper</span>
+            <span class="tag">Paper</span>
+            <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
           </a>
+
+          <div class="empty" hidden>No posts in this category yet.</div>
         </div>
       </div>
     </section>
+
   </main>
 
   <footer class="footer">
-    <div class="wrap">XPENG Robotics. All rights reserved.</div>
+    <div class="wrap footer-inner">
+      <a class="brand" href="index.html"><span class="mark" aria-hidden="true"><img class="logo-mark logo-mark--white" src="assets/xpeng-logo-white.png" alt=""><img class="logo-mark logo-mark--ink" src="assets/xpeng-logo-ink.png" alt=""></span><span>XPENG Robotics</span></a>
+      <span>© <span id="year">2026</span> XPENG Robotics. All rights reserved.</span>
+    </div>
   </footer>
 
   <script>
     const root = document.documentElement;
-    const toggle = document.querySelector(".theme-toggle");
-    const knob = toggle.querySelector("span");
-    const savedTheme = localStorage.getItem("paper-blog-theme");
-    if (savedTheme) {
-      root.dataset.theme = savedTheme;
-      knob.textContent = savedTheme === "day" ? "☀" : "☾";
-    }
-    toggle.addEventListener("click", () => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Theme toggle (shares the "paper-blog-theme" key with sub-pages)
+    document.querySelector(".theme-toggle").addEventListener("click", () => {
       const next = root.dataset.theme === "night" ? "day" : "night";
-      root.dataset.theme = next;
-      knob.textContent = next === "day" ? "☀" : "☾";
-      localStorage.setItem("paper-blog-theme", next);
+      const apply = () => {
+        root.dataset.theme = next;
+        try { localStorage.setItem("paper-blog-theme", next); } catch (e) {}
+      };
+      if (document.startViewTransition && !reduceMotion) document.startViewTransition(apply);
+      else apply();
     });
+
+    // Fade the hero robot in once the visible pose has loaded
+    const art = document.querySelector(".hero-art");
+    const figure = art.querySelector(root.dataset.theme === "day" ? ".hero-figure--day" : ".hero-figure--night");
+    const ready = () => art.classList.add("ready");
+    if (figure.complete) ready();
+    else { figure.addEventListener("load", ready, { once: true }); figure.addEventListener("error", ready, { once: true }); }
+
+    // Nav background on scroll
+    const nav = document.querySelector(".nav");
+    const onScroll = () => nav.classList.toggle("scrolled", window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    // Counts + filtering
+    const posts = [...document.querySelectorAll(".post")];
+    const rows = [...document.querySelectorAll(".row.post")];
+    const empty = document.querySelector(".empty");
+    const count = (type) => type === "all" ? posts.length : posts.filter((p) => p.dataset.type === type).length;
+    document.querySelectorAll("[data-count]").forEach((el) => { el.textContent = count(el.dataset.count); });
+
+    const applyFilter = (type) => {
+      posts.forEach((p) => { p.hidden = type !== "all" && p.dataset.type !== type; });
+      const visibleRows = rows.filter((r) => !r.hidden);
+      rows.forEach((r) => r.classList.toggle("first-visible", r === visibleRows[0]));
+      empty.hidden = visibleRows.length > 0;
+      document.querySelectorAll(".filter").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.filter === type)));
+    };
+    document.querySelectorAll(".filter").forEach((b) => b.addEventListener("click", () => applyFilter(b.dataset.filter)));
+    applyFilter("all");
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Reveal on scroll
+    const reveals = document.querySelectorAll(".reveal");
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+        });
+      }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
+      reveals.forEach((el, i) => {
+        el.style.transitionDelay = el.closest(".hero") ? `${i * 70}ms` : "0ms";
+        io.observe(el);
+      });
+    } else {
+      reveals.forEach((el) => el.classList.add("in"));
+    }
   </script>
 </body>
 </html>
