@@ -825,6 +825,30 @@ html[data-theme="light"] .hero-brand {
   color: var(--body);
 }
 
+.news-link {
+  grid-column: 2;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  margin-top: 2px;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--accent-strong);
+  text-decoration: none;
+  transition: color 0.2s ease, gap 0.2s ease;
+}
+.news-link:hover {
+  color: var(--accent-dim);
+  gap: 9px;
+}
+html[data-theme="light"] .news-link:hover {
+  color: var(--accent-strong);
+  text-decoration: underline;
+}
+
 .news-toggle {
   display: inline-flex;
   align-items: center;
@@ -4695,6 +4719,8 @@ footer {
     grid-row: auto;
     padding-top: 0;
   }
+
+  .news-link { grid-column: auto; }
 
   .hero-stats {
     grid-template-columns: 1fr 1fr;
