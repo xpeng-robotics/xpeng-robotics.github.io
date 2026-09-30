@@ -1,0 +1,956 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="IRON model family &mdash; in-house foundation models for language, vision, and multimodal intelligence by the XPENG Robotics Foundation Model Team." />
+  <title>IRON Model Family &mdash; Built in-house, end to end.</title>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("iron-preview-theme");
+        if (t !== "light" && t !== "dark") t = "dark";
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=v2-193" />
+</head>
+<body class="edition-v2">
+  <header class="nav-wrap">
+    <nav class="nav shell" aria-label="Main navigation">
+      <a class="brand" href="#top">
+        <img class="brand-logo" src="assets/xpeng-logo.svg" alt="XPENG" width="147" height="18" />
+        <span class="brand-divider" aria-hidden="true"></span>
+        <span class="brand-text">IRON <b>Models</b></span>
+      </a>
+      <div class="nav-links">
+        <a data-section="news" href="#news">News</a>
+        <a data-section="models" href="#models-llm">Model</a>
+        <a data-section="training" href="#training-llm">Train</a>
+        <a data-section="data" href="#data-llm">Data</a>
+        <a data-section="results" href="#results-llm">Results</a>
+      </div>
+      <div class="nav-actions">
+        <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to light theme" title="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <path d="M21 14.3A8.5 8.5 0 0 1 9.7 3 7 7 0 1 0 21 14.3z" />
+          </svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+          </svg>
+        </button>
+        <a class="button button-small" data-section="results" href="#results-llm">See results <span aria-hidden="true">&rarr;</span></a>
+      </div>
+    </nav>
+    <div class="model-tabs shell" role="tablist" aria-label="Model switcher">
+      <button type="button" class="model-tab active" data-model="llm" role="tab" aria-selected="true">IronLLM</button>
+      <button type="button" class="model-tab" data-model="vit" role="tab" aria-selected="false">IronViT</button>
+      <button type="button" class="model-tab" data-model="vlm" role="tab" aria-selected="false" disabled title="Coming soon">IronVLM <span class="soon-badge">Soon</span></button>
+    </div>
+  </header>
+
+  <nav class="page-toc" aria-label="On this page">
+    <span class="page-toc-label">On this page</span>
+    <a data-section="news" href="#news">News</a>
+    <a data-section="why" href="#why-llm">Why</a>
+    <a data-section="models" href="#models-llm">Model</a>
+    <a data-section="training" href="#training-llm">Train</a>
+    <a data-section="data" href="#data-llm">Data</a>
+    <a data-section="results" href="#results-llm">Results</a>
+  </nav>
+
+  <main id="top">
+    <!-- 01 Hero -->
+    <section class="hero">
+      <div class="shell hero-inner">
+        <p class="hero-eyebrow reveal">XPENG Robotics Foundation Model Team</p>
+        <p class="hero-brand reveal">IRON</p>
+        <h1 class="reveal">Built in-house.<br /><span class="hero-line">Engineered <span class="accent-text">end to end</span>.</span></h1>
+        <p class="hero-lead reveal">Iron is XPENG Robotics Foundation Model Team&rsquo;s in-house model family&mdash;language, vision, and multimodal&mdash;built end to end from data to deployment. Explore each model below.</p>
+
+        <div class="hero-actions reveal">
+          <a class="button" data-section="results" href="#results-llm">Explore the results <span aria-hidden="true">&rarr;</span></a>
+          <a class="button button-ghost" data-section="models" href="#models-llm">See architecture <span aria-hidden="true">&rarr;</span></a>
+        </div>
+
+        <div class="hero-stats reveal">
+          <div>
+            <strong data-count="3">3</strong>
+            <span>model lines</span>
+          </div>
+          <div>
+            <strong data-count="full-stack">Full-stack</strong>
+            <span>in-house R&amp;D</span>
+          </div>
+          <div>
+            <strong data-count="edge">Edge-ready</strong>
+            <span>deployment</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 News / Updates -->
+    <section class="section news-section shell" id="news">
+      <div class="section-heading compact reveal">
+        <div>
+          <span class="section-index">02 / NEWS</span>
+          <h2>News &amp; updates</h2>
+        </div>
+        <p>Model releases and product announcements&mdash;version history for Iron as it ships and iterates.</p>
+      </div>
+
+      <div class="news-list reveal" id="newsList">
+        <article class="news-item featured">
+          <time datetime="2026-09-29">2026.09.29</time>
+          <span class="news-tag product-llm">IronLLM</span>
+          <h3>IronLLM 0.6B released</h3>
+          <p>We release IronLLM-0.6B, an in-house language model&mdash;covering data, hybrid architecture, mid/post-training, and edge-ready deployment in one stack.</p>
+          <a class="news-link" href="https://arxiv.org/abs/2609.36860" target="_blank" rel="noopener">Tech report <span aria-hidden="true">&nearr;</span></a>
+        </article>
+        <article class="news-item featured">
+          <time datetime="2026-09-29">2026.09.29</time>
+          <span class="news-tag product-vit">IronViT</span>
+          <h3>IronViT 1.0 released</h3>
+          <p>We release IronViT 1.0, a family of models built on softmax, hybrid and linear attention architectures. Results demonstrate strong performance across recognition, dense prediction, and multimodal understanding benchmarks.</p>
+          <a class="news-link" href="https://arxiv.org/abs/2609.29252" target="_blank" rel="noopener">Tech report <span aria-hidden="true">&nearr;</span></a>
+        </article>
+      </div>
+    </section>
+
+    <div class="model-panel" data-model="llm">
+    <!-- 03 Why Iron -->
+    <section class="statement" id="why-llm">
+      <div class="shell statement-inner reveal">
+        <div class="statement-head">
+          <span class="section-index">03 / WHY IRON</span>
+          <div class="statement-intro">
+            <div>
+              <h2>Why Iron</h2>
+              <p class="section-kicker">Control at every layer.</p>
+            </div>
+            <p>IronLLM-0.6B is more than a checkpoint. Three coordinated strengths let us improve capability, efficiency, and deployment as one system.</p>
+          </div>
+        </div>
+        <div class="why-grid">
+          <article class="why-card">
+            <div class="why-card-top"><span>01</span><b>DATA</b></div>
+            <h3>In-house pipeline,<br />unified control.</h3>
+            <p>Training data combines in-house, open-source, and synthetic sources&mdash;processed through our pipeline for quality control and mixture so the final corpus stays consistent.</p>
+            <div class="why-metric"><strong>Unified</strong><span>data pipeline</span></div>
+          </article>
+          <article class="why-card">
+            <div class="why-card-top"><span>02</span><b>MODEL DESIGN</b></div>
+            <h3>Edge-native<br />by design.</h3>
+            <p>Architected natively for on-device scenarios: a hybrid attention backbone for efficient long context, an RMSNorm-free Light variant for extreme deployment, and X-MTP multi-token prediction for faster decoding.</p>
+            <div class="why-metric"><strong>1.48&times;</strong><span>Peak X-MTP speedup</span></div>
+          </article>
+          <article class="why-card">
+            <div class="why-card-top"><span>03</span><b>FULL STACK</b></div>
+            <h3>Pre. Mid. Post.<br />One loop.</h3>
+            <p>Capability is shaped end to end&mdash;broad pre-training, long-context mid-training, then general SFT, domain-specialist training, and multi-domain distillation&mdash;so the recipe, not only the checkpoint, is owned in-house.</p>
+            <div class="why-metric"><strong>3</strong><span>training phases</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 Model -->
+    <section class="section shell" id="models-llm">
+      <div class="section-heading reveal">
+        <div>
+          <span class="section-index">04 / MODEL</span>
+          <h2>The model</h2>
+          <p class="section-kicker">One model. A complete stack.</p>
+        </div>
+      </div>
+
+      <article class="model-banner reveal">
+        <div class="model-banner-copy">
+          <span class="tag">IronLLM-0.6B</span>
+          <h3>Compact in scale,<br />complete in capability.</h3>
+          <p>Designed and trained in-house as a practical foundation for knowledge, reasoning, long context, and on-device workloads.</p>
+        </div>
+        <div class="model-specs">
+          <div>
+            <b>6.2T</b>
+            <span>pretrain tokens</span>
+          </div>
+          <div>
+            <b>0.6B</b>
+            <span>parameters</span>
+          </div>
+          <div>
+            <b>64K</b>
+            <span>context</span>
+          </div>
+        </div>
+      </article>
+
+      <div class="model-design reveal" id="architecture-llm">
+        <div class="model-design-head">
+          <span class="model-design-label">Model architecture</span>
+          <h3>Hybrid by design.<br />Practical by intent.</h3>
+          <p>A visualization-first view of the structure&mdash;optimized for on-device long-context scenarios with lower memory footprint and faster inference.</p>
+        </div>
+
+        <figure class="architecture-figure reveal" data-architecture-switcher>
+          <div class="architecture-variant-tabs" role="group" aria-label="Select architecture diagram">
+            <button type="button" class="architecture-variant-tab active" data-architecture-variant="standard" aria-pressed="true">IronLLM-0.6B</button>
+            <button type="button" class="architecture-variant-tab" data-architecture-variant="light" aria-pressed="false">IronLLM-0.6B-Light</button>
+          </div>
+          <div class="figure-matte architecture-display-frame">
+            <img class="figure-img architecture-display-image" data-architecture-image src="assets/architecture.png" alt="IronLLM-0.6B hybrid architecture overview" width="1200" height="1000" loading="lazy" />
+          </div>
+          <figcaption data-architecture-caption aria-live="polite">Figure A &middot; IronLLM-0.6B architecture</figcaption>
+        </figure>
+
+        <div class="arch-points reveal">
+          <article class="arch-point">
+            <span>01</span>
+            <h3>Hybrid Attention Architecture</h3>
+            <p>Optimized for on-device long-context scenarios, we employ a 3:1 ratio of Gated DeltaNet to standard Attention across all 24 layers. This design retains global receptive fields while drastically reducing KV Cache consumption. It delivers faster on-device inference and a lower memory footprint, enabling our 0.6B model to handle complex long-context tasks smoothly on mobile devices.</p>
+          </article>
+          <article class="arch-point accent">
+            <span>02</span>
+            <h3>Ultra-Efficient Light Variant</h3>
+            <p>A streamlined, RMSNorm-free variant built for extreme edge deployment. Dynamic Tanh (DyT) replaces every RMSNorm layer, while upper-bounded ReLUx activations and data-independent gating remove quantization-unfriendly sigmoid paths&mdash;maximizing inference throughput and quantization efficiency with minimal capability trade-off.</p>
+          </article>
+          <article class="arch-point">
+            <span>03</span>
+            <h3>X-MTP &amp; Verification Head</h3>
+            <p>Our lightweight multi-token prediction module drafts multiple future tokens while sharing attention KV across prediction steps, avoiding repeated KV-cache replay. A lightweight verification head estimates confidence to adaptively accept drafts without rollback, accelerating decoding.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 Train -->
+    <section class="section architecture pretraining" id="training-llm">
+      <div class="shell">
+        <div class="section-heading light reveal">
+          <div>
+            <span class="section-index">05 / TRAIN</span>
+            <h2>Training</h2>
+            <p class="section-kicker">One model. Three training phases.</p>
+          </div>
+          <p>Pre-training builds broad capability, mid-training extends usable context, and post-training develops a general instruction model, strengthens specialist capabilities, and integrates them through on-policy distillation.</p>
+        </div>
+
+        <div class="training-label reveal">
+          <span>PRE-TRAINING</span>
+          <p>A three-stage recipe that shifts from broad web knowledge to STEM density, then reasoning refinement.</p>
+        </div>
+
+        <div class="recipe-grid reveal">
+          <article class="recipe-stage">
+            <span>STAGE 01</span>
+            <h3>Broad Knowledge Foundation</h3>
+            <p>Establishes a robust linguistic and world knowledge base using massive general web corpora. This phase utilizes a learning rate warmup to stabilize early training dynamics, ensuring broad coverage of fundamental concepts and language patterns.</p>
+            <dl>
+              <div><dt>data</dt><dd>General Web dominant</dd></div>
+              <div><dt>tokens</dt><dd>4.2T</dd></div>
+              <div><dt>lr</dt><dd>warmup &rarr; max</dd></div>
+            </dl>
+          </article>
+          <article class="recipe-stage">
+            <span>STAGE 02</span>
+            <h3>Specialized Capability Injection</h3>
+            <p>Significantly increases the density of high-quality STEM data (Math &amp; Code). By maintaining a stable maximum learning rate, this stage effectively injects complex reasoning capabilities and logical problem-solving skills into the model&rsquo;s foundation without catastrophic forgetting.</p>
+            <dl>
+              <div><dt>data</dt><dd>High-density Math &amp; Code</dd></div>
+              <div><dt>tokens</dt><dd>1T</dd></div>
+              <div><dt>lr</dt><dd>constant max</dd></div>
+            </dl>
+          </article>
+          <article class="recipe-stage">
+            <span>STAGE 03</span>
+            <h3>Reasoning Refinement</h3>
+            <p>Maximizes the proportion of reasoning-intensive samples to sharpen logical precision. The learning rate decay schedule is applied here to consolidate learned capabilities, smoothing the loss landscape and ensuring stable convergence for superior downstream performance.</p>
+            <dl>
+              <div><dt>data</dt><dd>High quality &amp; reasoning-focused</dd></div>
+              <div><dt>tokens</dt><dd>1T</dd></div>
+              <div><dt>lr</dt><dd>decay &rarr; zero</dd></div>
+            </dl>
+          </article>
+        </div>
+
+        <div class="pretrain-closing reveal">
+          <p>We adopt a <b>three-stage training pipeline</b> that progressively shifts from general web data to math, code, and reasoning-focused corpora, following a <b>warmup&ndash;stable&ndash;decay</b> learning rate schedule. Despite training on <b>6.2T</b> tokens&mdash;<b>less than 20% of Qwen3&rsquo;s 36T pre-training budget</b>&mdash;our base model achieves comparable performance to Qwen3.5-0.8B-Base across various core metrics.</p>
+        </div>
+
+        <div class="figure-carousel reveal" data-figure-carousel>
+          <div class="figure-carousel-head">
+            <div>
+              <span class="figure-group-label">Figure B</span>
+              <h3>Pre-training recipe</h3>
+            </div>
+            <p>Data mix and LR schedule across the three-stage curriculum.</p>
+          </div>
+
+          <div class="figure-carousel-stage">
+            <div class="figure-carousel-frame">
+              <div class="figure-carousel-viewport">
+                <div class="figure-carousel-track" data-carousel-track>
+                  <figure class="train-figure figure-slide" data-carousel-slide>
+                    <div class="figure-matte">
+                      <img class="figure-img" src="assets/pretrain_stage.png?v=round1" alt="IronLLM pre-training data composition and learning-rate schedule" width="1828" height="1050" loading="lazy" />
+                    </div>
+                  </figure>
+                </div>
+              </div>
+            </div>
+
+            <div class="figure-carousel-captions" data-carousel-captions>
+              <p class="is-active"><b>Overview</b> &mdash; data mix &amp; LR schedule</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="training-label mid-label reveal">
+          <span>MID-TRAINING</span>
+          <p>We extend usable context while preserving short-context capability from pretraining, then strengthen specialized long-context skills with targeted synthetic data.</p>
+        </div>
+        <div class="mid-flow reveal">
+          <article>
+            <span>01</span>
+            <h3>Context Extension</h3>
+            <p>Two-stage long-context training extends the window from 4K to 32K then 64K, with a staged RoPE-base increase so longer context lands without erasing pretraining. Stages use about 42B and 21B tokens; stretching past 64K added little in our tests.</p>
+            <small>staged RoPE &middot; two-stage extension</small>
+          </article>
+          <div class="mid-arrow" aria-hidden="true">&rarr;</div>
+          <article>
+            <span>02</span>
+            <h3>Balanced Mixture</h3>
+            <p>To keep short-context strength from pretraining, we stay close to the final pretraining mixture and only upsample selected buckets for long-context learning.</p>
+            <p>We split the corpus into length-based buckets and tune sampling ratios with ablations, so long-context gains do not trade away competitive short-context benchmarks.</p>
+            <small>length buckets &middot; replay mix</small>
+          </article>
+          <div class="mid-arrow" aria-hidden="true">&rarr;</div>
+          <article>
+            <span>03</span>
+            <h3>Long-data Curation</h3>
+            <p>Skills such as retrieval and counting are hard to learn from natural long corpora alone, so we curate synthetic long-context data aimed at those gaps.</p>
+            <p>Used in mid-training or SFT, this data lifts the target long-context abilities without degrading general or short-context benchmarks.</p>
+            <small>synthetic long data &middot; no short-context tradeoff</small>
+          </article>
+        </div>
+
+        <div class="training-label post-label reveal">
+          <span>POST-TRAINING</span>
+          <p>General SFT establishes broad instruction-following ability; domain specialists build targeted strengths, which are integrated into one model through Multi-Domain On-Policy Distillation (MOPD).</p>
+        </div>
+        <div class="post-grid dark reveal">
+          <article>
+            <span>01 / GENERAL SFT</span>
+            <h3>General Instruction Foundation</h3>
+            <p>We fine-tune the base model on several million high-quality, multi-domain conversation samples, including general QA, mathematics, code, and tool use.</p>
+            <p>This stage establishes broad conversational and instruction-following ability as the foundation for the specialist models and unified model that follow.</p>
+            <small>multi-domain conversations &middot; assistant-response training</small>
+          </article>
+          <article>
+            <span>02 / DOMAIN SPECIALISTS</span>
+            <h3>Targeted Expertise</h3>
+            <p>Starting from the General SFT model, we independently train specialists for mathematics, code, instruction following, multiple-choice QA, and open-ended QA.</p>
+            <p>Each domain uses a tailored recipe of supervised fine-tuning, reinforcement learning, or both. RL uses GRPO with domain-specific verifiable rewards or a preference reward model.</p>
+            <small>five capability domains &middot; tailored SFT / RL</small>
+          </article>
+          <article>
+            <span>03 / MOPD</span>
+            <h3>Unifying Specialist Capabilities</h3>
+            <p>Multi-Domain On-Policy Distillation (MOPD) transfers complementary capabilities from the domain specialists back into the General SFT model, producing one unified assistant.</p>
+            <p>The student learns from specialist guidance on its own generated responses, while domain verifiers provide sequence-level rewards. This integrates specialist strengths while preserving broad general ability.</p>
+            <p><b>Light variant:</b> skips specialist training and uses the IronLLM-0.6B specialists for MOPD.</p>
+            <small>student rollouts &middot; specialist guidance &middot; verifiable rewards</small>
+          </article>
+        </div>
+
+        <figure class="train-figure reveal">
+          <div class="figure-matte">
+            <img class="figure-img" src="assets/posttrain_pipeline.png?v=round1" alt="IronLLM post-training pipeline from SFT to MOPD" width="1248" height="446" loading="lazy" />
+          </div>
+          <figcaption>Figure C &middot; Post-training pipeline</figcaption>
+        </figure>
+
+      </div>
+    </section>
+
+    <!-- 06 Data -->
+    <section class="section shell" id="data-llm">
+      <div class="section-heading reveal">
+        <div>
+          <span class="section-index">06 / DATA</span>
+          <h2>Data engine</h2>
+          <p class="section-kicker">Data is the first model.</p>
+        </div>
+        <p>Our training corpus is built from a combination of in-house generated data, high-quality open-source datasets, and synthetic data.</p>
+      </div>
+
+      <div class="data-copy reveal">
+        <p>All data sources are processed through a <b>unified data pipeline</b>, including quality filtering, deduplication, data enhancement, and mixture optimization, to ensure consistent quality across the final training corpus.</p>
+        <p>Our in-house pipeline enables <b>continuous acquisition, processing, and optimization of large-scale training data</b>, providing a scalable and reproducible data production capability.</p>
+      </div>
+
+      <figure class="data-figure reveal">
+        <div class="figure-matte">
+          <img class="figure-img" src="assets/data_pipeline.png?v=round1" alt="IronLLM unified data pipeline" width="1600" height="900" loading="lazy" />
+        </div>
+        <figcaption>Figure D &middot; Data pipeline</figcaption>
+      </figure>
+    </section>
+
+    <!-- 07 Results -->
+    <section class="section results" id="results-llm">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <div>
+            <span class="section-index">07 / RESULTS</span>
+            <h2>Evaluation results</h2>
+            <p class="section-kicker">Small footprint. Serious capability.</p>
+          </div>
+          <p>Selected post-training results for IronLLM-0.6B, followed by category-level comparisons and detailed benchmark scores.</p>
+        </div>
+
+        <div class="results-subheading reveal">
+          <h3>IronLLM-0.6B highlights</h3>
+          <p>Selected scores · non-thinking</p>
+        </div>
+        <div class="result-highlights reveal" aria-label="Headline benchmarks">
+          <article class="highlight-card">
+            <strong>75.6</strong>
+            <span class="highlight-metric">IFEval</span>
+            <p>Instruction following</p>
+          </article>
+          <article class="highlight-card">
+            <strong>42.1</strong>
+            <span class="highlight-metric">MMLU-Pro</span>
+            <p>General knowledge</p>
+          </article>
+          <article class="highlight-card">
+            <strong>78.6</strong>
+            <span class="highlight-metric">GSM8K</span>
+            <p>Mathematics</p>
+          </article>
+          <article class="highlight-card">
+            <strong>49.4</strong>
+            <span class="highlight-metric">BFCL v3</span>
+            <p>Function calling</p>
+          </article>
+        </div>
+
+        <div class="benchmark performance-board" data-performance-board>
+          <div class="performance-board-head">
+            <div>
+              <h3>Model comparison</h3>
+              <p class="chart-note">Category averages · non-thinking · hover a bar for the score.</p>
+            </div>
+            <ul class="perf-legend" aria-label="Model legend">
+              <li><img class="legend-logo" src="assets/model-logos/iron.svg?v=logo2" alt="" width="18" height="18" /><span class="swatch swatch-iron"></span>Iron 0.6B</li>
+              <li><img class="legend-logo" src="assets/model-logos/iron.svg?v=logo2" alt="" width="18" height="18" /><span class="swatch swatch-iron-light"></span>Iron-Light 0.6B</li>
+              <li><img class="legend-logo" src="assets/model-logos/qwen3.png?v=logo2" alt="" width="18" height="18" /><span class="swatch swatch-qwen3"></span>Qwen3 0.6B</li>
+              <li><img class="legend-logo" src="assets/model-logos/lfm.png?v=logo2" alt="" width="18" height="18" /><span class="swatch swatch-lfm"></span>LFM2 700M</li>
+              <li><img class="legend-logo" src="assets/model-logos/qwen35.png?v=logo2" alt="" width="18" height="18" /><span class="swatch swatch-qwen35"></span>Qwen3.5 0.8B</li>
+              <li><img class="legend-logo" src="assets/model-logos/minicpm.png?v=logo2" alt="" width="18" height="18" /><span class="swatch swatch-minicpm"></span>MiniCPM 1B</li>
+            </ul>
+          </div>
+
+          <div class="perf-board-body">
+            <div class="perf-grid" id="perfGrid-llm" aria-live="polite"></div>
+            <aside class="tps-panel">
+              <h4>TPS ratio</h4>
+              <p>vs Iron baseline</p>
+              <div class="vbars vbars-tps" id="tpsChart-llm" aria-live="polite"></div>
+            </aside>
+          </div>
+        </div>
+
+        <div class="result-explorer reveal" data-llm-results>
+          <div class="results-panel-head">
+            <div>
+              <h3>Benchmark details</h3>
+            </div>
+            <label class="results-expand">
+              <input type="checkbox" id="llmResultsExpanded" />
+              <span>All models &amp; modes</span>
+            </label>
+          </div>
+
+          <div class="compare-table-wrap">
+            <table class="compare-table compare-table-wide" id="llmResultsTable">
+              <thead id="llmResultsHead"></thead>
+              <tbody id="llmResultsBody"></tbody>
+            </table>
+          </div>
+
+          <p class="chart-note results-footnote">Bold marks the best non-thinking score shown. Expanded cells show non-thinking / thinking for Qwen3, Qwen3.5, and MiniCPM5.</p>
+        </div>
+      </div>
+    </section>
+    </div>
+
+    <div class="model-panel" data-model="vit" hidden>
+    <!-- 03 Why IronViT -->
+    <section class="statement ironvit-why" id="why-vit">
+      <div class="shell ironvit-why-inner reveal">
+        <div class="ironvit-why-hero">
+          <div class="ironvit-why-copy">
+            <span class="section-index">03 / WHY IronViT</span>
+            <h2>Why IronViT</h2>
+            <p>Modern vision systems have evolved along separate paths: from recognition and dense prediction to vision-language learning and robotics. <strong>IronViT unifies these capabilities into one efficient, generalist visual encoder built for the full visual stack.</strong></p>
+          </div>
+          <div class="ironvit-orbit" aria-label="IronViT consolidates specialist visual capabilities">
+            <div class="orbit-ring orbit-ring-outer" aria-hidden="true"></div>
+            <div class="orbit-ring orbit-ring-middle" aria-hidden="true"></div>
+            <div class="orbit-ring orbit-ring-inner" aria-hidden="true"></div>
+            <div class="orbit-node node-classification">Classification</div>
+            <div class="orbit-node node-segmentation">Segmentation</div>
+            <div class="orbit-node node-retrieval">Retrieval</div>
+            <div class="orbit-node node-depth">Depth</div>
+            <div class="orbit-node node-vlm">VLM</div>
+            <div class="orbit-node node-robotic">Robotic<br />Learning</div>
+            <div class="orbit-core">
+              <span>IronViT</span>
+              <b>Generalist<br />Visual Encoder</b>
+            </div>
+          </div>
+        </div>
+
+        <div class="ironvit-why-path reveal">
+          <article>
+            <span>01</span>
+            <h3>Fragmented specialists</h3>
+            <p>Each visual capability is usually learned from a different objective, leaving practical systems to stitch together models with incompatible strengths.</p>
+          </article>
+          <div class="why-path-arrow" aria-hidden="true">&rarr;</div>
+          <article>
+            <span>02</span>
+            <h3>Unified visual representation</h3>
+            <p>IronViT brings diverse visual capabilities into a shared representation space, enabling one encoder to support semantic understanding, spatial perception, and embodied intelligence.</p>
+          </article>
+          <div class="why-path-arrow" aria-hidden="true">&rarr;</div>
+          <article>
+            <span>03</span>
+            <h3>Efficient generalist</h3>
+            <p>The final hybrid encoder keeps broad benchmark competitiveness while scaling better for high-resolution and long visual token sequences.</p>
+          </article>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 04 Model -->
+    <section class="section shell" id="models-vit">
+      <div class="section-heading reveal">
+        <div>
+          <span class="section-index">04 / MODEL</span>
+          <h2>The model</h2>
+          <p class="section-kicker">Three released architecture variants.</p>
+        </div>
+      </div>
+
+      <article class="release-spec-hero reveal">
+        <div class="release-spec-copy">
+          <span class="tag">IronViT 1.0 &middot; Model specifications</span>
+          <h3>Shared backbone.<br />Three designs.</h3>
+          <p>All variants use a 27-layer visual backbone with 1152 hidden width, 16 attention heads, 4304 MLP intermediate width, 2&times;16&times;16 spatiotemporal patch embedding, and a MAP global head.</p>
+        </div>
+        <div class="backbone-strip" aria-label="Shared IronViT backbone specification">
+          <div><b>27</b><span>blocks</span></div>
+          <div><b>1152</b><span>hidden width</span></div>
+          <div><b>16</b><span>attention heads</span></div>
+          <div><b>4304</b><span>MLP width</span></div>
+          <div><b>16&times;16</b><span>patch size</span></div>
+          <div><b>MAP</b><span>global head</span></div>
+        </div>
+      </article>
+
+      <div class="release-model-grid reveal" id="architecture-vit">
+        <article class="release-model-card">
+          <div class="release-model-head">
+            <span>01 / SOFTMAX</span>
+            <h3>Softmax</h3>
+            <p>Full self-attention preserves global token interactions across every layer, prioritizing representational capacity and benchmark performance.</p>
+          </div>
+          <dl>
+            <div><dt>deploy params</dt><dd>~0.4B</dd></div>
+            <div><dt>attention</dt><dd>27 softmax</dd></div>
+            <div><dt>advantage</dt><dd>Accuracy-first</dd></div>
+          </dl>
+        </article>
+
+        <article class="release-model-card featured">
+          <div class="release-model-head">
+            <span>02 / HYBRID</span>
+            <h3>Hybrid</h3>
+            <p>Hybrid attention retains selected global-attention layers while replacing the remainder with efficient linear blocks, yielding a calibrated trade-off between accuracy and speed.</p>
+          </div>
+          <dl>
+            <div><dt>deploy params</dt><dd>~0.4B</dd></div>
+            <div><dt>attention</dt><dd>3L : 1S</dd></div>
+            <div><dt>advantage</dt><dd>Balanced</dd></div>
+          </dl>
+        </article>
+
+        <article class="release-model-card">
+          <div class="release-model-head">
+            <span>03 / LINEAR</span>
+            <h3>Linear</h3>
+            <p>Linear attention minimizes sequence-scaling cost across the deployed encoder, making it the preferred variant for high-throughput inference on long visual-token streams.</p>
+          </div>
+          <dl>
+            <div><dt>deploy params</dt><dd>~0.4B</dd></div>
+            <div><dt>attention</dt><dd>27 linear</dd></div>
+            <div><dt>advantage</dt><dd>Fastest</dd></div>
+          </dl>
+        </article>
+      </div>
+
+    </section>
+
+    <!-- 05 Train -->
+    <section class="section architecture pretraining" id="training-vit">
+      <div class="shell">
+        <div class="section-heading light reveal">
+          <div>
+            <span class="section-index">05 / TRAIN</span>
+            <h2>Training</h2>
+            <p class="section-kicker">From broad capability to efficient deployment.</p>
+          </div>
+        </div>
+
+        <figure class="train-figure training-framework-figure reveal">
+          <div class="figure-matte">
+            <img class="figure-img" src="assets/model_overview_white.png?v=20260929" alt="IronViT two-stage representation transfer framework" width="2424" height="1458" loading="lazy" />
+          </div>
+          <figcaption>Figure A &middot; High-level representation transfer framework</figcaption>
+        </figure>
+
+        <div class="training-label reveal">
+          <span>METHOD</span>
+          <p>IronViT consolidates diverse visual signals into a unified representation, then maps that capability into a compact family of deployable visual encoders.</p>
+        </div>
+
+        <div class="recipe-grid training-method-grid reveal">
+          <article class="recipe-stage">
+            <span>01 / CONSOLIDATE</span>
+            <h3>Unify visual capabilities</h3>
+            <p>IronViT brings semantic recognition, spatial perception, retrieval, and multimodal alignment into a shared representation space.</p>
+          </article>
+          <article class="recipe-stage">
+            <span>02 / TRANSFER</span>
+            <h3>Preserve capability under efficient designs</h3>
+            <p>The consolidated representation is retained across attention variants, enabling the release family to span accuracy-first, balanced, and speed-first settings.</p>
+          </article>
+          <article class="recipe-stage">
+            <span>03 / DEPLOY</span>
+            <h3>Optimize for practical visual workloads</h3>
+            <p>The resulting encoders are designed for high-resolution images, long visual-token streams, and downstream systems that require strong but efficient visual features.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 Data -->
+    <section class="section shell" id="data-vit">
+      <div class="section-heading reveal">
+        <div>
+          <span class="section-index">06 / DATA</span>
+          <h2>Data engine</h2>
+          <p class="section-kicker">Information density over raw scale.</p>
+        </div>
+      </div>
+
+      <figure class="data-figure reveal">
+        <div class="figure-matte">
+          <img class="figure-img" src="assets/data_pipeline2.png?v=20260929" alt="IronViT visual data curation pipeline" width="2560" height="1440" loading="lazy" />
+        </div>
+        <figcaption>Figure C &middot; Visual data curation pipeline</figcaption>
+      </figure>
+
+      <div class="data-story-grid reveal">
+        <article class="data-story-card">
+          <span>01 / QUALITY</span>
+          <h3>Curate signal, not volume.</h3>
+          <p>The data engine prioritizes reliable visual evidence, reducing noise and redundancy so representation learning is driven by cleaner supervision.</p>
+        </article>
+        <article class="data-story-card">
+          <span>02 / COVERAGE</span>
+          <h3>Balance the visual concept space.</h3>
+          <p>Semantic and hierarchical organization improves coverage across categories, layouts, scenes, and visual structures required by generalist perception.</p>
+        </article>
+        <article class="data-story-card">
+          <span>03 / ALIGNMENT</span>
+          <h3>Match data to target capabilities.</h3>
+          <p>Target-domain enrichment aligns the corpus with downstream needs, supporting robust transfer across recognition, dense prediction, multimodal understanding, and embodied tasks.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 07 Results -->
+    <section class="section results" id="results-vit">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <div>
+            <span class="section-index">07 / RESULTS</span>
+            <h2>Evaluation results</h2>
+            <p class="section-kicker">One encoder. Full visual stack.</p>
+          </div>
+          <p>IronViT vs open visual encoders. Browse by evaluation family; charts below highlight key comparisons.</p>
+        </div>
+
+        <div class="result-highlights reveal" aria-label="Headline benchmarks">
+          <article class="highlight-card">
+            <strong>87.35</strong>
+            <span class="highlight-metric">IN-1k Linear</span>
+            <p>Recognition probe</p>
+          </article>
+          <article class="highlight-card">
+            <strong>52.97</strong>
+            <span class="highlight-metric">ADE20K</span>
+            <p>Dense segmentation</p>
+          </article>
+          <article class="highlight-card">
+            <strong>66.44</strong>
+            <span class="highlight-metric">VLM Total Avg.</span>
+            <p>Multimodal transfer</p>
+          </article>
+          <article class="highlight-card">
+            <strong>86.1</strong>
+            <span class="highlight-metric">CortexBench Avg.</span>
+            <p>Robotic learning</p>
+          </article>
+        </div>
+
+        <div class="result-explorer reveal" data-result-explorer>
+          <div class="result-tabs" role="tablist" aria-label="IronViT result families">
+            <button type="button" class="active" role="tab" aria-selected="true" data-result-tab="zero-shot">Zero-shot</button>
+            <button type="button" role="tab" aria-selected="false" data-result-tab="linear-probe">Linear probe</button>
+            <button type="button" role="tab" aria-selected="false" data-result-tab="vlm">VLM</button>
+            <button type="button" role="tab" aria-selected="false" data-result-tab="robotic">Robotic learning</button>
+            <button type="button" role="tab" aria-selected="false" data-result-tab="speed">Inference speed</button>
+          </div>
+
+          <div class="result-panel active" data-result-panel="zero-shot">
+            <p class="result-panel-desc">Zero-shot classification uses the PE-aligned adapter with the PE-Core text tower and the standard 80-prompt ImageNet protocol. Retrieval reports Recall@1 on COCO and Flickr30k with decoupled image and text towers.</p>
+            <div class="zero-shot-stack">
+              <article class="result-task-card wide">
+                <h4>Classification</h4>
+                <div class="robotic-table-wrap zero-table-wrap">
+                  <table class="robotic-table zero-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Encoder</th>
+                        <th scope="col" class="knn-separator">kNN</th>
+                        <th scope="col">IN-1k</th>
+                        <th scope="col">IN-v2</th>
+                        <th scope="col">IN-R</th>
+                        <th scope="col">IN-A</th>
+                        <th scope="col">IN-sketch</th>
+                        <th scope="col">Avg.</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><th scope="row">SigLIP2-So400M/16-NaFlex</th><td class="knn-separator">85.28</td><td class="best">83.81</td><td class="second">77.75</td><td class="best">95.78</td><td class="second">85.56</td><td class="best">75.99</td><td class="second">83.78</td></tr>
+                      <tr><th scope="row">GenLIP-So/16</th><td class="knn-separator">72.88</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+                      <tr><th scope="row">C-RADIOv4-SO400M</th><td class="knn-separator">85.04</td><td>81.14</td><td>75.05</td><td>94.59</td><td>80.92</td><td>68.91</td><td>80.12</td></tr>
+                      <tr><th scope="row">DINOv3-L/16</th><td class="second knn-separator">85.42</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+                      <tr><th scope="row">PE-Core-L/14</th><td class="knn-separator">85.01</td><td class="second">83.56</td><td class="best">77.91</td><td class="second">95.31</td><td class="best">90.24</td><td class="second">73.47</td><td class="best">84.10</td></tr>
+                      <tr class="iron-row"><th scope="row">Ours-Softmax</th><td class="best knn-separator">85.82</td><td>83.27</td><td>76.91</td><td>94.13</td><td>81.99</td><td>71.18</td><td>81.50</td></tr>
+                      <tr class="iron-row"><th scope="row">Ours-Hybrid</th><td class="knn-separator">85.37</td><td>82.88</td><td>76.20</td><td>93.48</td><td>79.89</td><td>70.22</td><td>80.53</td></tr>
+                      <tr class="iron-row"><th scope="row">Ours-Linear</th><td class="knn-separator">84.90</td><td>81.59</td><td>74.58</td><td>90.68</td><td>72.11</td><td>67.22</td><td>77.24</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </article>
+              <article class="result-task-card wide">
+                <h4>Retrieval</h4>
+                <div class="robotic-table-wrap zero-table-wrap retrieval-table-wrap">
+                  <table class="robotic-table zero-table retrieval-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Encoder</th>
+                        <th scope="col">COCO T→I</th>
+                        <th scope="col">COCO I→T</th>
+                        <th scope="col">Flickr T→I</th>
+                        <th scope="col">Flickr I→T</th>
+                        <th scope="col">Avg.</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><th scope="row">SigLIP2-So400M/16-NaFlex</th><td>56.24</td><td class="second">72.28</td><td>83.12</td><td>94.40</td><td>76.51</td></tr>
+                      <tr><th scope="row">C-RADIOv4-SO400M</th><td>56.26</td><td>71.38</td><td>83.84</td><td>94.50</td><td>76.495</td></tr>
+                      <tr><th scope="row">PE-Core-L/14</th><td class="best">56.98</td><td class="best">76.04</td><td class="best">85.74</td><td class="best">95.80</td><td class="best">78.64</td></tr>
+                      <tr class="iron-row"><th scope="row">Ours-Softmax</th><td class="second">56.33</td><td>71.36</td><td>84.24</td><td class="second">94.70</td><td class="second">76.66</td></tr>
+                      <tr class="iron-row"><th scope="row">Ours-Hybrid</th><td>56.22</td><td>70.66</td><td class="second">84.92</td><td>94.10</td><td>76.48</td></tr>
+                      <tr class="iron-row"><th scope="row">Ours-Linear</th><td>54.65</td><td>68.44</td><td>82.28</td><td>92.20</td><td>74.3925</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="result-panel" data-result-panel="linear-probe" hidden>
+            <p class="result-panel-desc">Frozen visual encoders with lightweight readout heads probe recognition, dense semantics, and geometry. Classification reports ImageNet-1k linear probing.</p>
+            <div class="result-task-card wide">
+              <div class="robotic-table-wrap linear-table-wrap">
+                <table class="robotic-table linear-table">
+                  <thead>
+                    <tr>
+                      <th scope="col" rowspan="2">Encoder</th>
+                      <th scope="colgroup" colspan="1" class="metric-group group-separator">Classification</th>
+                      <th scope="colgroup" colspan="1" class="metric-group group-separator">Segmentation</th>
+                      <th scope="colgroup" colspan="1" class="metric-group">Depth</th>
+                    </tr>
+                    <tr>
+                      <th scope="col">IN-1k &uarr;</th>
+                      <th scope="col" class="group-separator">ADE20K &uarr;</th>
+                      <th scope="col">NYUv2 &darr;</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><th scope="row">SigLIP2-So400M/16-NaFlex</th><td class="best">87.45</td><td>44.48</td><td>0.459</td></tr>
+                    <tr><th scope="row">GenLIP-So/16</th><td>71.25</td><td>45.59</td><td>0.484</td></tr>
+                    <tr><th scope="row">C-RADIOv4-SO400M</th><td>87.33</td><td class="best">54.10</td><td class="best">0.295</td></tr>
+                    <tr><th scope="row">DINOv3-L/16</th><td>87.07</td><td>52.86</td><td class="second">0.320</td></tr>
+                    <tr><th scope="row">PE-Core-L/14</th><td>87.17</td><td>40.57</td><td>0.611</td></tr>
+                    <tr class="iron-row"><th scope="row">Ours-Softmax</th><td class="second">87.35</td><td class="second">52.97</td><td>0.339</td></tr>
+                    <tr class="iron-row"><th scope="row">Ours-Hybrid</th><td>87.12</td><td>52.60</td><td>0.343</td></tr>
+                    <tr class="iron-row"><th scope="row">Ours-Linear</th><td>85.98</td><td>50.28</td><td>0.407</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-panel" data-result-panel="vlm" hidden>
+            <p class="result-panel-desc">Each visual encoder replaces the LLaVA-NeXT vision tower while keeping the Qwen2.5-7B-Instruct decoder, connector, data, and training schedule fixed.</p>
+            <div class="result-task-card wide">
+              <div class="robotic-table-wrap vlm-table-wrap">
+                <table class="robotic-table vlm-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Benchmark</th>
+                      <th scope="col">SigLIP2</th>
+                      <th scope="col">GenLIP</th>
+                      <th scope="col">C-RADIO</th>
+                      <th scope="col">DINOv3</th>
+                      <th scope="col">PE-Core</th>
+                      <th scope="col">Ours-S</th>
+                      <th scope="col">Ours-H</th>
+                      <th scope="col">Ours-L</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="family-row"><th scope="row">OCR Avg.</th><td>57.94</td><td>61.34</td><td>57.73</td><td>41.90</td><td>57.43</td><td>61.52</td><td>61.14</td><td>56.17</td></tr>
+                    <tr><th scope="row">TextVQA</th><td>68.16</td><td>70.55</td><td>66.40</td><td>47.25</td><td>66.83</td><td>68.89</td><td>67.86</td><td>62.92</td></tr>
+                    <tr><th scope="row">DocVQA</th><td>71.38</td><td>77.30</td><td>70.99</td><td>51.46</td><td>72.93</td><td>76.99</td><td>76.34</td><td>68.57</td></tr>
+                    <tr><th scope="row">OCRBench</th><td>57.40</td><td>62.50</td><td>57.60</td><td>36.60</td><td>54.80</td><td>64.20</td><td>62.90</td><td>56.30</td></tr>
+                    <tr><th scope="row">ChartQA</th><td>72.32</td><td>74.64</td><td>73.44</td><td>57.72</td><td>72.64</td><td>75.68</td><td>75.80</td><td>72.40</td></tr>
+                    <tr><th scope="row">OCRBench v2</th><td>20.42</td><td>21.72</td><td>20.21</td><td>16.47</td><td>19.95</td><td>21.85</td><td>22.82</td><td>20.64</td></tr>
+                    <tr class="family-row"><th scope="row">Knowledge Avg.</th><td>80.86</td><td>79.86</td><td>80.40</td><td>78.04</td><td>79.66</td><td>81.29</td><td>80.96</td><td>80.11</td></tr>
+                    <tr><th scope="row">ScienceQA</th><td>82.53</td><td>80.57</td><td>81.40</td><td>79.63</td><td>82.08</td><td>82.06</td><td>81.99</td><td>81.40</td></tr>
+                    <tr><th scope="row">AI2D</th><td>79.18</td><td>79.15</td><td>79.40</td><td>76.46</td><td>77.23</td><td>80.51</td><td>79.92</td><td>78.82</td></tr>
+                    <tr class="family-row"><th scope="row">Vision Avg.</th><td>66.37</td><td>63.95</td><td>64.01</td><td>60.29</td><td>62.84</td><td>64.48</td><td>64.12</td><td>62.20</td></tr>
+                    <tr><th scope="row">RealWorldQA</th><td>65.23</td><td>63.79</td><td>64.44</td><td>63.14</td><td>63.27</td><td>64.84</td><td>63.66</td><td>61.05</td></tr>
+                    <tr><th scope="row">POPE</th><td>87.19</td><td>87.54</td><td>88.10</td><td>87.72</td><td>87.38</td><td>86.43</td><td>87.24</td><td>86.67</td></tr>
+                    <tr><th scope="row">MMVP</th><td>54.00</td><td>52.00</td><td>54.67</td><td>46.67</td><td>52.67</td><td>52.00</td><td>50.00</td><td>50.00</td></tr>
+                    <tr><th scope="row">CV-Bench 2D</th><td>68.34</td><td>67.36</td><td>68.83</td><td>63.38</td><td>68.00</td><td>66.88</td><td>65.82</td><td>63.99</td></tr>
+                    <tr><th scope="row">CV-Bench 3D</th><td>63.33</td><td>68.42</td><td>69.50</td><td>61.00</td><td>68.83</td><td>66.08</td><td>66.00</td><td>65.25</td></tr>
+                    <tr><th scope="row">What's Up</th><td>65.56</td><td>66.65</td><td>65.05</td><td>69.23</td><td>65.74</td><td>68.26</td><td>67.93</td><td>67.02</td></tr>
+                    <tr><th scope="row">HallusionBench</th><td>60.94</td><td>60.50</td><td>61.38</td><td>58.46</td><td>58.90</td><td>63.24</td><td>61.29</td><td>61.74</td></tr>
+                    <tr><th scope="row">BLINK</th><td>42.19</td><td>43.82</td><td>41.50</td><td>42.71</td><td>44.13</td><td>42.35</td><td>42.82</td><td>41.87</td></tr>
+                    <tr><th scope="row">CountBenchQA</th><td>90.55</td><td>65.50</td><td>62.63</td><td>50.31</td><td>56.67</td><td>70.23</td><td>72.28</td><td>&mdash;</td></tr>
+                    <tr class="family-row"><th scope="row">General Avg.</th><td>67.97</td><td>66.92</td><td>67.76</td><td>64.46</td><td>67.08</td><td>68.55</td><td>68.08</td><td>67.17</td></tr>
+                    <tr><th scope="row">GQA</th><td>65.20</td><td>64.96</td><td>65.41</td><td>64.10</td><td>65.65</td><td>64.99</td><td>65.04</td><td>64.14</td></tr>
+                    <tr><th scope="row">MME</th><td>1640.09</td><td>1609.74</td><td>1586.16</td><td>1492.04</td><td>1636.25</td><td>1650.76</td><td>1630.15</td><td>1588.83</td></tr>
+                    <tr><th scope="row">MMStar</th><td>52.80</td><td>52.27</td><td>54.07</td><td>49.47</td><td>50.60</td><td>56.27</td><td>55.20</td><td>54.00</td></tr>
+                    <tr><th scope="row">SEEDBench-IMG</th><td>74.89</td><td>74.00</td><td>75.00</td><td>72.37</td><td>74.51</td><td>74.18</td><td>74.27</td><td>73.53</td></tr>
+                    <tr><th scope="row">MMBench-dev-EN</th><td>84.62</td><td>81.54</td><td>84.20</td><td>78.61</td><td>82.77</td><td>85.31</td><td>84.87</td><td>83.92</td></tr>
+                    <tr><th scope="row">MMMU</th><td>48.29</td><td>48.29</td><td>48.57</td><td>47.62</td><td>47.14</td><td>48.00</td><td>47.62</td><td>48.00</td></tr>
+                    <tr class="family-row total-row"><th scope="row">Total Avg.</th><td class="second">66.21</td><td>65.62</td><td>65.10</td><td>58.86</td><td>64.30</td><td class="best">66.44</td><td>66.05</td><td>63.89</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-panel" data-result-panel="robotic" hidden>
+            <p class="result-panel-desc">Frozen ViT encoders are evaluated on CortexBench to measure transfer to embodied policy learning across dexterous and tabletop manipulation tasks.</p>
+            <div class="robotic-benchmark-stack">
+              <article class="robotic-benchmark cortexbench-benchmark">
+                <div class="robotic-benchmark-head">
+                  <div>
+                    <h4>CortexBench: Embodied policy transfer</h4>
+                    <p>For CortexBench, ViT features are connected to a convolutional-pooling multi-layer MLP policy head. We report task success rates under the same input-resolution setting to assess robotic-learning transfer across diverse manipulation tasks.</p>
+                  </div>
+                </div>
+                <div class="robotic-table-wrap">
+                  <table class="robotic-table cortex-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Encoder</th>
+                        <th scope="col">Pen</th>
+                        <th scope="col">Relocate</th>
+                        <th scope="col">Assembly</th>
+                        <th scope="col">BinPick</th>
+                        <th scope="col">ButtonPress</th>
+                        <th scope="col">DrawerOpen</th>
+                        <th scope="col">Hammer</th>
+                        <th scope="col">Avg.</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><th scope="row">SigLIP2-So400M/16-NaFlex</th><td>73.33&plusmn;8.33</td><td>42.67&plusmn;9.24</td><td>77.33&plusmn;18.90</td><td>66.67&plusmn;6.11</td><td>64.00&plusmn;8.00</td><td class="best">100.00&plusmn;0.00</td><td>57.33&plusmn;8.33</td><td>68.76</td></tr>
+                      <tr><th scope="row">C-RADIOv4-SO400M</th><td class="second">74.67&plusmn;2.31</td><td class="best">66.67&plusmn;6.11</td><td class="best">97.33&plusmn;4.62</td><td>73.33&plusmn;12.22</td><td class="best">89.33&plusmn;4.62</td><td class="best">100.00&plusmn;0.00</td><td class="best">97.33&plusmn;2.31</td><td class="second">85.52</td></tr>
+                      <tr><th scope="row">GenLIP-So/16</th><td>73.33&plusmn;8.33</td><td>54.67&plusmn;6.11</td><td>93.33&plusmn;8.33</td><td>73.33&plusmn;2.31</td><td>65.33&plusmn;6.11</td><td class="best">100.00&plusmn;0.00</td><td>86.67&plusmn;9.24</td><td>78.09</td></tr>
+                      <tr><th scope="row">DINOv3-L/16</th><td>73.33&plusmn;6.11</td><td>42.67&plusmn;9.24</td><td>94.67&plusmn;9.24</td><td>77.33&plusmn;8.33</td><td class="second">88.00&plusmn;4.00</td><td class="best">100.00&plusmn;0.00</td><td class="second">96.00&plusmn;4.00</td><td>81.71</td></tr>
+                      <tr><th scope="row">PE-Core-L/14</th><td>70.7&plusmn;6.1</td><td>56.0&plusmn;4.0</td><td>82.7&plusmn;10.1</td><td>76.0&plusmn;6.9</td><td>52.0&plusmn;4.0</td><td class="best">100.00</td><td>68.0&plusmn;12.0</td><td>72.20</td></tr>
+                      <tr class="iron-row"><th scope="row">Ours-Softmax</th><td class="best">77.3&plusmn;2.3</td><td class="second">65.3&plusmn;6.1</td><td>96.0&plusmn;6.9</td><td class="second">82.7&plusmn;4.6</td><td>86.7&plusmn;4.6</td><td class="best">100.0&plusmn;0.0</td><td>94.7&plusmn;6.1</td><td class="best">86.10</td></tr>
+                      <tr class="iron-row"><th scope="row">Ours-Hybrid</th><td class="best">77.3&plusmn;4.6</td><td>60.0&plusmn;4.0</td><td class="second">97.3&plusmn;4.6</td><td class="best">85.3&plusmn;12.9</td><td>81.3&plusmn;8.3</td><td class="best">100.0&plusmn;0.0</td><td>92.0&plusmn;4.0</td><td>84.74</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="result-panel" data-result-panel="speed" hidden>
+            <p class="result-panel-desc">Latency measurements on H200 GPUs with CUDA Graph enabled. Hybrid and linear attention variants target faster deployment without sacrificing benchmark competitiveness.</p>
+            <figure class="speed-figure">
+              <div class="speed-note">Latency measurements are performed with CUDA Graph enabled.</div>
+              <img src="assets/latency_vit.svg?v=v2" alt="IronViT inference latency comparison on H200 GPUs" loading="lazy" />
+            </figure>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="shell footer-inner">
+      <div class="footer-brand">
+        <img class="brand-logo" src="assets/xpeng-logo.svg" alt="XPENG" width="147" height="18" />
+        <span class="brand-divider" aria-hidden="true"></span>
+        <span class="brand-text">IRON <b>Models</b></span>
+      </div>
+      <div class="footer-meta">
+        <p>XPENG Robotics Foundation Model Team</p>
+      </div>
+      <a href="#top">Back to top &rarr;</a>
+    </div>
+  </footer>
+<script src="script.js?v=v2-51"></script>
+</body>
+</html>
