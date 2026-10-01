@@ -7,7 +7,11 @@
 <meta name="description" content="IronMind is a vision-language-action model that turns raw egocentric human video into scalable pretraining data for humanoid dexterous manipulation.">
 <meta property="og:title" content="IronMind: Scaling Humanoid Dexterous Manipulation via Camera-Space Ego-Centric Pretraining">
 <meta property="og:description" content="Camera-space pretraining on 10,000+ hours of human egocentric video, transferred to real-robot dexterous manipulation.">
-<meta property="og:image" content="assets/teaser.png">
+<meta property="og:url" content="https://xpeng-robotics.github.io/ironmind/">
+<meta property="og:image" content="https://xpeng-robotics.github.io/ironmind/assets/teaser.png">
+<meta property="og:image:width" content="2000">
+<meta property="og:image:height" content="1262">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/png" href="assets/xpeng-favicon-ink.png">
 <link rel="icon" type="image/png" href="assets/xpeng-favicon-ink.png" media="(prefers-color-scheme: light)">
@@ -27,7 +31,6 @@
     --soft: #8c8576;
     --line: rgba(23, 22, 19, 0.14);
     --accent: #d64624;
-    --cyan: #087b7b;
     --media-bg: #f2f1ed;
     --media-border: rgba(23, 22, 19, 0.12);
     --media-shadow: rgba(45, 38, 25, 0.10);
@@ -62,7 +65,6 @@
     --soft: #777062;
     --line: rgba(244, 241, 232, 0.15);
     --accent: #f05f3b;
-    --cyan: #60c4bf;
     --media-bg: #0b0c0b;
     --media-border: rgba(244, 241, 232, 0.10);
     --media-shadow: rgba(0, 0, 0, 0.28);
@@ -316,7 +318,6 @@
   .teaser video {
     display: block;
     width: 100%;
-    /* 高度按视口封顶：减掉 nav + hero 的大约高度，矮屏幕上整条视频仍在首屏内 */
     max-width: min(100%, calc(max(240px, 100vh - 320px) * 16 / 9));
     height: auto;
     margin: 0 auto;
@@ -561,7 +562,7 @@
   /* ---------- animated figures ---------- */
   .afig {
     position: relative;
-    cursor: pointer;                 /* 点一下重放 */
+    cursor: pointer;
     border: 1px solid var(--media-border);
     border-radius: var(--radius);
     background: var(--surface);
@@ -677,7 +678,6 @@
     text-align: center;
   }
 
-  /* -- Fig 10: 三类 × 两个 prompt 的小多图 -- */
   .ood {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -745,8 +745,6 @@
   /* -- line charts -- */
   .charts {
     display: grid;
-    /* 栏宽 = 各自 viewBox 的宽度（JS 填 --col-a / --col-b），
-       这样两块 SVG 的缩放比一致，17px 在 (a) (b) 里一样大 */
     grid-template-columns: var(--col-a, 1.15fr) var(--col-b, 1fr);
     gap: clamp(18px, 2.6vw, 38px);
     align-items: start;
@@ -981,7 +979,7 @@
         <span class="hero-meta-sep" aria-hidden="true">&middot;</span>
         <a class="hero-meta-link" href="#contributors">Contributors</a>
       </span>
-      <time datetime="2026-09-21">September 21, 2026</time>
+      <time datetime="2026-09-30">September 30, 2026</time>
     </div>
     <div class="hero-actions">
       <a class="btn btn--primary" href="#demos">&#9654;&nbsp; Watch demos</a>
@@ -1769,7 +1767,7 @@
 
     var counterRun = 0;
     replayable(box, function () {
-      counterRun += 1;                      /* 让上一次还在跑的计数器自己停掉 */
+      counterRun += 1;
       wedges.forEach(function (w) { w.setAttribute("stroke-dashoffset", w.dataset.len); });
       val.textContent = "0";
     }, function () {
@@ -1807,14 +1805,8 @@
     var ax = function (step) { return L + (step - A.xMin) / (A.xMax - A.xMin) * pw; };
     var ay = function (loss) { return T + (A.yMax - loss) / (A.yMax - A.yMin) * ph; };
 
-    /* 一个预算一拍。同一拍里 (a) 的曲线和 (b) 的点同时开始，
-       下一拍要等这一拍的曲线、端点标签、圆点、数值全部落定才开始：
-         曲线   0 → 1600ms
-         圆点   0 → 600ms
-         文字   1650 → 2150ms   （(a) 的端标签和 (b) 的数值同时出，等曲线描完）
-       所以 STEP 取 2200ms，五档跑完约 11 秒。嫌慢就调小这一个数。 */
     var STEP = 2200;
-    var TEXT_IN = 1650;   // 一拍之内两边文字出现的时刻，(a) (b) 必须用同一个值
+    var TEXT_IN = 1650;
 
     var pa = document.createElement("div");
     pa.innerHTML = '<p class="chart-title">(a)&nbsp; validation loss vs. training step</p>';
@@ -1976,10 +1968,10 @@
     var img = figure.querySelector("img");
     if (!img) return;
 
-    var LINE = "#3E6B99";        /* success rate —— 和论文 Fig 10 同一个蓝 */
-    var LAST = "#C8553D";        /* 10k h 那个点标红，和 Fig 7 的约定一致 */
-    var AREA = "#C9D9EA";        /* progress rate 的浅色面积 */
-    var STEP = 950;              /* 一个 ckpt 一拍，六拍走完；六张小图同拍前进 */
+    var LINE = "#3E6B99";
+    var LAST = "#C8553D";
+    var AREA = "#C9D9EA";
+    var STEP = 950;
 
     var W = 330, H = 210, L = 40, T = 16, R = 14, B = 38;
     var pw = W - L - R, ph = H - T - B;
@@ -2105,14 +2097,14 @@
     fetch("assets/figures/scaling-curves.json")
       .then(function (r) { return r.json(); })
       .then(function (d) { buildScaling(figScaling, d); })
-      .catch(function () {});   /* 拿不到数据就留着静态图 */
+      .catch(function () {});
   }
   var figOOD = document.getElementById("fig-ood");
   if (figOOD && window.fetch) {
     fetch("assets/figures/ood.json")
       .then(function (r) { return r.json(); })
       .then(function (d) { buildOOD(figOOD, d); })
-      .catch(function () {});   /* 同上，拿不到就留静态图 */
+      .catch(function () {});
   }
 
   /* ---------------- copy bibtex ---------------- */
