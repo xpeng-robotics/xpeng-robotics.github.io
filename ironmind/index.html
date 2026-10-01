@@ -117,13 +117,6 @@
 
   a { color: inherit; text-decoration: none; }
 
-  .inline-link {
-    color: var(--accent);
-    border-bottom: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
-    transition: border-color .15s ease;
-  }
-  .inline-link:hover { border-bottom-color: var(--accent); }
-
   h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; letter-spacing: -0.01em; }
 
   .wrap { width: var(--content-width); margin: 0 auto; }
@@ -409,16 +402,6 @@
     font-weight: 700;
     color: var(--text);
   }
-  .group-count {
-    font-family: var(--font-mono);
-    font-size: var(--size-xs);
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: #fff;
-    background: var(--accent);
-    border-radius: 999px;
-    padding: 3px 9px;
-  }
   .group-note {
     flex: 1 1 320px;
     min-width: 0;
@@ -482,58 +465,6 @@
   .card:hover .card-expand { opacity: 1; }
   .card-body { padding: 14px 15px 16px; border-top: 1px solid var(--line); }
   .card-instr { font-size: 15px; line-height: 1.4; color: var(--text); font-weight: 600; }
-  .card-meta {
-    margin-top: 8px;
-    color: var(--soft);
-    font-family: var(--font-mono);
-    font-size: var(--size-xs);
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .demo-note {
-    margin-top: 26px;
-    color: var(--muted);
-    font-family: var(--font-mono);
-    font-size: var(--size-caption);
-    line-height: 1.55;
-    text-align: center;
-  }
-  .demo-note b { color: var(--text); }
-
-  /* ---------- stat strip ---------- */
-  .stats {
-    width: var(--wide-content);
-    margin: 34px auto 0;
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-  .stat { background: var(--surface); padding: 20px 18px; }
-  .stat-value {
-    font-family: var(--font-display);
-    font-size: clamp(26px, 3vw, 36px);
-    font-weight: 700;
-    line-height: 1;
-    color: var(--text);
-  }
-  .stat--hi .stat-value { color: var(--accent); }
-  .stat-label {
-    margin-top: 10px;
-    color: var(--muted);
-    font-family: var(--font-mono);
-    font-size: var(--size-xs);
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    line-height: 1.5;
-  }
-
 
   /* ---------- figures inside sections ---------- */
   .fig { margin: 30px 0 0; }
@@ -627,26 +558,7 @@
   .point h4 { margin: 0 0 7px; font-family: var(--font-display); font-size: 19px; font-weight: 700; }
   .point p { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.55; }
 
-  /* ---------- contributors ---------- */
-  .affils {
-    margin: 18px auto 0;
-    max-width: 760px;
-    color: var(--soft);
-    font-family: var(--font-mono);
-    font-size: 12.5px;
-    line-height: 1.7;
-    letter-spacing: .02em;
-  }
-  .ack {
-    margin: 22px auto 0;
-    max-width: 760px;
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.6;
-  }
-
-
-  /* ---------- animated figures (Fig 2 / Fig 7) ---------- */
+  /* ---------- animated figures ---------- */
   .afig {
     position: relative;
     cursor: pointer;                 /* 点一下重放 */
@@ -765,7 +677,7 @@
     text-align: center;
   }
 
-  /* -- Fig 9: 三类 × 两个 prompt 的小多图 -- */
+  /* -- Fig 10: 三类 × 两个 prompt 的小多图 -- */
   .ood {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -953,6 +865,25 @@
   .contrib-list { display: grid; gap: 6px; max-width: 760px; margin: 16px auto 0; color: var(--muted); font-size: 16px; line-height: 1.6; text-align: center; }
   .role { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--soft); }
   .contrib-note { font-size: var(--size-small); color: var(--soft); }
+  .affils {
+    margin: 18px auto 0;
+    max-width: 760px;
+    color: var(--soft);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.7;
+    letter-spacing: .02em;
+  }
+  .ack {
+    display: grid;
+    gap: 6px;
+    margin: 26px auto 0;
+    max-width: 760px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .ack p { margin: 0; }
   .bibtex { position: relative; margin: 26px auto 0; max-width: 760px; }
   .bibtex pre {
     margin: 0;
@@ -996,7 +927,6 @@
 
   @media (max-width: 900px) {
     :root { --page-gutter: 32px; }
-    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 620px) {
     :root { --page-gutter: 28px; --size-copy: 17px; }
@@ -1055,7 +985,7 @@
     </div>
     <div class="hero-actions">
       <a class="btn btn--primary" href="#demos">&#9654;&nbsp; Watch demos</a>
-      <a class="btn" href="#paper">Paper</a>
+      <a class="btn" href="https://arxiv.org/pdf/2609.39403" target="_blank" rel="noopener">Paper</a>
       <a class="btn" href="#bibtex-block">BibTeX</a>
     </div>
   </div>
@@ -1141,7 +1071,6 @@
     <div class="wrap-wide">
       <figure class="fig">
         <img src="assets/figures/architecture.png" alt="IronMind architecture: inputs, Mixture-of-Transformers, and train-only prior branches." width="1800" height="921" loading="lazy" decoding="async">
-        <!-- <figcaption><span class="fig-num">Figure 4</span>Prior branches supervise the understanding expert&rsquo;s features during training only. The action expert attends to it at shared layers and emits camera-space actions by flow-matching denoising.</figcaption> -->
       </figure>
     </div>
     <div class="wrap">
@@ -1363,8 +1292,8 @@
       <h2>Read the paper</h2>
       <p class="section-subtitle">IronMind: Scaling Humanoid Dexterous Manipulation via Camera-Space Ego-Centric Pretraining.</p>
       <div class="hero-actions">
-        <a class="btn btn--primary" href="#" data-placeholder="paper-pdf">PDF</a>
-        <a class="btn" href="#" data-placeholder="arxiv">arXiv</a>
+        <a class="btn btn--primary" href="https://arxiv.org/pdf/2609.39403" target="_blank" rel="noopener">PDF</a>
+        <a class="btn" href="https://arxiv.org/abs/2609.39403" target="_blank" rel="noopener">arXiv</a>
         <a class="btn" href="#bibtex-block">BibTeX</a>
       </div>
     </div>
@@ -1378,13 +1307,31 @@
       <p class="section-subtitle">XPENG Robotics.</p>
       <div class="contrib-list">
         <span class="role">Authors</span>
-        <span data-placeholder="authors">Full author list in the paper.</span>
+        <span>Huimin Pan<sup>1*</sup>, Yufan Ren<sup>1*&dagger;</sup>, Kunpeng Song<sup>1*</sup>, Siyang Wang<sup>1*</sup>, Xiwen Zhang<sup>1*</sup>, Xiaoyun Hu<sup>1,2&sect;</sup>, Zhuoxu Duan<sup>1,3&sect;</sup>, Hanrui Zheng<sup>1,4&sect;</sup>, Jialeng Ni<sup>1,5&sect;</sup>, Nathan Zhao<sup>1</sup>, Sibo Ma<sup>1,6&sect;</sup>, Zhenxuan Fan<sup>1,7&sect;</sup>, Zhongyang Che<sup>1</sup>, Danny Bao<sup>1</sup>, Jiacheng Wei<sup>1</sup>, Jerry Bai<sup>1</sup>, Xiaoyu Yue<sup>1</sup>, Xiaoyang Guo<sup>1</sup>, Chenyi Chen<sup>1&Dagger;</sup></span>
+        <span class="contrib-note"><sup>*</sup>&nbsp;Equal contribution, listed alphabetically by last name &nbsp;&middot;&nbsp; <sup>&dagger;</sup>&nbsp;Project lead &nbsp;&middot;&nbsp; <sup>&Dagger;</sup>&nbsp;Supervision &nbsp;&middot;&nbsp; <sup>&sect;</sup>&nbsp;Work done during an internship at XPENG Robotics</span>
+      </div>
+      <div class="affils">
+        <sup>1</sup>&nbsp;XPENG Robotics &nbsp;&middot;&nbsp;
+        <sup>2</sup>&nbsp;Tongji University &nbsp;&middot;&nbsp;
+        <sup>3</sup>&nbsp;Rensselaer Polytechnic Institute &nbsp;&middot;&nbsp;
+        <sup>4</sup>&nbsp;University of Science and Technology of China &nbsp;&middot;&nbsp;
+        <sup>5</sup>&nbsp;University of Michigan &nbsp;&middot;&nbsp;
+        <sup>6</sup>&nbsp;University of British Columbia &nbsp;&middot;&nbsp;
+        <sup>7</sup>&nbsp;Zhejiang University
+      </div>
+      <div class="ack">
+        <span class="role">Acknowledgements</span>
+        <p>We thank members of the XPENG Robotics team &mdash; Zike Cheng, Ruixuan Zhao, Mengen Luo, Luoyu Bai, Ying Zhang, Haoyue Liu, Peipeng Chen, Ruyi Li, Yizhe Liu, Yongqi Meng, Yinggan Xu, Xi Chen, Bin Shen, and Yuying Ge &mdash; for insightful discussions and deployment support, and Zhenglong Du, Hongmei Gan, and Weiqi Liang for assistance with teleoperation and data collection.</p>
       </div>
       <div class="bibtex">
         <button class="citation-copy" type="button" data-copy-target="bibtex-block">Copy</button>
         <pre id="bibtex-block">@article{ironmind2026,
   title   = {IronMind: Scaling Humanoid Dexterous Manipulation via Camera-Space Ego-Centric Pretraining},
-  author  = {XPENG Robotics},
+  author  = {Pan, Huimin and Ren, Yufan and Song, Kunpeng and Wang, Siyang and
+             Zhang, Xiwen and Hu, Xiaoyun and Duan, Zhuoxu and Zheng, Hanrui and
+             Ni, Jialeng and Zhao, Nathan and Ma, Sibo and Fan, Zhenxuan and
+             Che, Zhongyang and Bao, Danny and Wei, Jiacheng and Bai, Jerry and
+             Yue, Xiaoyu and Guo, Xiaoyang and Chen, Chenyi},
   journal = {XPENG Technical Report},
   year    = {2026}
 }</pre>
@@ -1633,7 +1580,7 @@
   onScroll();
 
 
-  /* ---------------- animated figures (Fig 2 / Fig 7) ---------------- */
+  /* ---------------- animated figures ---------------- */
   var SCENES = [
     { key: "home",        name: "Home",                 pct: 29.5, color: "#4E79A7" },
     { key: "office",      name: "Office",                pct: 7.9, color: "#8E7CC3" },
@@ -2024,12 +1971,12 @@
   }
 
 
-  /* ---- Figure 9: real-robot OOD small multiples ---- */
+  /* ---- Figure 10: real-robot OOD small multiples ---- */
   function buildOOD(figure, data) {
     var img = figure.querySelector("img");
     if (!img) return;
 
-    var LINE = "#3E6B99";        /* success rate —— 和论文 Fig 9 同一个蓝 */
+    var LINE = "#3E6B99";        /* success rate —— 和论文 Fig 10 同一个蓝 */
     var LAST = "#C8553D";        /* 10k h 那个点标红，和 Fig 7 的约定一致 */
     var AREA = "#C9D9EA";        /* progress rate 的浅色面积 */
     var STEP = 950;              /* 一个 ckpt 一拍，六拍走完；六张小图同拍前进 */
