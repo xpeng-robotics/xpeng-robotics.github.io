@@ -96,6 +96,10 @@
     .hero-intro { font-size: 17px; color: var(--text); font-weight: 500; max-width: 720px; margin: 0 auto 32px; line-height: 1.65; letter-spacing: -0.1px; }
     .hero-intro strong { font-weight: 700; }
     .hero-intro .lede-sep { display: inline-block; width: 0.4em; }
+    .hero-abstract { max-width: 720px; margin: 0 auto 32px; text-align: left; }
+    .hero-abstract h2 { font-size: 18px; margin-bottom: 12px; }
+    .hero-abstract p { font-size: 15px; line-height: 1.65; margin-bottom: 12px; }
+    .hero-abstract p:last-child { margin-bottom: 0; }
     .hero-links { display: flex; justify-content: center; gap: 12px; margin-bottom: 40px; }
     .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.2s; }
     .btn-primary { background: var(--text); color: var(--bg); }
@@ -455,6 +459,14 @@
     <p class="hero-intro">
       Scaling humanoid foundation models is bottlenecked by scarce robotic data. While massive egocentric human data offers a scalable alternative, bridging the cross-embodiment chasm remains a fundamental challenge. UniT establishes a <strong>unified physical language</strong>, a single tokenizer that enables zero-shot transfer for both policy learning and world modeling.
     </p>
+    <div class="hero-abstract" id="abstract">
+      <h2>Abstract</h2>
+      <p>Scaling humanoid foundation models is bottlenecked by the scarcity of robotic data. While massive egocentric human data offers a scalable alternative, bridging the cross-embodiment chasm remains a fundamental challenge due to kinematic mismatches. We introduce UniT (Unified Latent Action Tokenizer via Visual Anchoring), a framework that establishes a unified physical language for human-to-humanoid transfer.</p>
+      <p>Grounded in the philosophy that heterogeneous kinematics share universal visual consequences, UniT employs a tri-branch cross-reconstruction mechanism: actions predict vision to anchor kinematics to physical outcomes, while vision reconstructs actions to filter out irrelevant visual confounders. Concurrently, a fusion branch synergies these purified modalities into a shared discrete latent space of embodiment-agnostic physical intents.</p>
+      <p>We validate UniT across two paradigms: 1) Policy Learning (VLA-UniT): By predicting these unified tokens, it effectively leverages diverse human data to achieve state-of-the-art data efficiency and robust out-of-distribution (OOD) generalization on both humanoid simulation benchmark and real-world deployments, notably demonstrating zero-shot task transfer.</p>
+      <p>2) World Modeling (WM-UniT): By aligning cross-embodiment dynamics via unified tokens as conditions, it realizes direct human-to-humanoid action transfer. This alignment ensures that human data seamlessly translates into enhanced action controllability for humanoid video generation.</p>
+      <p>Ultimately, by inducing a highly aligned cross-embodiment representation (empirically verified by t-SNE visualizations revealing the convergence of human and humanoid features into a shared manifold), UniT offers a scalable path to distill vast human knowledge into general-purpose humanoid capabilities.</p>
+    </div>
     <div class="hero-links">
       <a href="UniT.pdf" download="UniT.pdf" class="btn btn-primary">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
