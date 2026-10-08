@@ -76,7 +76,7 @@
     .section-subtitle:last-of-type { margin-bottom: 0; }
 
     /* Hero */
-    .hero { padding: 80px 24px 48px; text-align: center; }
+    .hero { padding: 32px 24px 48px; text-align: center; }
     .hero-title { font-size: 40px; font-weight: 700; line-height: 1.15; letter-spacing: -1px; margin-bottom: 20px; }
     .hero-authors { font-size: 17px; color: var(--text); font-weight: 500; margin: 0 auto 6px; max-width: 820px; line-height: 1.55; }
     .hero-authors .author { white-space: nowrap; }
@@ -93,12 +93,9 @@
     .hero-affil-sep { color: var(--text-light); margin: 0 8px; }
     .hero-notes { font-size: 12px; color: var(--text-light); margin: 0 auto 28px; letter-spacing: 0.1px; }
     .hero-notes sup { font-size: 10px; font-weight: 600; margin-right: 2px; }
-    .hero-intro { font-size: 17px; color: var(--text); font-weight: 500; max-width: 720px; margin: 0 auto 32px; line-height: 1.65; letter-spacing: -0.1px; }
-    .hero-intro strong { font-weight: 700; }
-    .hero-intro .lede-sep { display: inline-block; width: 0.4em; }
-    .hero-abstract { max-width: 720px; margin: 0 auto 32px; text-align: left; }
-    .hero-abstract h2 { font-size: 18px; margin-bottom: 12px; }
-    .hero-abstract p { font-size: 15px; line-height: 1.65; margin-bottom: 12px; }
+    .hero-abstract { max-width: var(--max-w-wide); margin: 16px auto 32px; text-align: left; }
+    .hero-abstract h2 { font-size: 18px; margin-bottom: 8px; }
+    .hero-abstract p { font-size: 14px; line-height: 1.5; margin-bottom: 8px; }
     .hero-abstract p:last-child { margin-bottom: 0; }
     .hero-links { display: flex; justify-content: center; gap: 12px; margin-bottom: 40px; }
     .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.2s; }
@@ -451,14 +448,6 @@
     <p class="hero-authors">
       <span class="author"><a class="author-link" href="https://boyuchen2004.github.io/" target="_blank" rel="noopener">Boyu Chen</a><sup>1,2,*</sup></span><span class="author-sep">&middot;</span><span class="author"><a class="author-link" href="https://scholar.google.com/citations?user=3ep5ODoAAAAJ" target="_blank" rel="noopener">Yi Chen</a><sup>1,3,*</sup></span><span class="author-sep">&middot;</span><span class="author"><a class="author-link" href="https://scholar.google.com/citations?user=66jKtREAAAAJ&amp;hl=en" target="_blank" rel="noopener">Lu Qiu</a><sup>1,3</sup></span><span class="author-sep">&middot;</span><span class="author">Jerry Bai<sup>1</sup></span><span class="author-sep">&middot;</span><span class="author"><a class="author-link" href="https://geyuying.github.io/" target="_blank" rel="noopener">Yuying Ge</a><sup>1,&dagger;</sup></span><span class="author-sep">&middot;</span><span class="author"><a class="author-link" href="https://geyixiao.com/" target="_blank" rel="noopener">Yixiao Ge</a><sup>1</sup></span>
     </p>
-    <p class="hero-affils">
-      <span class="affil"><sup>1</sup>XPENG Robotics</span><span class="hero-affil-sep">&middot;</span><span class="affil"><sup>2</sup>Tsinghua University</span><span class="hero-affil-sep">&middot;</span><span class="affil"><sup>3</sup>The University of Hong Kong</span>
-    </p>
-    <p class="hero-notes"><sup>*</sup>Equal contribution &nbsp; <sup>&dagger;</sup>Corresponding author</p>
-    <p class="hero-contact">Correspondence: <a href="mailto:yyge13@gmail.com">yyge13@gmail.com</a></p>
-    <p class="hero-intro">
-      Scaling humanoid foundation models is bottlenecked by scarce robotic data. While massive egocentric human data offers a scalable alternative, bridging the cross-embodiment chasm remains a fundamental challenge. UniT establishes a <strong>unified physical language</strong>, a single tokenizer that enables zero-shot transfer for both policy learning and world modeling.
-    </p>
     <div class="hero-abstract" id="abstract">
       <h2>Abstract</h2>
       <p>Scaling humanoid foundation models is bottlenecked by the scarcity of robotic data. While massive egocentric human data offers a scalable alternative, bridging the cross-embodiment chasm remains a fundamental challenge due to kinematic mismatches. We introduce UniT (Unified Latent Action Tokenizer via Visual Anchoring), a framework that establishes a unified physical language for human-to-humanoid transfer.</p>
@@ -467,11 +456,17 @@
       <p>2) World Modeling (WM-UniT): By aligning cross-embodiment dynamics via unified tokens as conditions, it realizes direct human-to-humanoid action transfer. This alignment ensures that human data seamlessly translates into enhanced action controllability for humanoid video generation.</p>
       <p>Ultimately, by inducing a highly aligned cross-embodiment representation (empirically verified by t-SNE visualizations revealing the convergence of human and humanoid features into a shared manifold), UniT offers a scalable path to distill vast human knowledge into general-purpose humanoid capabilities.</p>
     </div>
+    <p class="hero-affils">
+      <span class="affil"><sup>1</sup>XPENG Robotics</span><span class="hero-affil-sep">&middot;</span><span class="affil"><sup>2</sup>Tsinghua University</span><span class="hero-affil-sep">&middot;</span><span class="affil"><sup>3</sup>The University of Hong Kong</span>
+    </p>
+    <p class="hero-notes"><sup>*</sup>Equal contribution &nbsp; <sup>&dagger;</sup>Corresponding author</p>
+    <p class="hero-contact">Correspondence: <a href="mailto:yyge13@gmail.com">yyge13@gmail.com</a></p>
     <div class="hero-links">
       <a href="UniT.pdf" download="UniT.pdf" class="btn btn-primary">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
         Paper
       </a>
+      <a href="https://arxiv.org/abs/2604.19734" target="_blank" rel="noopener" class="btn btn-outline">arXiv</a>
       <a href="https://github.com/xpeng-robotics/UniT" target="_blank" rel="noopener" class="btn btn-outline">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
         Code
