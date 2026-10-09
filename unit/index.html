@@ -472,6 +472,7 @@
         Code
       </a>
       <a href="UniT.bib" download="UniT.bib" class="btn btn-outline">BibTeX</a>
+      <a href="#citation" class="btn btn-outline">Citation</a>
     </div>
     <div class="hero-teaser">
       <img src="figs/teaser_pp.001.jpeg" alt="UniT teaser — from human demonstration to humanoid policy and world model">
@@ -1937,6 +1938,25 @@
     <p class="narrative-text">We presented <strong>UniT</strong>, a visual-anchored latent action tokenizer that projects heterogeneous human and humanoid data into a shared discrete space through tri-branch cross-reconstruction. Deployed as <strong>VLA-UniT</strong> and <strong>WM-UniT</strong>, it enables consistent human-to-humanoid OOD transfer in both simulation and the real world, zero-shot task transfer with emergent upper-body coordination, and cross-embodiment dynamics transfer for world modeling. Ablations confirm that having both modalities is not enough on its own. A shared vocabulary only emerges when the two are explicitly forced to reconstruct each other.</p>
     <p class="narrative-text">With this shared space now in place, the natural question is how far it can scale. UniT's visual branch encodes physical transitions from observations alone, without paired action labels, so the shared space is readily extensible to video sources that never came with motor annotations, including the vast reservoirs of <strong>internet and egocentric video</strong>. And because alignment in UniT is entirely data-driven, even diverse human motion capture can enter the same space directly, without per-robot retargeting. Full-body coordination and dexterous control, in all the variety already recorded, can keep pouring into one latent vocabulary.</p>
     <p class="narrative-text">Beyond what can enter this shared space, there is the question of what can happen inside it. The same vocabulary is already spoken by both policies and world models, so a policy can propose latent actions that a world model simulates into visual consequences, and those imagined rollouts can feed back as reward signals for reinforcement learning or as search targets for test-time planning, all within one shared space. UniT has so far shown this space as a substrate for transfer. Turning it into a substrate for <strong>closed-loop embodied reasoning</strong> is what we find most compelling to explore next.</p>
+  </div>
+</section>
+
+<section class="section" id="citation">
+  <div class="container-wide">
+    <h2 class="section-title">Citation</h2>
+    <p>Please use the citation below or <a href="UniT.bib" download="UniT.bib">download the BibTeX file</a>. The paper title begins with “UniT:”; the final author is Yixiao Ge.</p>
+    <p>arXiv: <a href="https://arxiv.org/abs/2604.19734">2604.19734</a> &middot; DOI: <a href="https://doi.org/10.48550/arXiv.2604.19734">10.48550/arXiv.2604.19734</a></p>
+    <pre style="white-space: pre-wrap; overflow-wrap: anywhere; padding: 20px; background: var(--accent-light); border: 1px solid var(--border); border-radius: 8px;"><code>@article{chen2026unit,
+  title   = {{UniT}: Toward a Unified Physical Language for Human-to-Humanoid Policy Learning and World Modeling},
+  author  = {Chen, Boyu and Chen, Yi and Qiu, Lu and Bai, Jerry and Ge, Yuying and Ge, Yixiao},
+  journal = {arXiv preprint arXiv:2604.19734},
+  year    = {2026},
+  eprint  = {2604.19734},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.RO},
+  doi     = {10.48550/arXiv.2604.19734},
+  url     = {https://arxiv.org/abs/2604.19734}
+}</code></pre>
   </div>
 </section>
 
