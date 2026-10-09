@@ -5,8 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="AnyWorld turns a single human egocentric interaction into controllable robot-native rollouts across embodiments, viewpoints, and scenes.">
   <meta name="theme-color" content="#101412">
-  <title>AnyWorld — Factorized Egocentric World Models</title>
+  <title>AnyWorld: Factorized Egocentric World Models for Cross-Embodiment Generalization</title>
   <link rel="canonical" href="https://xpeng-robotics.github.io/anyworld/">
+  <meta name="citation_title" content="AnyWorld: Factorized Egocentric World Models for Cross-Embodiment Generalization">
+  <meta name="citation_author" content="Cheng Chen">
+  <meta name="citation_author" content="Jerry Bai">
+  <meta name="citation_author" content="Jiacheng Wei">
+  <meta name="citation_author" content="Boyu Chen">
+  <meta name="citation_author" content="Xiaoji Zheng">
+  <meta name="citation_author" content="Fan Wu">
+  <meta name="citation_author" content="Minghao Yang">
+  <meta name="citation_author" content="Tianrun Chen">
+  <meta name="citation_author" content="Ruibo Li">
+  <meta name="citation_author" content="Xiaoyu Yue">
+  <meta name="citation_author" content="Xiaoyang Guo">
+  <meta name="citation_author" content="Yixiao Ge">
+  <meta name="citation_author" content="Guosheng Lin">
+  <meta name="citation_author" content="Fayao Liu">
+  <meta name="citation_publication_date" content="2026/08/29">
+  <meta name="citation_technical_report_institution" content="arXiv">
+  <meta name="citation_technical_report_number" content="2608.29242">
   <meta name="citation_doi" content="10.48550/arXiv.2608.29242">
   <meta name="citation_arxiv_id" content="2608.29242">
   <meta name="citation_url" content="https://arxiv.org/abs/2608.29242">
@@ -17,6 +35,14 @@
   <link rel="preload" as="image" href="assets/fe0/iron-front-hand.webp" type="image/webp" fetchpriority="high">
   <link rel="preload" as="image" href="assets/fe0/iron-david-stance.webp" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .hero-grid--single { row-gap: 16px; padding-block: 28px; }
+    .paper-abstract { margin-top: 24px; font-size: 14px; line-height: 1.5; }
+    .paper-abstract h2 { font-size: 18px; line-height: 1.3; margin-bottom: 8px; }
+    .paper-abstract h3 { font-size: 14px; margin: 12px 0 6px; }
+    .paper-abstract p { margin: 0 0 8px; }
+    .paper-abstract .paper-authors { color: var(--muted); font-size: 13px; }
+  </style>
   <script>
     const savedTheme = localStorage.getItem('anyworld-theme');
     if (savedTheme === 'day' || savedTheme === 'night') {
@@ -76,6 +102,14 @@
             <a class="button" href="https://github.com/xpeng-robotics/AnyWorld" target="_blank" rel="noopener">Code</a>
           </div>
         </div>
+
+        <section class="paper-abstract" aria-labelledby="paper-record-title">
+          <h2 id="paper-record-title">AnyWorld: Factorized Egocentric World Models for Cross-Embodiment Generalization</h2>
+          <p class="paper-authors">Cheng Chen, Jerry Bai, Jiacheng Wei, Boyu Chen, Xiaoji Zheng, Fan Wu, Minghao Yang, Tianrun Chen, Ruibo Li, Xiaoyu Yue, Xiaoyang Guo, Yixiao Ge, Guosheng Lin, Fayao Liu</p>
+          <h3>Abstract</h3>
+          <p>Collecting contact-rich robot experiences at scale remains a major bottleneck for generalizable manipulation. Beyond data quantity, robot learning also requires diverse experiences across embodiments, viewpoints, and scenes. Human egocentric videos provide abundant physical interactions, but each video captures only a narrow slice of experience under a single body, camera trajectory, and environment. We propose AnyWorld, a cross-embodiment world modeling framework that expands a single human interaction into diverse robot-native rollouts without paired human-robot demonstrations. Our model factorizes an interaction into action, camera, and embodiment: action controls capture the motion structure, camera controls specify viewpoint evolution, and the target embodiment context defines the acting body and its interaction geometry. This formulation enables independent recomposition of embodiment, viewpoint, and scene factors, allowing a single model to generate many robot-domain experiences while preserving the underlying dynamics and object interactions. We train the model with large-scale human interaction pretraining followed by mixed-embodiment fine-tuning. Experiments show that our model supports controllable recomposition across embodiments, viewpoints, and scenes, and we further demonstrate that the generated data can improve manipulation performance on the RoboCasa GR1 tabletop benchmark and a real IRON humanoid robot. Beyond aggregate gains, we test whether unpaired human experience can be recomposed into robot-native video-action pairs that target a policy gap. Controlled IRON interventions correct a spurious completion prior and establish language-grounded spatial target selection; an action-only counterfactual intervention fails to learn the latter reliably, showing that both action calibration and visual recomposition are necessary.</p>
+          <a href="https://arxiv.org/html/2608.29242v2">Full text (HTML, v2)</a>
+        </section>
 
         <div class="hero-takeaways reveal" aria-label="Key takeaways">
           <div class="hero-takeaways-label"><span>Key takeaways</span><i></i></div>

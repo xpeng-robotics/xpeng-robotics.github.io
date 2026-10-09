@@ -5,6 +5,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>IronMind — Scaling Humanoid Dexterous Manipulation via Camera-Space Ego-Centric Pretraining</title>
 <link rel="canonical" href="https://xpeng-robotics.github.io/ironmind/">
+<meta name="citation_title" content="IronMind: Scaling Humanoid Dexterous Manipulation via Camera-Space Ego-Centric Pretraining">
+<meta name="citation_author" content="Huimin Pan">
+<meta name="citation_author" content="Yufan Ren">
+<meta name="citation_author" content="Kunpeng Song">
+<meta name="citation_author" content="Siyang Wang">
+<meta name="citation_author" content="Xiwen Zhang">
+<meta name="citation_author" content="Xiaoyun Hu">
+<meta name="citation_author" content="Zhuoxu Duan">
+<meta name="citation_author" content="Hanrui Zheng">
+<meta name="citation_author" content="Jialeng Ni">
+<meta name="citation_author" content="Nathan Zhao">
+<meta name="citation_author" content="Sibo Ma">
+<meta name="citation_author" content="Zhenxuan Fan">
+<meta name="citation_author" content="Zhongyang Che">
+<meta name="citation_author" content="Danny Bao">
+<meta name="citation_author" content="Jiacheng Wei">
+<meta name="citation_author" content="Jerry Bai">
+<meta name="citation_author" content="Xiaoyu Yue">
+<meta name="citation_author" content="Xiaoyang Guo">
+<meta name="citation_author" content="Chenyi Chen">
+<meta name="citation_publication_date" content="2026/09/30">
+<meta name="citation_technical_report_institution" content="arXiv">
+<meta name="citation_technical_report_number" content="2609.39403">
 <meta name="citation_doi" content="10.48550/arXiv.2609.39403">
 <meta name="citation_arxiv_id" content="2609.39403">
 <meta name="citation_url" content="https://arxiv.org/abs/2609.39403">
@@ -246,6 +269,9 @@
     background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 6%, transparent), transparent 70%);
   }
   .hero-copy { max-width: 1000px; margin: 0 auto; }
+  .hero .paper-abstract { max-width: 900px; margin: 18px auto 0; padding: 0; border: 0; text-align: left; font-size: 14px; line-height: 1.5; }
+  .paper-abstract h2 { font: inherit; font-weight: 700; margin-bottom: 6px; }
+  .paper-abstract p { margin: 0; }
   .hero h1 {
     font-size: clamp(28px, 3.3vw, 44px);
     line-height: .95;
@@ -991,6 +1017,11 @@
       <a class="btn" href="https://doi.org/10.48550/arXiv.2609.39403" target="_blank" rel="noopener">DOI</a>
       <a class="btn" href="#bibtex-block">BibTeX</a>
     </div>
+    <section class="paper-abstract" aria-labelledby="paper-abstract-title">
+      <h2 id="paper-abstract-title">Abstract</h2>
+      <p>Egocentric human video offers a scalable data source for dexterous manipulation, yet using it to train humanoid robots presents two challenges: (1) an embodiment gap, as human hands differ structurally from robot end-effectors and low-cost egocentric recordings lack the torso kinematics required by conventional retargeting; and (2) heterogeneous data quality, including noisy hand-pose tracking and weakly aligned text annotations. We introduce IronMind, a vision-language-action (VLA) model that uses egocentric human video and heterogeneous robot data to pretrain policies for humanoid dexterous manipulation. To bridge the embodiment gap, IronMind bypasses explicit body-retargeting by using a camera-space action representation, the native reference space of egocentric video, and semantically aligning robot and human action dimensions. Across total pretraining budgets from 250 to 10,000 hours, validation loss decreases approximately log-linearly with data scale. Larger pretraining budgets also improve out-of-distribution real-robot manipulation after post-training: across six challenging tasks with unseen objects, affordances, and reasoning prompts, the 10,000-hour model achieves a 55.0% success rate, compared with at most 11.7% for every pretraining budget up to 5,000 hours and 5.0% without pretraining. At the same pretraining budget, the camera-space action representation also outperforms the torso-frame baseline. Together, these findings support pretraining with a camera-space action representation on large-scale human egocentric data as a scalable foundation for humanoid robot manipulation.</p>
+      <a href="https://arxiv.org/abs/2609.39403">arXiv record</a> &middot; <a href="https://arxiv.org/html/2609.39403v1">Full text (HTML, v1)</a>
+    </section>
   </div>
 </header>
 
