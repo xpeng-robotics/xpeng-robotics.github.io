@@ -3629,7 +3629,7 @@
         </div>
         <div class="section-body">
           <figure class="chart-card rove-media-card">
-            <img src="assets/teaser.png?v=bg-fffcf4" alt="ROVE teaser figure">
+            <img src="assets/teaser.png?v=arxiv-v2-20261002" alt="ROVE teaser figure">
             <figcaption class="rove-media-caption">ROVE learns from mixed-quality rollout, adaptation, and recovery trajectories on real humanoid manipulation tasks.</figcaption>
           </figure>
           <p>Human interventions provide crucial corrective signals for post-training Vision-Language-Action (VLA) models. However, enabling seamless humanoid interventions is a formidable systems challenge due to complex whole-body kinematics and dexterous-hand control. Consequently, the collected intervention trajectories are often suboptimal, and methods that rely on human interventions as expert supervision can absorb hesitant, inefficient, or even erroneous behaviors.</p>
@@ -3647,7 +3647,7 @@
         </div>
         <div class="section-body">
           <figure class="chart-card rove-media-card rove-media-card--medium">
-            <img src="assets/framework.png?v=bg-fffcf4" alt="ROVE framework overview">
+            <img src="assets/framework.png?v=arxiv-v2-20261002" alt="ROVE framework overview">
             <figcaption class="rove-media-caption">Overview of ROVE (an RL framework with Optimistic Value Estimation for humanoid VLA post-training).</figcaption>
           </figure>
           <p><strong>Human-in-the-loop data collection.</strong> Each episode starts with an autonomous VLA rollout; when failure is imminent, a motion-capture operator takes over with whole-body and dexterous-hand teleoperation. Episodes are decomposed into rollout, adaptation, and recovery stages, and value labels place a conservative failure boundary at the end of the adaptation stage, so that hesitant takeover motion is not mislabeled as recovery.</p>
@@ -3680,12 +3680,12 @@
           <p>Experiments are conducted on two real-world humanoid manipulation tasks: <strong>Erase the whiteboard</strong>, a contact-rich task, and <strong>Put the bread into the toaster</strong>, a fine-grained task.</p>
           <div class="rove-result-grid rove-result-grid--medium">
             <figure class="chart-card rove-media-card" style="margin:0">
-              <img src="assets/policy_improvement.png?v=bg-fffcf4" alt="Policy improvement results on two real-world humanoid manipulation tasks">
+              <img src="assets/policy_improvement.png?v=arxiv-v2-20261002" alt="Policy improvement results on two real-world humanoid manipulation tasks">
               <figcaption class="rove-media-caption"><strong>Policy improvement results on two real-world humanoid manipulation tasks.</strong> ROVE (Ours) outperforms SFT in the demonstration-only setting, achieves the best average performance among experience-learning methods, and consistently improves across multiple iterations of rollout and intervention data.</figcaption>
             </figure>
           </div>
           <div class="rove-result-section">
-            <p><strong>Baseline comparison.</strong> Trained only from teleoperated demonstrations, ROVE already improves over SFT on both tasks (left panels). We compare ROVE with experience-learning baselines, including HG-DAgger, Filtered BC, and RECAP. The figure above shows that ROVE achieves the best average success rate across tasks. A notable result is that HG-DAgger performs poorly, even below the base demonstration-only policy on one task, and its learned policy often exhibits hesitant behavior. This pattern reflects the suboptimality of directly imitating intervention data. Compared with RECAP, the remaining gap reflects the combined effect of critic quality and advantage assignment for post-adaptation intervention segments. Compared with Filtered BC, the gap suggests that RL-style policy learning provides additional gains beyond BC-style data filtering, particularly in how negative samples are incorporated during policy optimization.</p>
+            <p><strong>Baseline comparison.</strong> Trained only from teleoperated demonstrations, ROVE already improves over SFT on both tasks (left panels). We compare ROVE with experience-learning baselines, including HG-DAgger, Filtered BC, and RECAP. The figure above shows that ROVE achieves the best average success rate across tasks. A notable result is that HG-DAgger performs poorly, even below the base demonstration-only policy on both tasks, and its learned policy often exhibits hesitant behavior. This pattern reflects the suboptimality of directly imitating intervention data. Compared with RECAP, the remaining gap reflects the combined effect of critic quality and advantage assignment for post-adaptation intervention segments. Compared with Filtered BC, the gap suggests that RL-style policy learning provides additional gains beyond BC-style data filtering, particularly in how negative samples are incorporated during policy optimization.</p>
           </div>
 
           <div class="rove-result-section">
